@@ -1,0 +1,178 @@
+#logo{
+  top: 11px;
+  position: relative;
+}
+
+#content{
+  position: relative;
+  top : 50px;
+}
+
+#clubPic {
+    float:right;
+    margin-top:20px;
+    margin-left:10px;
+    width:300px;
+}
+
+
+.details {
+	width: 100%;
+	background-color: rgb(238, 238, 238);
+	border: none;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+input.details:hover {
+
+}
+input.details:focus {
+	background-color: white;
+}
+textarea.details {
+	overflow: auto;
+	resize: none;
+}
+textarea.details:focus {
+	background-color: white;
+	resize: vertical;
+}
+
+#ClubInformation {
+	margin-top: 15px;
+}
+
+#ClubName {
+    font-size: 40px;
+}
+#ClubMembers {
+	color: gray;
+	font-size: 14px;
+	padding: 16px 5px;
+	text-align: right;
+}
+#ClubMembers > input
+{
+	display: inline-block;
+	padding: 0;
+	max-width: 35px;
+	color: gray;
+	text-align: right;
+}
+#ClubMembers > input:hover
+{
+	border-bottom: 1px solid gray;
+}
+#SchoolName {
+	margin-top: 0;
+}
+#SchoolName > input {
+	font-size: 0.8em;
+    font-style:italic;
+}
+#ClubDetails {
+    font-size: 16px;
+}
+
+#ClubPic {
+	margin-top: 10px;
+	width: 100%;
+}
+
+.jumbotron {
+    padding-bottom:10px;
+}
+#addPackageBtn {
+    text-align: right;
+	margin-bottom: -10px;
+}
+#packages > li > span {
+    float:right;
+}
+
+div.activePackage span.glyphicon:hover
+{
+	color: rgb(86, 165, 86);
+	cursor: pointer;
+}
+div.activePackage span.glyphicon:active
+{
+	color: rgb(105, 198, 105);
+}
+
+.image-uploader{
+
+  position: relative;
+  margin: 5px; 
+  float: right;
+  width: 100px; 
+}
+
+.image-wrapper{
+  border: 1px solid black;
+  background-color: red;
+}
+
+#file{
+  display: none;
+}
+
+#submit-icon{
+  font-size: 40px;
+
+}
+#submit{
+  font-size: 20px;
+  display: none;
+}
+
+#logoutBtn
+{
+	margin-top: 6px;
+}
+
+.SideSlider
+{
+	position: fixed;
+	top: 60%;
+	width: 400px;
+	min-height: 100px;
+	padding: 10px;
+	background-color: rgba(0,0,0,0.5);
+	box-sizing: border-box;
+	z-index: 1000;
+	color: white;
+	text-align: right;
+}
+.SideSlider > .Icon
+{
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: -50px;
+	width: 50px;
+	height: 50px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: rgba(0,0,0,0.5);
+	background-image: url('../images/Hint.png');
+	background-size: 80%;
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+}
+#arrows
+{
+	font-size: 1.5em;
+}
+#arrows > span
+{
+	cursor: pointer;
+}
+#arrows > span:hover
+{
+	color: #dddddd;
+}
+#arrows > span:active
+{
+	color: #bbbbbb;
+}
