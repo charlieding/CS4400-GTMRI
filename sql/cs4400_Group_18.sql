@@ -1,3 +1,20 @@
+/***************
+*Hostgator database:
+*Name: cding9_gtmrs
+*Password: cs4400gtmrs
+*
+*Change User/Pass for Each Php file when we port over to live server
+****************/
+
+CREATE DATABASE if not exists cding9_gtmrs;    /*Uncomment this line hostgator*/
+
+USE cding9_gtmrs;
+
+
+
+
+
+
 -- phpMyAdmin SQL Dump
 -- version 2.11.11.3
 -- http://www.phpmyadmin.net
@@ -392,7 +409,7 @@ INSERT INTO `Surgery_Record` (`PatientUsername`, `DoctorUsername`, `SurgeryEndTi
 
 CREATE TABLE IF NOT EXISTS `User` (
   `Username` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL,
+  `Password` varchar(70) NOT NULL,
   PRIMARY KEY (`Username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

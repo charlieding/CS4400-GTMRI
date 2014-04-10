@@ -6,18 +6,18 @@
 
 CREATE DATABASE if not exists cding9_gtmrs;    /*Uncomment this line hostgator*/
 
-
+USE cding9_gtmrs;
 
 /*create four tables*/
 
-CREATE TABLE User (
+CREATE TABLE if not exists User (
 
 	Username VARCHAR(50)  NOT NULL,
 	Password VARCHAR(50)  NOT NULL,
 	PRIMARY KEY (Username)
 );
 
-CREATE TABLE Doctor (
+CREATE TABLE if not exists Doctor (
 
 	DoctorUsername VARCHAR(50) NOT NULL,
 	LicenseNumber VARCHAR(50) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE Doctor (
 );
 
 
-CREATE TABLE Doctor_Availability(
+CREATE TABLE if not exists Doctor_Availability(
 	DoctorUsername VARCHAR(50) NOT NULL,
 	Day  	DATE NOT NULL,
 	StartTime TIME NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE Doctor_Availability(
 );
 
 
-CREATE TABLE Payment_Information (
+CREATE TABLE if not exists Payment_Information (
 	CardNumber CHAR(16) NOT NULL,
 	FirstName VARCHAR(30) NOT NULL,
 	LastName VARCHAR(30) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE Payment_Information (
 );
 
 
-CREATE TABLE Patient(
+CREATE TABLE if not exists Patient(
 	FirstName VARCHAR(50) NOT NULL,
 	LastName VARCHAR(50) NOT NULL,
 	HomePhone VARCHAR(10) NOT NULL,
@@ -76,7 +76,7 @@ FOREIGN KEY (PatientUsername ) REFERENCES User (Username)
 	
 );
 
-CREATE TABLE Patient_Allergies(
+CREATE TABLE if not exists Patient_Allergies(
 	PatientUsername VARCHAR(50) NOT NULL,
 	Allergy VARCHAR(50) NOT NULL,
 	PRIMARY KEY (PatientUsername , Allergy),
@@ -84,7 +84,7 @@ CREATE TABLE Patient_Allergies(
 );
 
 //Date will be either set to current date by application or by a trigger
-CREATE TABLE Visit(
+CREATE TABLE if not exists Visit(
 	PatientUsername VARCHAR(50) NOT NULL,
 	Date DATE NOT NULL,
 	DoctorUsername VARCHAR(50) NOT NULL,
@@ -96,7 +96,7 @@ DiastolicBP INT,
 	FOREIGN KEY (DoctorUsername) REFERENCES Doctor (DoctorUsername)
 );
 
-CREATE TABLE Visit_Diagnosis (
+CREATE TABLE if not exists Visit_Diagnosis (
 	PatientUsername VARCHAR(50) NOT NULL,
 	Date DATE NOT NULL,
 	DoctorUsername VARCHAR(50) NOT NULL,
@@ -108,14 +108,14 @@ CREATE TABLE Visit_Diagnosis (
 );
 
 
-CREATE TABLE Surgery (
+CREATE TABLE if not exists Surgery (
 	CPT_Code REAL NOT NULL,
 	SurgeryType VARCHAR(30)  NOT NULL,
 	SurgeryCost REAL NOT NULL,
 	PRIMARY KEY (CPT_Code)
 );
 
-CREATE TABLE Surgery_PreopMed (
+CREATE TABLE if not exists Surgery_PreopMed (
 	CPT_Code REAL NOT NULL,
 	Preoperative_Medication VARCHAR(50) NOT NULL,
 	PRIMARY KEY (CPT_Code, Preoperative_Medication),

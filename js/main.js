@@ -2,13 +2,16 @@ function login() {
     var name = $('#inputEmail').val();
     var password = $('#inputPassword').val();
 
-    $.post('php/login.php', { postname: name, postpassword: password },
+    $.post('php/charles/login.php', { postname: name, postpassword: password },
 	function (data) {
-	    if (data == "company") {
-	        window.location = 'CompanyDashboard/companyPage.html';
+	    if (data == "admin") {
+	        window.location = 'AdminDashboard/adminDashboard.html';
 	    }
-	    else if (data == "organization") {
-	        window.location = 'ClubDashboard/clubPage.html';
+	    else if (data == "patient") {
+	        window.location = 'PatientDashboard/pagename.html';
+	    }
+	    else if (data == "doctor") {
+	        window.location = 'DoctorDashboard/pagename.html';
 	    }
 	    else {
 	        $('#result').html(data);
@@ -19,27 +22,31 @@ function login() {
 
 function register() {
     var name = $('#Text3').val();
-    var organizationName = $('#Text2').val();
-    var email = $('#Text1').val();
-    var check = document.getElementById("blue").checked;
+    var doctorCheck = document.getElementById("doctor").checked;
+    var patientCheck = document.getElementById("patient").checked;
     var pass1 = $('#Password1').val();
     var pass2 = $('#Password2').val();
-    if (check) {
-        type = "Organization";
+    if (doctorCheck) {
+        type = "Doctor";
     }
-    else {
-        type = "Company";
+    else if(patientCheck){
+        type = "Patient";
+    }else{
+    	type = "Admin";
     }
-    $.post('php/register.php', { postname: name, postOrg: organizationName, postemail: email, postusertype: type, postpassword1: pass1, postpassword2: pass2 },
+    $.post('php/charles/register.php', { postname: name, postusertype: type, postpassword1: pass1, postpassword2: pass2},
 	function (data) {
-	    if (data == "company") {
-	        window.location = 'CompanyDashboard/companyPage.html';
+	    if (data == "admin") {
+	        window.location = 'AdminDashboard/adminDashboard.html';
 	    }
-	    else if (data == "organization") {
-	        window.location = 'ClubDashboard/clubPage.html';
+	    else if (data == "patient") {
+	        window.location = 'PatientDashboard/pagename.html';
+	    }
+	    else if (data == "doctor") {
+	        window.location = 'DoctorDashboard/pagename.html';
 	    }
 	    else {
-	        $('#result').html(data);
+	        $('#result2').html(data);
 	    }
 	});
 }
