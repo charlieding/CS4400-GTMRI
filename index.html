@@ -304,6 +304,105 @@
 	  </div><!-- /.modal-dialog -->
 			  
 	</div><!-- /.modal -->
+
+	<!--Patient Profile Creation Modal -->
+	<div class="modal fade" id="createPatient">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+			<h4 class="modal-title"><strong style="color: black">Create Profile</strong> <small>for <strong style="color: grey">GTMRS</strong>.com</small></h4>
+		  </div>
+		  <div class="modal-body" style="padding-bottom: 0px;">
+			<form class="form-horizontal">
+			  <div class="form-group">
+				<label for="inputName" class="col-lg-2 control-label">Patient Name</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="fname" placeholder="First Name">
+				  <input type="text" class="form-control" id="lname" placeholder="Last Name">
+				</div>
+			  </div>
+			  <div class="form-group">
+					<label for="inputDOB" class="col-lg-2 control-label">Date of Birth</label>
+					<div class="col-lg-10">
+						<input type="date" class="form-control" id="DOB" placeholder="Date of Birth">
+					</div>
+			  </div>
+			  <div class = "form-group">
+					<label for="inputGender" class="col-lg-2 control-label">Gender</label>
+					<div class="col-lg-3">
+						<select id="gender" class="form-control">
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+					</div>
+			  </div>
+			  <div class="form-group">
+			  	<label for="inputAddress" class="col-lg-2 control-label">Address</label>
+			  	<div class="col-lg-10">
+				  	<input type="text" class="form-control" id="address">
+					</div>
+			  </div>
+			  <div class="form-group">
+			  	<label for="inputHomePhone" class="col-lg-2 control-label">Home Phone</label>
+			  	<div class="col-lg-10">
+				  	<input type="text" class="form-control" id="homephone">
+					</div>
+			  </div>
+			  <div class="form-group">
+			  	<label for="inputWorkPhone" class="col-lg-2 control-label">Work Phone</label>
+			  	<div class="col-lg-10">
+				  	<input type="text" class="form-control" id="workphone" placeholder="Enter 0 if not available">
+					</div>
+			  </div>
+			  <div class="form-group">
+			  	<label for="inputEmergencyContact" class="col-lg-2 control-label">Emergency Contact Info</label>
+			  	<div class="col-lg-10">
+				  	<input type="text" class="form-control" id="emergency_name" placeholder="Enter your contact's name">
+				  	<input type="tel" class="form-control" id="emergency_phone" placeholder="Enter your contact's phone number">
+					</div>
+			  </div>
+			  <div class="form-group">
+			  	<label for="inputWeight" class="col-lg-2 control-label">Weight</label>
+			  	<div class="col-lg-10">
+				  	<input type="text" class="form-control" id="weight" placeholder="Enter your weight in lbs">
+					</div>
+			  </div><div class="form-group">
+			  	<label for="inputHeight" class="col-lg-2 control-label">Height</label>
+			  	<div class="col-lg-10">
+				  	<input type="text" class="form-control" id="height" placeholder="Enter your height in cm">
+					</div>
+			  </div>
+			  <div class = "form-group">
+					<label for="inputIncome" class="col-lg-2 control-label">Income</label>
+					<div class="col-lg-5">
+						<input type="number" class="form-control" id="income" placeholder="Enter you annual income">
+					</div>
+			  </div>
+			  <div class="form-group">
+			  	<label for="inputAllergies" class="col-lg-2 control-label">Allergies</label>
+			  	<div class="col-lg-10">
+				  	<textarea class="form-control" id="allergies" placeholder="Enter your allergies seperated by a comma (enter N/A if you have none)"></textarea>
+					</div>
+			  </div><br>
+			  <div id="result3">
+			  </div>
+			  <!--
+			  <div class="form-group">
+				<label for="inputEmail" class="col-lg-2 control-label">Email</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="Text1" placeholder="Email">
+				</div>
+			  </div> -->
+			</form>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" onclick="createPatient()" class="btn btn-primary">Create</button>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+			  
+	</div><!-- /.modal -->
 	
 	<!--Terms of Agreement Modal -->
   <div class="modal fade" id="toa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

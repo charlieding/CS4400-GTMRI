@@ -45,7 +45,7 @@ $newusertype = $_POST['postusertype'];
 		$hash = $pwdHasher->HashPassword( $newpassword );
 		
 		//check the length of the input
-		$userExistResult = mysqli_query($link, "select * from user where Username = '$newusername'");
+		$userExistResult = mysqli_query($link, "select * from User where Username = '$newusername'");
 		if(strlen($newusername)>25)
 		{
 			echo("max limit for username is 24 characters");
@@ -60,9 +60,8 @@ $newusertype = $_POST['postusertype'];
 		{
 			//---------create new user
 			$insertQuery = mysqli_query($link, 
-			"Insert into user (username, password) values ('$newusername','$hash')");
-			$lastInsertedId = $link->insert_id;
-			$_SESSION['userId'] = $lastInsertedId;
+			"Insert into User (username, password) values ('$newusername','$hash')");
+			$_SESSION['userId'] = $newusername;
 			if($newusertype == "Doctor") {
 				//TODO: GO TO "Create Doctor Profile"
 				echo("doctor");

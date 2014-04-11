@@ -40,7 +40,8 @@ function register() {
 	        window.location = 'AdminDashboard/adminDashboard.html';
 	    }
 	    else if (data == "patient") {
-	        window.location = 'PatientDashboard/pagename.html';
+	    	$('#register').modal('hide');
+	        $('#createPatient').modal('show');
 	    }
 	    else if (data == "doctor") {
 	        window.location = 'DoctorDashboard/pagename.html';
@@ -51,6 +52,41 @@ function register() {
 	});
 }
 
+function createPatient(){
+	var fname = $('#fname').val();
+	var lname = $('#lname').val();
+	var dob = $('#DOB').val();
+	var gender = $('#gender').val();
+	var address = $('#address').val();
+	var homephone = $('#homephone').val();
+	var workphone = $('#workphone').val();
+	var emergency_name = $('#emergency_name').val();
+	var emergency_phone = $('#emergency_phone').val();
+	var weight = $('#weight').val();
+	var height = $('#height').val();
+	var income = $('#income').val();
+	var allergies = $('#allergies').val();
+	$.post('php/abhijit/createPatient.php',{postfname:fname, 
+											postlname:lname,
+											postdob:dob,
+											postgender:gender,
+											postaddress:address,
+											posthomephone:homephone,
+											postworkphone:workphone,
+											postemergency_name:emergency_name,
+											postemergency_phone:emergency_phone,
+											postweight:weight,
+											postheight:height,
+											postincome:income,
+											postallergies:allergies},
+			function(data){
+				if(data == "success"){
+					window.location = "PatientDashboard/patientDashboard.html";
+				}else {
+					$('#result3').html(data);
+				}
+			});
+}
 jQuery(document).ready(function () {
 
 	$('#inputEmail').add('#inputPassword').on('keypress', function submitKeypress(event) {

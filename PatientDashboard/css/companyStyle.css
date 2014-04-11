@@ -1,0 +1,120 @@
+#logo{
+  top: 11px;
+  position: relative;
+}
+
+#content{
+  position: relative;
+  top : 50px;
+}
+
+
+#search {
+	display: table;
+	padding: 15px 0 5px 0;
+	width: 100%;
+}
+
+#search > * {
+	display: table-cell;
+}
+
+#search > *:last-child {
+	width: 10%;
+}
+
+#search > * > * {
+	width: 100%;
+	margin: 0;
+	border: 1px solid #CCC;
+	padding: 0;
+}
+
+#search > *:first-child > * {
+	border-top-left-radius: 7px;
+	border-bottom-left-radius: 7px;
+}
+
+#search > *:last-child > * {
+	border-top-right-radius: 7px;
+	border-bottom-right-radius: 7px;
+}
+
+#tabs {
+	display: table;
+	width: 100%;
+}
+
+#tabs > *  {
+	display: table-cell;
+	width: 10%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+}
+
+#addPackageBtn {
+    text-align: right;
+}
+
+#packages > li > span {
+    float:right;
+}
+
+#detailsBtn, #logoutBtn{
+	margin-top: 6px;
+	margin-left: 6px;
+}
+
+.tab {
+display:none;   
+}
+
+a { cursor: pointer; }
+
+
+.SideSlider
+{
+	position: fixed;
+	top: 60%;
+	width: 400px;
+	min-height: 100px;
+	padding: 10px;
+	background-color: rgba(0,0,0,0.5);
+	box-sizing: border-box;
+	z-index: 1000;
+	color: white;
+	text-align: right;
+}
+.SideSlider > .Icon
+{
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: -50px;
+	width: 50px;
+	height: 50px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: rgba(0,0,0,0.5);
+	background-image: url('../images/Hint.png');
+	background-size: 80%;
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+}
+#arrows
+{
+	font-size: 1.5em;
+}
+#arrows > span
+{
+	cursor: pointer;
+}
+#arrows > span:hover
+{
+	color: #dddddd;
+}
+#arrows > span:active
+{
+	color: #bbbbbb;
+}

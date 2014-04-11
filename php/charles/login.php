@@ -35,7 +35,7 @@ if($username&&$password)
 {
 	
 //---------check if user exist	
-	$result = mysqli_query($link, "select * from user where Username = '$username'");
+	$result = mysqli_query($link, "select * from User where Username = '$username'");
 	if(mysqli_num_rows($result) != 0){
 		$row = mysqli_fetch_array($result, MYSQL_ASSOC);	
 		//--------check if password is correct
