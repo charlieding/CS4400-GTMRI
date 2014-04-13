@@ -44,7 +44,8 @@ function register() {
 	        $('#createPatient').modal('show');
 	    }
 	    else if (data == "doctor") {
-	        window.location = 'DoctorDashboard/pagename.html';
+	        $('#register').modal('hide');
+	        $('#createDoctor').modal('show');
 	    }
 	    else {
 	        $('#result2').html(data);
@@ -87,6 +88,44 @@ function createPatient(){
 				}
 			});
 }
+
+
+function createDoctor(){
+	var licnum =  $('#licnum').val();
+	var fname = $('#dfname').val();
+	var lname = $('#dlname').val();
+	var dob = $('#dDOB').val();
+	var workphone = $('#dworkphone').val();
+	var specialty = $('#specialty').val();
+	var roomnum = $('#roomnum').val();
+	var address = $('#daddress').val();
+	var availability = $('#availability').val();
+	var fromtime = $('#fromtime').val();
+	var totime = $('#totime').val();
+	
+	$.post('php/jordan/createDoctor.php',{postlicnum:licnum,
+											postfname:fname, 
+											postlname:lname,
+											postdob:dob,
+											postworkphone:workphone,
+											postspecialty:specialty,
+											postroomnum:roomnum,
+											postaddress:address,
+											postavailability:availability,
+											postfromtime:fromtime,
+											posttotime:totime},
+			function(data){
+				if(data == "success"){
+					window.location = "DoctorDashboard/doctorDashboard.html";
+				}else {
+					$('#result4').html(data);
+				}
+			});
+
+
+}
+
+
 jQuery(document).ready(function () {
 
 	$('#inputEmail').add('#inputPassword').on('keypress', function submitKeypress(event) {
