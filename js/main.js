@@ -8,7 +8,7 @@ function login() {
 	        window.location = 'AdminDashboard/adminDashboard.html';
 	    }
 	    else if (data == "patient") {
-	        window.location = 'PatientDashboard/pagename.html';
+	        window.location = 'PatientDashboard/patientDashboard.html';
 	    }
 	    else if (data == "doctor") {
 	        window.location = 'DoctorDashboard/pagename.html';

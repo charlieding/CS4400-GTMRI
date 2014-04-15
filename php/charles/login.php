@@ -47,9 +47,9 @@ if($username&&$password)
 		$hasher = new PasswordHash($hash_cost_log2, $hash_portable);
 		if($hasher->CheckPassword($password, $row["Password"])){
 			//--------check if $username belongs to admin, doctor, or patient table
-			$result_doctor = mysqli_query($link, "select * from doctor where DoctorUsername = '$username'");
-			$result_patient = mysqli_query($link, "select * from patient where PatientUsername = '$username'");
-			$_SESSION['$username'] = $username;
+			$result_doctor = mysqli_query($link, "select * from Doctor where DoctorUsername = '$username'");
+			$result_patient = mysqli_query($link, "select * from Patient where PatientUsername = '$username'");
+			$_SESSION['username'] = $username;
 			if(mysqli_num_rows($result_doctor) != 0){
 				echo('doctor'); 
 			}else if(mysqli_num_rows($result_patient) != 0){

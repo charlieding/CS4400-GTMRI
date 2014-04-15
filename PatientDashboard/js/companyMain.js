@@ -4,6 +4,58 @@ function logout(){
 	   window.location.href = '../php/logout.php'
 	}
 }
+
+function searchSpecialists(){
+	var speciality = $('#specialty').val();
+	$.post("../php/abhijit/getSpecialists.php",{ postspeciality:speciality},
+		function(data){
+			$('#request_btn').removeClass('hidden');
+			data = $.parseJSON(data);
+			var doctors = data.doctors;
+			var ratings = data.ratings;
+			$('#doctable').empty();
+			var resultsTable = "<tr> <td>Doctor Name</td><td>Phone Number</td><td>Room Number</td><td>Availability</td><td>Average Rating</td></tr>";
+			for (var i = 0; i <doctors.length; i++) {
+				var doctor = doctors[i];
+				resultsTable = resultsTable + "<tr>";
+				resultsTable = resultsTable + "<td>Dr." + doctor.FirstName +
+								" " + doctor.LastName + "</td>";
+				if(doctor.WorkPhone != "0"){
+					resultsTable = resultsTable + "<td>" + doctor.WorkPhone + "</td>";
+				}else {
+					resultsTable = resultsTable + "<td>N/A</td>";
+				}
+				resultsTable = resultsTable + "<td>" + doctor.RoomNumber + "</td>"
+				resultsTable = resultsTable + "<td>" + doctor.Day + ": " + doctor.StartTime + "-" + 
+							    doctor.EndTime;
+				resultsTable = resultsTable + "<button type='button' onclick='requestAppointment(\""+
+								doctor.DoctorUsername+"\",\""+doctor.Day+"\",\""+doctor.StartTime+
+								"\",\""+doctor.EndTime+"\");' class='btn'>Schedule</button></td>"
+				if(ratings.hasOwnProperty(doctor.DoctorUsername)){
+					resultsTable = resultsTable + "<td>" + ratings[doctor.DoctorUsername] + "</td>";
+				}else {
+					resultsTable = resultsTable + "<td>N/A</td>";
+				}
+				resultsTable = resultsTable + "</tr>";
+			};
+			$("#doctable").append(resultsTable);
+		});
+}
+function requestAppointment(doctor,day,start,end){
+	$.post("../php/abhijit/requestAppointment.php",{postdoctor:doctor,
+													postday:day,
+													poststart:start,
+													postend:end},
+	function(data){
+		if(data == "cannot"){
+			alert("You cannot make another appointment with this doctor");
+		}else if(data == "requested"){
+			alert("You have have made an appointment!");
+		}else {
+			console.log(data);
+		}
+	});
+}
 function trashIcon(ele){
 	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
 	var name = ele.getElementsByTagName('span')[0].innerHTML;

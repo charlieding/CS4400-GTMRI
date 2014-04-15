@@ -48,6 +48,7 @@
 				<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary" style="width:100px; height:30px;">Search</button>
 			</div>
 		</div> -->
+    <center><h1>Select an option</h1></center>
 	</div>
 	
 	<div class="container">
@@ -75,13 +76,30 @@
 		<div id="tabCtrl">
 			<div class="tab default-tab" id="tab1">
 
-<!-- SEARCH RESULTS CODE -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="packages" class="table">
+        <!-- SEARCH RESULTS CODE -->
+        <div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-inline">
+                  <div class="form-group">
+                    <label for="searchSpeciality" class="col-lg-4 control-label">Speciality</label>
+                    <div class="col-lg-8">
+                      <select id="specialty" class="form-control">
+                        <option value="General Physician">General Physician</option>
+                        <option value="Heart Specialist">Heart Specialist</option>
+                        <option value="Eye Physician">Eye Physician</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Psychiatry">Psychiatry</option>
+                        <option value="Gynecologist">Gynecologist</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="button" onclick="searchSpecialists();" class="btn btn-primary">Search</button>
+                  </div>
+                </form>
+                <table id="doctable"class="table table-bordered">
+                </table>
+                <button type="button" id="request_btn" onclick="requestAppointment();" class="btn col-lg-5 hidden">Request Appointment</button>
         </div>
-</div>
-
-					</ul>
 			</div>
 			<div class="tab" id="tab2">
 				
@@ -187,11 +205,12 @@
 
 
 
-<!-- Recommended List Code -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="recommendedlist" class="table">
+        <!-- Recommended List Code -->
+        <div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <div id="recommendedlist" class="table">
+                askldfjasldkf
+                </div>
         </div>
-</div>
 
 
 
@@ -248,17 +267,6 @@
 			  
 	</div><!-- /.modal -->
 	
-	<div class="SideSlider">
-		<div class="Icon"></div>
-		<div id="arrows">
-			<span id="hintCount"></span>
-			<span id="hint_left" onclick="hint_left()">&lt;</span>
-			<span id="hint_right" onclick="hint_right()">&gt;</span>
-		</div>
-		<span id="hint">
-			This is a hint that I am telling you, because I can... so deal with it.
-		</span>
-	</div>
 	
 	<!-- Bootstrap core JavaScript
 	================================================== -->
