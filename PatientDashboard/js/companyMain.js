@@ -227,9 +227,58 @@ function updateHint()
 }
 updateHint();
 
+function loadVisits(){
+	$.get("../php/abhijit/getVisitHistory.php",{},
+		function(data){
+			data = $.parseJSON(data);
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				visit = data[i];
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='getVisitInfo(\"" + visit.Date + "\",\"" + visit.DoctorUsername +
+								"\")'>" + visit.Date + "</td>";
+				resultsTable += "</tr>";
+			}
+			$('#visittable').append(resultsTable);
+		});
+}
+function getVisitInfo(date,doctor){
+	$.get("../php/abhijit/getVisitInfo.php",{getdoctor:doctor,getdate:date},
+		function(data){
+			data = $.parseJSON(data);
+			var visitInfo = data.visitInfo;
+			var medicines = data.medicines;
+			var diagnosis = data.diagnosis;
+			$('#doctorName').empty();
+			$('#doctorName').append("Dr." + visitInfo.FirstName + " " + visitInfo.LastName);
+
+			$('#systolicBP').empty();
+			$('#systolicBP').append(visitInfo.sysBP);
+
+			$('#diastolicBP').empty();
+			$('#diastolicBP').append(visitInfo.diaBP);
+
+			$('#diagnosis').empty();
+			for(i=0;i<diagnosis.length;i++){
+				d = diagnosis[i];
+				$('#diagnosis').append(d + "<br>");
+			}
+			$('#medicinesPrescribedTable').empty();
+			$('#medicinesPrescribedTable').append("<tr><td>Name</td><td>Dosage</td><td>Duration</td><td>Notes</td></tr>")
+			for(var medicine in medicines){
+				medTable = "<tr>";
+				medTable += "<td>" + medicine + "</td>";
+				medTable += "<td>" + medicines[medicine].Dosage + "</td>";
+				medTable += "<td>" + medicines[medicine].Duration + "</td>";
+				medTable += "<td>" + medicines[medicine].Notes + "</td>";
+				$('#medicinesPrescribedTable').append(medTable);
+			}
+			$('#visitDetails').modal('show');
+		});
+}
 $(document).ready(function () {	
 	load();
-	
+	loadVisits();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 

@@ -102,90 +102,12 @@
         </div>
 			</div>
 			<div class="tab" id="tab2">
-				
-
-
-<!-- Wishlist CODE -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="wishlist" class="table">
-
-
-
-
-
-<div class="">
-              <div class="panel panel-success panel-default">
-                <div class="panel-heading panel-success">
-                  <h3 class="panel-title">
-                    <span>HARCODED SAMPLE PACKAGE - Active </span>
-                    <span class="pull-right">
-                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-gift"></span>
-                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-trash"></span>
-                      <span onclick="wishlist(this.parentNode.parentNode)" class="glyphicon glyphicon-star"></span>
-                    </span>
-                  </h3>
-                  
+        <div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <div id="wishlist" class="table">
+                  <table id="visittable" class="table table-bordered">
+                  </table>
                 </div>
-                  <div class="panel-body">
-                    <div class=""> 
-
-                      <blockquote class="pull-left text-muted">
-                        <small>Detail of the package goes here </small>
-                      </blockquote>
-
-                      <a class="pull-right"> $1000000</a>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          <!--</tr>
-
-          <tr>-->
-            <!-- <div class="well"> -->
-
-            <div class="alert alert-warning"> HARDCODED SAMPLE PACKAGE - not active
-               <div class=' pull-right'>
-                    <small class="glyphicon glyphicon-trash"></small>
-                    <small class="glyphicon glyphicon-star"></small>
-                </div>
-                <blockquote class="text-muted">
-                  <small>Detail of the package goes here 
-                    <a class='pull-right'>
-                    $200
-                    </a>
-                  </small>
-                </blockquote>
-            </div>
-          <!--</tr>
-          <tr>-->
-            <div class="">
-              <div class="panel panel-success panel-default">
-                <div class="panel-heading panel-success">
-                  <h3 class="panel-title">
-                    <a class="glyphicon glyphicon-plus" data-toggle="modal" href="#submitPackage"></a>
-                    
-                  </h3>
-                  
-                </div>
-                  <div class="panel-body">
-                    <div class=""> 
-
-                      <a class="pull-right"></a>
-                    </div>
-                  </div>
-              </div>
-            </div>
-
-
-
-
-
-
         </div>
-</div>
-
-
-
 			</div>
 			<div class="tab" id="tab3">
 
@@ -266,6 +188,21 @@
 	  </div><!-- /.modal-dialog -->
 			  
 	</div><!-- /.modal -->
+  <div class="modal fade" id="visitDetails">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        Consulting Doctor: <div id="doctorName"></div>
+        <br>
+        Blood Presssure: 
+        <br>
+        Systolic: <div id="systolicBP"></div> Diastolic: <div id="diastolicBP"></div>
+        <br>
+        Diagnosis: <p id="diagnosis"></p>
+        <br>
+        Medicines Prescribed: <table class="table table-bordered" id="medicinesPrescribedTable"></table>
+      </div>
+    </div>
+  </div>
 	
 	
 	<!-- Bootstrap core JavaScript
@@ -276,7 +213,6 @@
 	<link href="http://vjs.zencdn.net/4.1/video-js.css" rel="stylesheet">
 	<script src="http://vjs.zencdn.net/4.1/video.js"></script>
 	<script src="js/bootstrap.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="js/companyMain.js" type="text/javascript"></script>
   </body>
 </html>
