@@ -127,7 +127,6 @@ function createDoctor(){
 
 
 jQuery(document).ready(function () {
-
 	$('#inputEmail').add('#inputPassword').on('keypress', function submitKeypress(event) {
 		if (event.which == 13)
 		{
