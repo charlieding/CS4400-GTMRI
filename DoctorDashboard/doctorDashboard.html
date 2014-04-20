@@ -73,11 +73,28 @@
 			<div class="tab default-tab" id="tab1">
 
 <!-- SEARCH RESULTS CODE -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="packages" class="table">
-        </div>
-</div>
 
+<div id="content" class="container jumbotron" style="margin-top:-50px;">
+	<form class="form-inline">
+    	<div class="form-group">
+            <label for="inputDate" class="col-lg-4 control-label">Date: </label>
+            <div class="col-lg-8">
+                  <input type="date" class="form-control" id="apptday">
+    		</div>
+		</div>
+		
+    </form>
+    <form class="form-inline">
+    	<div class="form-group">
+	        <button type="button" onclick="displayAppointments();" class="btn btn-primary">Get Appointments of Selected Day</button>
+        </div>
+    	<div class="form-group">
+	        <button type="button" onclick="displayMonthAppointments();" class="btn btn-primary">Get Appointments of Selected Month</button>
+        </div>
+    </form>
+    <table id="appointmenttable"class="table table-bordered">
+    </table>
+</div>
 					</ul>
 			</div>
 			<div class="tab" id="tab2">

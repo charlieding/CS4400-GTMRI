@@ -4,6 +4,58 @@ function logout(){
 	   window.location.href = '../php/logout.php'
 	}
 }
+
+function displayAppointments(){
+	var apptday = $('#apptday').val();
+	var resultsTable = "<tr> <td>Sno</td><td>Patient Name</td><td>Scheduled Time</td></tr>";
+	$("#appointmenttable").append(resultsTable);
+	$.post("../php/jordan/getAppointments.php",{ postapptday:apptday},
+		function(data){
+			data = $.parseJSON(data);
+			var appointments = data.appointments;
+			$('#appointmenttable').empty();
+			var resultsTable = "<tr> <td>Sno</td><td>Patient Name</td><td>Scheduled Time</td></tr>";
+			for (var i = 0; i <appointments.length; i++) {
+				var appointment = appointments[i];
+				resultsTable = resultsTable + "<tr>";
+				resultsTable = resultsTable + "<td>" + (i+1) + "</td>";
+				resultsTable = resultsTable + "<td>" + appointment.FirstName +
+								" " + appointment.LastName + "</td>";
+				resultsTable = resultsTable + "<td>" + appointment.StartTime + "-" + 
+							    appointment.EndTime;
+				resultsTable = resultsTable + "</tr>";
+			};
+			$("#appointmenttable").append(resultsTable);
+		});
+}
+
+function displayMonthAppointments(){
+	var apptday = $('#apptday').val();
+	apptday = apptday.substring(0,8);
+	apptday += "dd";
+	var resultsTable = "<tr> <td>Sno</td><td>Patient Name</td><td>Scheduled Date</td><td>Scheduled Time</td></tr>";
+	$("#appointmenttable").append(resultsTable);
+	$.post("../php/jordan/getAppointments.php",{ postapptday:apptday},
+		function(data){
+			data = $.parseJSON(data);
+			var appointments = data.appointments;
+			$('#appointmenttable').empty();
+			var resultsTable = "<tr> <td>Sno</td><td>Patient Name</td><td>Scheduled Date</td><td>Scheduled Time</td></tr>";
+			for (var i = 0; i <appointments.length; i++) {
+				var appointment = appointments[i];
+				resultsTable = resultsTable + "<tr>";
+				resultsTable = resultsTable + "<td>" + (i+1) + "</td>";
+				resultsTable = resultsTable + "<td>" + appointment.FirstName +
+								" " + appointment.LastName + "</td>";
+				resultsTable = resultsTable + "<td>" + appointment.Date + "</td>";
+				resultsTable = resultsTable + "<td>" + appointment.StartTime + "-" + 
+							    appointment.EndTime;
+				resultsTable = resultsTable + "</tr>";
+			};
+			$("#appointmenttable").append(resultsTable);
+		});
+}
+
 function trashIcon(ele){
 	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
 	var name = ele.getElementsByTagName('span')[0].innerHTML;

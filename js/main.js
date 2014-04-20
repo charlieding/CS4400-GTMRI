@@ -11,7 +11,7 @@ function login() {
 	        window.location = 'PatientDashboard/patientDashboard.html';
 	    }
 	    else if (data == "doctor") {
-	        window.location = 'DoctorDashboard/pagename.html';
+	        window.location = 'DoctorDashboard/doctorDashboard.html';
 	    }
 	    else {
 	        $('#result').html(data);
