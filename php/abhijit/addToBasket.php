@@ -31,12 +31,12 @@ $duration = $_POST['postDuration'];
 $doctorUsername = $_POST['postDoctorUsername'];
 $visitDate = $_POST['postVisitDate'];
 
-$queryString = "SELECT * FROM Prescription WHERE PatientUsername='$username' AND ".
+$queryString = "SELECT COUNT(*) >= 1 as Exist FROM Prescription WHERE PatientUsername='$username' AND ".
 	" MedicineName='$medName' AND Dosage='$dosage' AND duration='$duration' AND ".
 	" DoctorUsername='$doctorUsername' AND DateOfVisit='$visitDate'";
 $result = mysqli_query($link,$queryString);
-
-if($result){
+$result = mysqli_fetch_assoc($result);
+if($result['Exist']){
 	$_SESSION['basket'][$medName] = array(
 			'medicineName' => $medName,
 			'dosage' => $dosage,

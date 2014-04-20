@@ -364,6 +364,7 @@ function addToBasket(){
 		if(data == "success"){
 			window.location.reload();
 		}else {
+			$('#result').empty();
 			$('#result').append(data);
 		}
 	});
