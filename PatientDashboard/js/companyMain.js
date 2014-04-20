@@ -291,7 +291,83 @@ function getMessages() {
 
 
 }
+function selectDoctor(){
+	$.get('../php/abhijit/getDoctors.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#docTable').empty();
+			$('#docTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Doctor Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#docTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i].name,
+										onclick: "setDoctor('"+ data[i].name+"','"+data[i].username+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#docList').modal('show');
+		});
+}
+function setDoctor(name,username){
+	$('#doctor').val(name);
+	$('#doctor').attr('data-dusername',username);
+	$('#docList').modal('hide');
+}
+function selectMedicine(){
+	$.get('../php/abhijit/getMedicines.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#medicineTable').empty();
+			$('#medicineTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Medicine Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#medicineTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i],
+										onclick: "setMedicineName('"+ data[i]+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#medicineList').modal('show');
+		});
+}
+function setMedicineName(name){
+	$('#medicine_name').val(name);
+	$('#medicineList').modal('hide');
+}
 
+function addToBasket(){
+	var medicineName = $('#medicine_name').val();
+	var dosage = $('#dosage').val();
+	var duration = $('#duration').val();
+	var doctorUserName = $('#doctor').attr('data-dusername');
+	var visitDate = $('#prescription_date').val();
+
+	$.post('../php/abhijit/addToBasket.php',{
+		postMedicineName:medicineName,
+		postDosage:dosage,
+		postDuration:duration,
+		postDoctorUsername:doctorUserName,
+		postVisitDate:visitDate
+	},function(data){
+		if(data == "success"){
+			window.location.reload();
+		}else {
+			$('#result').append(data);
+		}
+	});
+}
 $(document).ready(function () {	
 	initTabView();
 	loadVisits();

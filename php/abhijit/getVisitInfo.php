@@ -61,4 +61,5 @@ $ret['medicines'] = $medicines;
 $ret['diagnosis'] = $diagnosis;
 
 echo json_encode($ret);
+mysqli_close($link);
 ?>

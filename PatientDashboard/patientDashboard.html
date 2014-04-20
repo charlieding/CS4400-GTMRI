@@ -98,7 +98,6 @@
                 </form>
                 <table id="doctable"class="table table-bordered">
                 </table>
-                <button type="button" id="request_btn" onclick="requestAppointment();" class="btn col-lg-5 hidden">Request Appointment</button>
         </div>
 			</div>
 			<div class="tab" id="tab2">
@@ -110,17 +109,45 @@
         </div>
 			</div>
 			<div class="tab" id="tab3">
-
-
-
-<!-- Sponsored Packages CODE -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="sponsoredlist" class="table">
+        <div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="medicineName" class="col-lg-4 control-label">Medicine Name</label>
+                    <div class="col-lg-5">
+                      <input type="text" id="medicine_name" class="form-control" onclick="selectMedicine();" readonly="true" placeholder="Click Here to Select a Medicine">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="dose" class="col-lg-4 control-label">Dosage</label>
+                    <div class="col-lg-5">
+                      <input type="number" id="dosage" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="duration" class="col-lg-4 control-label">Duration</label>
+                    <div class="col-lg-5">
+                      <input type="number" id="duration" class="form-control" placeholder="Enter duration in days">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="doctor" class="col-lg-4 control-label">Prescribing Doctor</label>
+                    <div class="col-lg-4">
+                      <input type="text" id="doctor" class="form-control" data-dusername="" onclick="selectDoctor();"placeholder="Click Here to Select a Doctor" readonly="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="prescription_date" class="col-lg-4 control-label">Date of Prescription</label>
+                    <div class="col-lg-4">
+                      <input type="date" id="prescription_date" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                     <button type='button' id="order_button" onclick="addToBasket();" class="btn btn-primary">Add to Basket</button>
+                     <button type='button' id="order_button" onclick="alert('hey!');" class="btn btn-primary">Checkout</button>
+                  </div>
+                </form>
+                <div class="result"></div>
         </div>
-</div>
-
-
-
 			</div>
 		
 			
@@ -282,8 +309,30 @@
       </div>
     </div>
   </div>
+	 
+  <div class="modal fade" id="medicineList">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <table class="table table-bordered" id="medicineTable">
+          <tr>
+            <td>Medicine Name</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 	
-	
+  <div class="modal fade" id="docList">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <table class="table table-bordered" id="docTable">
+          <tr>
+            <td>Doctor Name</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 	</div>
 	<!-- Bootstrap core JavaScript
 	================================================== -->
