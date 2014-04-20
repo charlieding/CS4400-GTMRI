@@ -1,7 +1,7 @@
 <?php
 		session_start();
 //---connect database---------------------
-$_SESSION['dbhost'] = "localhost:3306";
+$_SESSION['dbhost'] = "localhost";
 $_SESSION['dbuser'] = "root";
 $_SESSION['dbpass'] = "";
 $_SESSION['dbname'] = "cding9_gtmrs";
@@ -57,16 +57,20 @@ if(!is_numeric($income)){
 }
 
 /* Insert patient info */
-$queryString = "INSERT INTO Patient(FirstName, LastName, HomePhone, AnnualIncome,
-	DOB, Gender, Address, WorkPhone, 
-	EmergencyContactName, EmergencyContactPhone, 
-	Weight, Height, PatientUsername) VALUES('$fname','$lname','$homephone',$income,'$dob','$gender','$address',
-	'$workphone','$emergency_name','$emergency_phone',$weight,$height,'$username')";
+$queryString = "UPDATE Patient SET FirstName = '$fname', LastName = '$lname', 
+				HomePhone = '$homephone', AnnualIncome = '$income', DOB = '$dob', Gender = '$gender', Address = '$address',
+				WorkPhone = '$workphone', EmergencyContactName = '$emergency_name', EmergencyContactPhone = '$emergency_phone',
+				Weight = '$weight', Height = '$height' WHERE PatientUsername = '$username'"; 
+ ;
 
 $insertResult = mysqli_query($link,$queryString);
 
 /* Insert patient allergies */
+$comma = ",";
+if (strpos($allergies, $comma) === 0) $allergies = substr($allergies, 1);
 $allergies = explode(",", $allergies);
+$queryString = "DELETE FROM Patient_Allergy WHERE PatientUsername = '$username'";
+$insertResult = mysqli_query($link,$queryString);
 foreach ($allergies as $allergy) {
 	$queryString = "INSERT INTO Patient_Allergies(PatientUsername,Allergy) VALUES('$username','$allergy')";
 	$insertResult = mysqli_query($link,$queryString);

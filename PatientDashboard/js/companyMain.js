@@ -75,93 +75,7 @@ function trashIcon(ele){
 		},3000);
 
 }
-function wishlist(ele){
-	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
-	var name = ele.getElementsByTagName('span')[0].innerHTML;
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-	console.log("wish");
 
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-		$.post("../php/charles/addPackageToWishlist.php", {costValue: cost, packageName:name, packageDetails:details},
-		function(data)
-		{
-			//console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			//load_Wishlist();
-		}, 'json');
-		console.log("3 seconds until sponsorshiplist refresh...");
-		setTimeout(function(){
-			load_Wishlist();
-		},3000);
-
-
-}
-function sponsor(ele){
-	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
-	var name = ele.getElementsByTagName('span')[0].innerHTML;
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-	console.log("sponsor");
-	
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-		$.post("../php/charles/sponsorPackage.php", {costValue: cost, packageName:name, packageDetails:details},
-		function(data)
-		{
-			//console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			//load_Sponsorshiplist();
-		}, 'json');
-		console.log("3 seconds until sponsorshiplist refresh...");
-		setTimeout(function(){
-			load_Sponsorshiplist();
-		},3000);
-	
-}
-function load_Wishlist(){
-	console.log("starting loading wishlist");
-	$.post("../php/charles/loadWishlist.php", {postsearch: 'test'},
-	function(data)
-	{	
-		console.log("wishlist list load data:")
-		console.log(data);
-		console.log(data.result);
-		$("#wishlist").empty();
-		$.each(data.result, function(){
-		    $("#wishlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"trashIcon(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-trash\">"+"&nbsp"+"</span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-		});
-	}, 'json');
-}
-function load_Sponsorshiplist(){
-	console.log("starting loading sponsorshiplist");
-	$.getJSON("../php/charles/loadSponsorshiplist.php", function (data){	
-		console.log("Sponsorship list load data:")
-		console.log(data);
-		console.log(data.resultlist);
-		$("#sponsoredlist").empty();
-		$.each(data.resultlist, function(){
-		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-		});
-	});
-}
-
-function search(){
-	var searchValue = $('#searchValue').val();
-	if(searchValue == "") {
-		$.getJSON("../php/getAllPackages.php", function (data) {
-			$("#packages").empty();
-			$.each(data.result, function(){
-			    $("#packages").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"wishlist(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-star\"></span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-			});
-		});
-	}
-	else {
-		$.post("../php/search.php", {postsearch: searchValue},
-		function(data)
-		{	
-			$("#packages").empty();
-			$.each(data.result, function(){
-			    $("#packages").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"wishlist(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-star\"></span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-			});
-		}, 'json');
-	}
-}
 
 var CompanyDetails = {
 	update: function() {
@@ -227,6 +141,101 @@ function updateHint()
 }
 updateHint();
 
+
+function getProfileInfo(){
+	$.get("../php/joey/getPatientProfile.php",{},
+		function(data){
+			data = $.parseJSON(data);
+			
+				var profile = data.profile;
+				var allergies = data.allergies;
+				$('#fname').empty();
+				$('#fname').val(profile.FirstName);
+				
+				$('#lname').empty();
+				$('#lname').val(profile.LastName);
+				
+				$('#DOB').empty();
+				$('#DOB').val(profile.DOB);
+				
+				$('#address').empty();
+				$('#address').val(profile.Address);
+				
+				var dd = document.getElementById('gender');
+				for (var i = 0; i < dd.options.length; i++) {
+					if (dd.options[i].value === profile.Gender) {
+						dd.selectedIndex = i;
+						break;
+					}
+				}
+				
+				$('#homephone').empty();
+				$('#homephone').val(profile.HomePhone);
+				
+				$('#workphone').empty();
+				$('#workphone').val(profile.WorkPhone);
+				
+				$('#emergency_name').empty();
+				$('#emergency_name').val(profile.EmergencyContactName);
+				
+				$('#emergency_phone').empty();
+				$('#emergency_phone').val(profile.EmergencyContactPhone);
+				
+				$('#weight').empty();
+				$('#weight').val(profile.Weight);
+				
+				$('#height').empty();
+				$('#height').val(profile.Height);
+				
+				$('#income').empty();
+				$('#income').val(profile.AnnualIncome);
+				
+				$('#allergies').empty();
+				for(i=0;i<allergies.length;i++){
+					a = allergies[i];
+					if (i == (allergies.length - 1)) $('#allergies').append(a);
+					else $('#allergies').append(a + ",");
+				}
+		});
+}
+
+function updatePatient(){
+	var fname = $('#fname').val();
+	var lname = $('#lname').val();
+	var dob = $('#DOB').val();
+	var gender = $('#gender').val();
+	var address = $('#address').val();
+	var homephone = $('#homephone').val();
+	var workphone = $('#workphone').val();
+	var emergency_name = $('#emergency_name').val();
+	var emergency_phone = $('#emergency_phone').val();
+	var weight = $('#weight').val();
+	var height = $('#height').val();
+	var income = $('#income').val();
+	var allergies = $('#allergies').val();
+	$.post('../php/joey/updatePatientProfile.php',{postfname:fname, 
+											postlname:lname,
+											postdob:dob,
+											postgender:gender,
+											postaddress:address,
+											posthomephone:homephone,
+											postworkphone:workphone,
+											postemergency_name:emergency_name,
+											postemergency_phone:emergency_phone,
+											postweight:weight,
+											postheight:height,
+											postincome:income,
+											postallergies:allergies},
+			function(data){
+				if(data == "success"){
+					window.location = "patientDashboard.html";
+				}else {
+					$('#result3').html(data);
+				}
+			});
+}
+
+
 function loadVisits(){
 	$.get("../php/abhijit/getVisitHistory.php",{},
 		function(data){
@@ -240,6 +249,7 @@ function loadVisits(){
 				resultsTable += "</tr>";
 			}
 			$('#visittable').append(resultsTable);
+			
 		});
 }
 function getVisitInfo(date,doctor){
@@ -250,7 +260,7 @@ function getVisitInfo(date,doctor){
 			var medicines = data.medicines;
 			var diagnosis = data.diagnosis;
 			$('#doctorName').empty();
-			$('#doctorName').append("Dr." + visitInfo.FirstName + " " + visitInfo.LastName);
+			$('#doctorName').append("Dr. " + visitInfo.FirstName + " " + visitInfo.LastName);
 
 			$('#systolicBP').empty();
 			$('#systolicBP').append(visitInfo.sysBP);
@@ -276,9 +286,17 @@ function getVisitInfo(date,doctor){
 			$('#visitDetails').modal('show');
 		});
 }
+
+function getMessages() {
+
+
+}
+
 $(document).ready(function () {	
-	load();
+	initTabView();
 	loadVisits();
+	getProfileInfo();
+	getMessages();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 
@@ -290,37 +308,10 @@ $(document).ready(function () {
 		slider.close();
 	});
 		
-	function load(){
-		load_CompanyInfo();
-		load_allPackages();
-		initTabView();
-		load_Sponsorshiplist();
-		load_Wishlist();
-	}
 
-	function load_CompanyInfo(){
-		$.getJSON("../php/getCompany.php",
-			function(data)
-			{
-				console.log(data);
-				var details = data["companyDetails"][0];
-				console.log(details);
-				$("#email").val(details["emailAddress"]);
-				$("#companyName").val(details["companyName"]);
-				$("#description").val(details["companyDescription"]);
-			});
-	}
-	function load_allPackages() {
-		$.getJSON("../php/getAllPackages.php", function (data) {
-			$("#packages").empty();
-			$.each(data.result, function(){
-			    $("#packages").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"wishlist(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-star\"></span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-			});
-		});
-	}
 
 	function initTabView(){
-				var x = document.getElementsByClassName('tab-view')
+				var x = document.getElementsByClassName('tab-view');
 				for(var i=0; i < x.length; i++) {
 				  x[i].onclick = displayTab;
 				}
@@ -328,7 +319,7 @@ $(document).ready(function () {
 				var prevViewedTab = null;
 
 				function displayTab(e) {
-				var idOfTabToDisplay = this.getAttribute("data-tab")
+				var idOfTabToDisplay = this.getAttribute("data-tab");
 
 				if(prevViewedTab) {
 				  prevViewedTab.style.display = 'none';
@@ -339,7 +330,7 @@ $(document).ready(function () {
 				  prevViewedTab = tabToDisplay;
 				}
 
-				var defaultTab = document.getElementsByClassName('default-tab')
+				var defaultTab = document.getElementsByClassName('default-tab');
 				  if (defaultTab.length) {
 					defaultTab[0].style.display = 'block';
 					prevViewedTab = defaultTab[0];

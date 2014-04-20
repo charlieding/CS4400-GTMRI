@@ -4,7 +4,91 @@ function logout(){
 	   window.location.href = '../php/logout.php'
 	}
 }
+function updateDoctor(){
+	var licnum =  $('#licnum').val();
+	var fname = $('#dfname').val();
+	var lname = $('#dlname').val();
+	var dob = $('#dDOB').val();
+	var workphone = $('#dworkphone').val();
+	var specialty = $('#specialty').val();
+	var roomnum = $('#roomnum').val();
+	var address = $('#daddress').val();
+	var availability = $('#availability').val();
+	var fromtime = $('#fromtime').val();
+	var totime = $('#totime').val();
+	
+	$.post('../php/joey/updateDoctorProfile.php',{postlicnum:licnum,
+											postfname:fname, 
+											postlname:lname,
+											postdob:dob,
+											postworkphone:workphone,
+											postspecialty:specialty,
+											postroomnum:roomnum,
+											postaddress:address,
+											postavailability:availability,
+											postfromtime:fromtime,
+											posttotime:totime},
+			function(data){
+				if(data == "success"){
+					window.location = "doctorDashboard.html";
+				}else {
+					$('#result4').html(data);
+				}
+			});
 
+	}
+	
+function getDoctorProfile(){
+	
+	$.get("../php/joey/getDoctorProfile.php",{},
+		function(data){
+		
+			data = $.parseJSON(data);
+			
+				var profile = data.profile;
+				var avails = data.avail;
+
+				$('#licnum').empty();
+				$('#licnum').val(profile.LicenseNumber);
+				
+				$('#dfname').empty();
+				$('#dfname').val(profile.FirstName);
+				
+				$('#dlname').empty();
+				$('#dlname').val(profile.LastName);
+							
+				$('#dDOB').empty();
+				$('#dDOB').val(profile.DOB);
+				
+				$('#dworkphone').empty();
+				$('#dworkphone').val(profile.WorkPhone);
+				
+				var dd = document.getElementById('specialty');
+				for (var i = 0; i < dd.options.length; i++) {
+					if (dd.options[i].value === profile.Specialty) {
+						dd.selectedIndex = i;
+						break;
+					}
+				}
+		
+				$('#roomnum').empty();
+				$('#roomnum').val(profile.RoomNumber);
+				
+				$('#daddress').empty();
+				$('#daddress').val(profile.HomeAddress);
+				
+				$('#availability').empty();
+				$('#availability').val(avails.day);
+				
+				$('#fromtime').empty();
+				$('#fromtime').val(avails.start);
+				
+				$('#totime').empty();
+				$('#totime').val(avails.end);
+				
+				
+	    });	
+	}
 function displayAppointments(){
 	var apptday = $('#apptday').val();
 	var resultsTable = "<tr> <td>Sno</td><td>Patient Name</td><td>Scheduled Time</td></tr>";
@@ -55,6 +139,8 @@ function displayMonthAppointments(){
 			$("#appointmenttable").append(resultsTable);
 		});
 }
+
+
 
 function trashIcon(ele){
 	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
@@ -229,7 +315,7 @@ updateHint();
 
 $(document).ready(function () {	
 	load();
-	
+	getDoctorProfile();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 
@@ -242,6 +328,7 @@ $(document).ready(function () {
 	});
 		
 	function load(){
+	
 		load_CompanyInfo();
 		load_allPackages();
 		initTabView();
