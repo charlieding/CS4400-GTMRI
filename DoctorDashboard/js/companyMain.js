@@ -113,6 +113,162 @@ function displayAppointments(){
 		});
 }
 
+function getDDInbox(){
+
+	$.get("../php/joey/getDoctorToDoctorMessages.php",{},
+		function(data){
+		
+			data = $.parseJSON(data);
+		
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				message = data[i];
+				resultsTable += "<<tr>" +
+									"<th>Status</th>" +
+									"<th>From</th>"  +
+									"<th>TimeStamp</th>" +
+								"</tr>";
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status + 
+								
+								"\")'>" + message.Status + "</td>" +
+								"<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status + 
+								
+								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
+								"<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status + 
+								
+								"\")'>" + message.DateTime + "</td>";
+				resultsTable += "</tr>";
+			}
+			if (data.length == 0) alert("You have no messages at this time!");
+			else {
+				$('#ddInboxMessages').empty();
+				$('#ddInboxMessages').append(resultsTable);
+				$('#ddInbox').modal('show');
+			}
+			
+			
+		});
+}
+function openDDInboxMessage(date, doctor, firstname, lastname, content, status) {
+
+	$('#ddInbox').modal('hide');
+
+	$.post("../php/joey/setDtoDRead.php",{postdoctorusername:doctor,postdate:date},
+		function(data){
+		
+			
+			$('#dmdoctorname').empty();
+			$('#dmdoctorname').append("Dr. " + firstname + " " + lastname);
+		
+			$('#dmcontent').empty();
+			$('#dmcontent').append(content);
+
+			$('#dmdatetime').empty();
+			$('#dmdatetime').append(date);
+			
+			$('#dmstatus').empty();
+			$('#dmstatus').append(status);
+			
+			$('#doctorMessage').modal('show');
+			
+			
+		});
+}
+
+function getPDInbox(){
+	
+	$.get("../php/joey/getPatientToDoctorMessages.php",{},
+		function(data){
+		
+			data = $.parseJSON(data);
+		
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				message = data[i];
+				resultsTable += "<<tr>" +
+									"<th>Status</th>" +
+									"<th>From</th>"  +
+									"<th>TimeStamp</th>" +
+								"</tr>";
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'>" + message.Status + "</td>" +
+								"<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status + 
+							
+								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
+								"<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status + 
+								
+								"\")'>" + message.DateTime + "</td>";
+				resultsTable += "</tr>";
+			}
+			if (data.length == 0) alert("You have no messages at this time!");
+			else {
+				$('#pdInboxMessages').empty();
+				$('#pdInboxMessages').append(resultsTable);
+				$('#pdInbox').modal('show');
+			}
+			
+			
+		});
+}
+function openPDInboxMessage(date, patient, firstname, lastname, content, status) {
+
+	$('#pdInbox').modal('hide');
+
+	$.post("../php/joey/setPtoDRead.php",{postpatientusername:patient,postdate:date},
+		function(data){
+		
+			
+			$('#dmdoctorname').empty();
+			$('#dmdoctorname').append(firstname + " " + lastname);
+		
+			$('#dmcontent').empty();
+			$('#dmcontent').append(content);
+
+			$('#dmdatetime').empty();
+			$('#dmdatetime').append(date);
+			
+			$('#dmstatus').empty();
+			$('#dmstatus').append(status);
+			
+			$('#doctorMessage').modal('show');
+			
+			
+		});
+}
+
+
+
+
+
+
+
 function displayMonthAppointments(){
 	var apptday = $('#apptday').val();
 	apptday = apptday.substring(0,8);

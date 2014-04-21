@@ -11,6 +11,7 @@ $dbuser = $_SESSION['dbuser'];
 $dbpass = $_SESSION['dbpass'];
 $dbname = $_SESSION['dbname'];
 
+
 $link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname); 
 
 if(mysqli_connect_errno()){
@@ -20,17 +21,16 @@ if(mysqli_connect_errno()){
 	 );
 }
 //-------------------------------------------------connect database
+$dusername = $_SESSION['username'];
+$pusername = $_POST['postpatientusername'];
+$date = $_POST['postdate'];
 
-$username = $_SESSION['username'];
-$queryString = "SELECT Patient.PatientUsername, Status, Content,  DateTime, FirstName, LastName
-		FROM PatientToDoctorComm
-		JOIN (Patient) ON (PatientToDoctorComm.PatientUsername = Patient.PatientUsername)
-		WHERE PatientToDoctorComm.DoctorUsername = '$username'";
-$result = mysqli_query($link,$queryString);
 
-$ret = array();
-while($message = mysqli_fetch_assoc($result)){
-	$ret[] = $message;
-}
-echo json_encode($ret);
+
+//set status to read
+$updateRead = "UPDATE PatientToDoctorComm SET Status = 'Read' WHERE PatientUsername = '$pusername' 
+				AND DoctorUsername = '$dusername' AND DateTime = '$date'";
+ 
+$updateReadRes = mysqli_query($link,$updateRead);
+
 ?>

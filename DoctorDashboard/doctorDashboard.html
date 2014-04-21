@@ -198,18 +198,18 @@
 
 			</div>
 			<div class="tab" id="tab4">
-				
-
-
-
-<!-- Recommended List Code -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="recommendedlist" class="table">
-        </div>
-</div>
-
-
-
+				<div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-horizontal">         
+                  <div class="form-group">
+                     <button type='button' id="order_button" onclick="sendDoctortoDoctor();" class="btn btn-primary">Message a Doctor</button>
+					 <button type='button' id="order_button" onclick="getDDInbox()" class="btn btn-primary">Check Doctor Messages</button>
+					   <button type='button' id="order_button" onclick="sendDoctortoPatient();" class="btn btn-primary">Message a Patient</button>
+                     <button type='button' id="order_button" onclick="getPDInbox()" class="btn btn-primary">Check Patient Messages</button>
+					 
+                  </div>
+                </form>
+                <div id="result"></div>
+				</div>
 			</div>
 			
 			
@@ -352,8 +352,54 @@
 			  
 	</div><!-- /.modal -->
 	
-
+ <div class="modal fade" id="doctorMessage">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        Status: <div id="dmstatus"></div>
+        <br>
+        DateTime: <div id="dmdatetime"></div>
+        <br>
+        From: <div id="dmdoctorname"></div>
+        <br>
+        Content: <p id="dmcontent"></p>
+      </div>
+    </div>
+  </div>
 	
+<div class="modal fade" id="ddInbox">
+    <div class="modal-dialog">
+		
+      <div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><strong style="color: black">Doctor Messages</h4>
+		 </div>
+       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+                  <table id="ddInboxMessages" class="table table-bordered">
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="pdInbox">
+    <div class="modal-dialog">
+		
+      <div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><strong style="color: black">Patient Messages</h4>
+		 </div>
+       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+                  <table id="pdInboxMessages" class="table table-bordered">
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

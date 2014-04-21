@@ -149,6 +149,18 @@
                 <div id="result"></div>
         </div>
 			</div>
+			
+		<div class="tab" id="tab4">
+			<div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-horizontal">         
+                  <div class="form-group">
+                     <button type='button' id="order_button" onclick="openPatientSendMessage();" class="btn btn-primary">Message a Doctor</button>
+                     <button type='button' id="order_button" onclick="getPatientInbox()" class="btn btn-primary">Check Inbox</button>
+                  </div>
+                </form>
+                <div id="result"></div>
+			</div>
+		</div>
 		
 			
 				<!--Patient Profile Editting Modal -->
@@ -292,6 +304,10 @@
 		
 		</div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
+			
+	
+		
+			  
 			  
 	</div><!-- /.modal -->
   <div class="modal fade" id="visitDetails">
@@ -309,6 +325,38 @@
       </div>
     </div>
   </div>
+  
+   <div class="modal fade" id="patientMessage">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        Status: <div id="pistatus"></div>
+        <br>
+        DateTime: <div id="pidatetime"></div>
+        <br>
+        From: <div id="pidoctorname"></div>
+        <br>
+        Content: <p id="picontent"></p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="patientInbox">
+    <div class="modal-dialog">
+		
+      <div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><strong style="color: black">Inbox</h4>
+		 </div>
+       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+                  <table id="patientInboxMessages" class="table table-bordered">
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
 	 
   <div class="modal fade" id="medicineList">
     <div class="modal-dialog">

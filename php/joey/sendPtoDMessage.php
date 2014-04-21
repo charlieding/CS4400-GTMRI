@@ -11,6 +11,7 @@ $dbuser = $_SESSION['dbuser'];
 $dbpass = $_SESSION['dbpass'];
 $dbname = $_SESSION['dbname'];
 
+
 $link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname); 
 
 if(mysqli_connect_errno()){
@@ -20,17 +21,18 @@ if(mysqli_connect_errno()){
 	 );
 }
 //-------------------------------------------------connect database
-
 $username = $_SESSION['username'];
-$queryString = "SELECT Patient.PatientUsername, Status, Content,  DateTime, FirstName, LastName
-		FROM PatientToDoctorComm
-		JOIN (Patient) ON (PatientToDoctorComm.PatientUsername = Patient.PatientUsername)
-		WHERE PatientToDoctorComm.DoctorUsername = '$username'";
-$result = mysqli_query($link,$queryString);
+$dusername = $_POST['postdoctorusername'];
+$content = $_POST['postcontent'];
 
-$ret = array();
-while($message = mysqli_fetch_assoc($result)){
-	$ret[] = $message;
-}
-echo json_encode($ret);
+
+
+
+//set status to read
+$sendMessage = "INSERT INTO PatientToDoctorComm (PatientUsername, DoctorUsername, Status , Content) 
+VALUES ('$username', '$dusername', ‘Unread’, '$content')";
+
+ 
+$messagesent = mysqli_query($link,$sendMessage);
+echo('success');
 ?>

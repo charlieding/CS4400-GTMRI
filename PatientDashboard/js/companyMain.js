@@ -287,10 +287,101 @@ function getVisitInfo(date,doctor){
 		});
 }
 
-function getMessages() {
-
-
+function loadVisits(){
+	$.get("../php/abhijit/getVisitHistory.php",{},
+		function(data){
+			data = $.parseJSON(data);
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				visit = data[i];
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='getVisitInfo(\"" + visit.Date + "\",\"" + visit.DoctorUsername +
+								"\")'>" + visit.Date + "</td>";
+				resultsTable += "</tr>";
+			}
+			$('#visittable').append(resultsTable);
+			
+		});
 }
+
+function getPatientInbox(){
+
+	$.get("../php/joey/getDoctorToPatientMessages.php",{},
+		function(data){
+		
+			data = $.parseJSON(data);
+		
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				message = data[i];
+				resultsTable += "<<tr>" +
+									"<th>Status</th>" +
+									"<th>From</th>"  +
+									"<th>TimeStamp</th>" +
+								"</tr>";
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'>" + message.Status + "</td>" +
+								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
+								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'>" + message.DateTime + "</td>";
+				resultsTable += "</tr>";
+			}
+			if (data.length == 0) alert("You have no messages at this time");
+			else {
+				$('#patientInboxMessages').empty();
+				$('#patientInboxMessages').append(resultsTable);
+				$('#patientInbox').modal('show');
+			}
+			
+			
+		});
+}
+function openPatientInboxMessage(date, doctor, firstname, lastname, content, status) {
+
+	$('#patientInbox').modal('hide');
+
+	$.post("../php/joey/setDtoPRead.php",{postdoctorusername:doctor,postdate:date},
+		function(data){
+		
+			
+			$('#pidoctorname').empty();
+			$('#pidoctorname').append("Dr. " + firstname + " " + lastname);
+		
+			$('#picontent').empty();
+			$('#picontent').append(content);
+
+			$('#pidatetime').empty();
+			$('#pidatetime').append(date);
+			
+			$('#pistatus').empty();
+			$('#pistatus').append(status);
+			
+			$('#patientMessage').modal('show');
+			
+			
+		});
+}
+
+
+
+
 function selectDoctor(){
 	$.get('../php/abhijit/getDoctors.php',{},
 		function(data){

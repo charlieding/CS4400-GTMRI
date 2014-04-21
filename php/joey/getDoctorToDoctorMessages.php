@@ -1,5 +1,4 @@
 <?php
-
 	session_start();
 //---connect database---------------------
 $_SESSION['dbhost'] = "localhost";
@@ -12,11 +11,6 @@ $dbuser = $_SESSION['dbuser'];
 $dbpass = $_SESSION['dbpass'];
 $dbname = $_SESSION['dbname'];
 
-/*$dbhost = "localhost";	
-$dbuser = "root";
-$dbpass = "";
-$dbname = "cding9_gtmrs";*/
-
 $link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname); 
 
 if(mysqli_connect_errno()){
@@ -28,10 +22,10 @@ if(mysqli_connect_errno()){
 //-------------------------------------------------connect database
 
 $username = $_SESSION['username'];
-$queryString = "SELECT Status, Content,  DateTime, FirstName, LastName
+$queryString = "SELECT Doctor.DoctorUsername, Status, Content,  DateTime, FirstName, LastName
 	FROM DoctorToDoctorComm
 	JOIN (Doctor) ON (DoctorToDoctorComm.SenderUsername = Doctor.DoctorUsername)
-	WHERE DoctorToDoctorComm.RecipientUsername = $username";
+	WHERE DoctorToDoctorComm.RecipientUsername = '$username'";
 $result = mysqli_query($link,$queryString);
 
 $ret = array();

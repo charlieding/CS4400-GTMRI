@@ -200,9 +200,7 @@ CREATE TABLE IF NOT EXISTS `Patient` (
   `CardNumber` char(16) DEFAULT NULL,
   `PatientUsername` varchar(50) NOT NULL,
   PRIMARY KEY (`PatientUsername`),
-  UNIQUE KEY `FirstName` (`FirstName`),
-  UNIQUE KEY `LastName` (`LastName`),
-  UNIQUE KEY `HomePhone` (`HomePhone`),
+  UNIQUE KEY `NamePhone` (`FirstName`,`LastName`, `HomePhone`),
   KEY `CardNumber` (`CardNumber`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
