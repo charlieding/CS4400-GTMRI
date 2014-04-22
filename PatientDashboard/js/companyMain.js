@@ -50,7 +50,7 @@ function requestAppointment(doctor,day,start,end){
 		if(data == "cannot"){
 			alert("You cannot make another appointment with this doctor");
 		}else if(data == "requested"){
-			alert("You have have made an appointment!");
+			window.location.reload();
 		}else {
 			console.log(data);
 		}
@@ -460,14 +460,84 @@ function addToBasket(){
 		}
 	});
 }
+function checkout(){
+	var medicineName = $('#medicine_name').val();
+	var dosage = $('#dosage').val();
+	var duration = $('#duration').val();
+	var doctorUserName = $('#doctor').attr('data-dusername');
+	var visitDate = $('#prescription_date').val();
+
+	$.post('../php/abhijit/addToBasket.php',{
+		postMedicineName:medicineName,
+		postDosage:dosage,
+		postDuration:duration,
+		postDoctorUsername:doctorUserName,
+		postVisitDate:visitDate
+	},function(data){
+		if(data == "success"){
+			$('#payment').modal('show');
+			$('#paymentResult').empty();
+		}else {
+			$('#result').empty();
+			$('#result').append(data);
+		}
+	});
+}
+function getPaymentInfo(){
+	$.get('../php/abhijit/getCardInfo.php',{},
+		function(data){
+			if(!data){
+				$('#cardForm').removeClass('hidden');
+			}else {
+				cardDisplayText = 'Use card ending in ' + data.slice(-4);
+				$('#existingCard').removeClass('hidden');
+				$('#checkoutButton').addClass('hidden');
+				$('#existingCard').empty();
+				$('#existingCard').append($('<h4>',{
+					class:'list-group-item-heading',
+					text:"Use an existing card."
+				}));
+				$('#existingCard').append($('<a>',{
+					class:'list-group-item',
+					text: cardDisplayText,
+					onclick: "payWithCard('"+data+"',true);"
+				}));
+			}
+		});
+}
+
+function payWithCard(cardno,existing){
+	var args = {};
+	if(existing){
+		args = {
+			postCardNumber:cardno,
+			postExistingCard:"true"
+		};
+	}
+	$.post('../php/abhijit/payment.php',args,
+		function(data){
+			$('#existingCard').addClass('hidden');
+			if(data == "success"){
+				$('#paymentResult').append('Payment Successful!');
+			}else {
+				$('#paymentResult').append('Payment Unsucessful check your info and try again');
+			}
+		});
+}
+function emptyBasket(){
+	$.get("../php/abhijit/emptyBasket.php",{},
+		function(data){
+			window.location.reload();
+		});
+}
 $(document).ready(function () {	
 	initTabView();
 	loadVisits();
 	getProfileInfo();
-	getMessages();
+	//getMessages();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
-
+	getPaymentInfo();
 	var slider = new Slider($('.SideSlider'));
 	$('body').on('click', '.SideSlider', function (event) {
 		event.stopPropagation();

@@ -25,7 +25,7 @@ $specialty = $_POST['postspeciality'];
 
 $queryString = "SELECT FirstName, LastName, WorkPhone, RoomNumber, Day, StartTime, EndTime, Doctor.DoctorUsername ".
 				"FROM Doctor, Doctor_Availability WHERE Specialty='$specialty' ".
-				"AND Doctor.DoctorUsername = Doctor_Availability.DoctorUsername ORDER BY Doctor.DoctorUsername";
+				"AND Doctor.DoctorUsername = Doctor_Availability.DoctorUsername AND DAY > NOW() ORDER BY Doctor.DoctorUsername";
 $ratingQuery = "SELECT DoctorUsername,AVG(Rating) FROM Rates WHERE Rates.DoctorUsername IN ".
 			"(SELECT Doctor.DoctorUsername FROM Doctor WHERE Specialty='$specialty') GROUP BY DoctorUsername ".
 			"ORDER BY Rates.DoctorUsername";

@@ -143,7 +143,8 @@
                   </div>
                   <div class="form-group">
                      <button type='button' id="order_button" onclick="addToBasket();" class="btn btn-primary">Add to Basket</button>
-                     <button type='button' id="order_button" onclick="alert('hey!');" class="btn btn-primary">Checkout</button>
+                     <button type='button' id="empty_basket" onclick="emptyBasket();" class="btn btn-primary">Empty Basket</button>
+                     <button type='button' id="order_button" onclick="checkout();" class="btn btn-primary">Checkout</button>
                   </div>
                 </form>
                 <div id="result"></div>
@@ -382,6 +383,61 @@
     </div>
   </div>
 	</div>
+  <div class="modal fade" id="payment">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Enter Payment Info</h4>
+        </div>
+        <div class="modal-body">
+          <div id="existingCard" class="list-group hidden"></div>
+          <form class="form-horizontal hidden" id="cardForm">
+            <div class="form-group">
+              <label for="cardholderName" class="col-lg-2 control-label">Cardholder Name</label>
+              <div class="col-lg-4">
+                <input type="text" class="form-control" id="cardholderFirstName" placeholder="First Name">
+                <input type="text" class="form-control" id="cardholderLastName" placeholder="Last Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardNo" class="col-lg-2 control-label">Card No.</label>
+              <div class="col-lg-4"> 
+                <input type="text" class="form-control" id="cardNumber"> 
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardType" class="col-lg-2 control-label">Card Type</label>
+              <div class="col-lg-4">
+                <select class="form-control" id="cardType">
+                  <option value="Visa">Visa</option>
+                  <option value="Mastercard">Mastercard</option>
+                  <option value="Discover">Discover</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardCode" class="col-lg-2 control-label">CVV</label>
+              <div class="col-lg-4">
+                <input type="text" class="form-control" id="cvvCode">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="expireDate" class="col-lg-2 control-label">Date of Expiry</label>
+              <div class="col-lg-5">
+                <input type="date" class="form-control" id="cardExpireDate">
+              </div>
+            </div>
+
+          </form>
+          <div id="paymentResult"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="checkoutButton" onclick="alert('checkingout');" class="btn btn-primary">Checkout!</button>
+          <button type="button" onclick="window.location.reload();" class="btn btn-primary">Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
