@@ -43,9 +43,6 @@
 				<div id="image" style="background-color: white;overflow: hidden; margin-top:-20px; text-align: center;">
 					<img class="text-center" src="./images/logobig.png" style="width:230px;">
 				</div>
-				<input type="text" placeholder="   Search for Patient" id="searchValue">
-				<br>
-				<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary" style="width:100px; height:30px;">Search</button>
 			</div>
 		</div>
 	</div>
@@ -71,7 +68,67 @@
 
 <!-- SEARCH RESULTS CODE -->
 <div id="content" class="container jumbotron" style="margin-top:-50px;">
+        
+
+              <div class="panel panel-success panel-default">
+                <div class="panel-heading panel-success">
+                  <h3 class="panel-title">
+			        <input type="text" placeholder="   Patient Name" id="searchValue">
+					<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary">Create Bill</button>
+                  </h3>
+                </div>
+              </div>
         <div id="packages" class="table">
+              <div class="alert alert-warning"> Tim Reed
+               <div class=' pull-right'>
+                    <small class="glyphicon glyphicon-trash"></small>
+                    <small class="glyphicon glyphicon-star"></small>
+                </div>
+                <blockquote class="text-muted">
+                  <small>Phone Number 
+                    <a class='pull-right'>
+                    898-909-0909
+                    </a>
+                  </small>
+                </blockquote>
+            </div>
+              <div class="panel panel-success panel-default">
+                <div class="panel-heading panel-success">
+                  <h3 class="panel-title">
+                    <span>Visits/Surgery</span>
+                    <span class="pull-right">
+                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-gift"></span>
+                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-trash"></span>
+                      <span onclick="wishlist(this.parentNode.parentNode)" class="glyphicon glyphicon-star"></span>&nbsp&nbsp&nbsp Cost ($) 
+                    </span>
+                  </h3>
+                  
+                </div>
+                  <div class="panel-body">
+                    <div class=""> 
+
+                      <blockquote class="pull-left text-muted">
+                        <small>11/29/2010 Visit </small>
+                        <h2></h2>
+                        <small>11/29/2010 Visit </small>
+                        <h2></h2>
+                        <small>Knee Surgery</small>
+                        <h2></h2>
+                        <hr style="border: 3px outset #595955;">
+                        <small>Total Cost</small>
+                      </blockquote>
+
+                      <a class="pull-right"> $100</a>
+                      <br>
+                      <a class="pull-right"> $65</a>
+                      <br>
+                      <a class="pull-right"> $5000</a>
+                      <br><h2></h2>
+                      <a class="pull-right"> $5165</a>
+                    </div>
+                  </div>
+              </div>
+
         </div>
 </div>
 
