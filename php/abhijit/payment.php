@@ -25,6 +25,33 @@ $username = $_SESSION['username'];
 $cardNum = $_POST['postCardNumber'];
 $existingCard = $_POST['postExistingCard'];
 
+$cardholderFirstName = '';
+if(isset($_POST['postCardholderFirstName']))
+	$cardholderFirstName = $_POST['postCardholderFirstName'];
+
+$cardholderLastName ='';
+if(isset($_POST['postCardholderLastName']))
+	$cardholderLastName = $_POST['postCardholderLastName'];
+
+$cardType = '';
+if(isset($_POST['postCardType']))
+	$cardType = $_POST['postCardType'];
+
+$cardCvv = '';
+if(isset($_POST['postCvvCode']))
+	$cardCvv = $_POST['postCvvCode'];
+
+$expireDate = '';
+if(isset($_POST['postExpireDate']))
+	$expireDate = $_POST['postExpireDate'];
+
+if($existingCard == "false"){
+	$insertCardQuery = "INSERT INTO Payment_Information(CardNumber,FirstName,LastName,Type,DateOfExpiry,CVV) VALUES(".
+			"'$cardNum','$cardholderFirstName','$cardholderLastName','$cardType','$expireDate',$cardCvv)";
+	$updatePatientCardInfoQuery = "UPDATE Patient SET CardNumber='$cardNum' WHERE PatientUsername='$username'";
+	mysqli_query($link,$insertCardQuery);
+	mysqli_query($link,$updatePatientCardInfoQuery);
+}
 foreach ($_SESSION['basket'] as $medicine => $details) {
 	$dosage = $details['dosage'];
 	$duration = $details['duration'];

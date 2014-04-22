@@ -513,13 +513,30 @@ function payWithCard(cardno,existing){
 			postCardNumber:cardno,
 			postExistingCard:"true"
 		};
+	}else {
+		args = {
+			postCardholderFirstName: $('#cardholderFirstName').val(),
+			postCardholderLastName: $('#cardholderLastName').val(),
+			postCardNumber: $('#cardNumber').val(),
+			postCardType: $('#cardType').val(),
+			postCvvCode: $('#cvvCode').val(),
+			postExpireDate: $('#cardExpireDate').val(),
+			postExistingCard: "false"
+
+		}
 	}
 	$.post('../php/abhijit/payment.php',args,
 		function(data){
-			$('#existingCard').addClass('hidden');
+			if($('#existingCard').hasClass('hidden')){
+				$('#cardForm').addClass('hidden');
+				$('#checkoutButton').addClass('hidden');
+			}
+			else
+				$('#existingCard').addClass('hidden');
 			if(data == "success"){
 				$('#paymentResult').append('Payment Successful!');
 			}else {
+				console.log(data);
 				$('#paymentResult').append('Payment Unsucessful check your info and try again');
 			}
 		});
