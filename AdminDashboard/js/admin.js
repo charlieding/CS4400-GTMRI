@@ -1,7 +1,6 @@
 $(document).ready(function () {	
 	initTabView();
 });
-
 /*
 
 function trashIcon(ele){
@@ -172,10 +171,60 @@ function initTabView(){
 		var tabToDisplay = document.getElementById(idOfTabToDisplay);
 		tabToDisplay.style.display = 'block';
 		prevViewedTab = tabToDisplay;
+		//console.log("Tab Pressed: "+tabToDisplay + idOfTabToDisplay);
+		if(idOfTabToDisplay == "tab1"){
+			console.log("Billing Tab Pressed");
+		}
+		if(idOfTabToDisplay == "tab2"){
+			console.log("Doctor Performance Tab Pressed");
+			doctorPerformance();
+		}
+		if(idOfTabToDisplay == "tab3"){
+			console.log("Surgery Report Tab Pressed");
+			surgeryReport();
+		}
+		if(idOfTabToDisplay == "tab4"){
+			console.log("Patient Visit Report Tab Pressed");
+		}
 	}
 	var defaultTab = document.getElementsByClassName('default-tab');
 	if (defaultTab.length) {
 		defaultTab[0].style.display = 'block';
 		prevViewedTab = defaultTab[0];
   	}
+}
+function billing(){
+	console.log("loading billing...");
+	var patientName = $('#patientName').val();
+	//TODO php call here
+}
+function doctorPerformance(){
+	console.log("loading doctor performance report...");
+	/*$.getJSON("../php/charles/loadDoctorPerformance.php", function (data){	
+		console.log("Sponsorship list load data:")
+		console.log(data);
+		console.log(data.resultlist);
+		$("#sponsoredlist").empty();
+		$.each(data.resultlist, function(){
+		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
+		});
+	});*/
+}
+function surgeryReport(){
+	console.log("loading surgery report");
+	/*$.getJSON("../php/charles/loadSurgeryReport.php", function (data){	
+		console.log("Sponsorship list load data:")
+		console.log(data);
+		console.log(data.resultlist);
+		$("#sponsoredlist").empty();
+		$.each(data.resultlist, function(){
+		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
+		});
+	});*/
+}
+function patientVisitReport(){
+	console.log("loading patient visit report...");
+	var month = $('#month').val();
+	var year = $('#year').val();
+	//php call
 }

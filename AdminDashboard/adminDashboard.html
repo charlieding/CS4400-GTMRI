@@ -73,8 +73,8 @@
               <div class="panel panel-success panel-default">
                 <div class="panel-heading panel-success">
                   <h3 class="panel-title">
-			        <input type="text" placeholder="   Patient Name" id="searchValue">
-					<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary">Create Bill</button>
+			        <input type="text" placeholder="   Patient Name" id="patientName">
+					<button type="button" id = "searchButton" onclick="billing();" class="btn btn-primary">Create Bill</button>
                   </h3>
                 </div>
               </div>
@@ -337,7 +337,7 @@
 		<blockquote style="margin-top:-15px;" >Select Month:</blockquote>
   </div>
   <div class="col-xs-3">
-		<select class="form-control">
+		<select id="month" class="form-control">
 		  <option>January</option>
 		  <option>February</option>
 		  <option>March</option>
@@ -353,7 +353,7 @@
 		</select>
   </div>
   <div class="col-xs-3">
-		<select class="form-control">
+		<select id="year" class="form-control">
 		  <option>2014</option>
 		  <option>2013</option>
 		  <option>2012</option>
@@ -397,7 +397,7 @@
 		</select>
   </div>
   <div class="col-xs-2">
-		<button type="button" onclick="test()">GO</button>
+		<button type="button" onclick="patientVisitReport();" style="margin-top:-15px;" class="btn btn-info">Go</button>
   </div>
 </div>
 
