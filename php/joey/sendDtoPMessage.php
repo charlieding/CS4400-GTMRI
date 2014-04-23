@@ -21,16 +21,16 @@ if(mysqli_connect_errno()){
 	 );
 }
 //-------------------------------------------------connect database
-$username = $_SESSION['username'];
-$dusername = $_POST['postdoctorusername'];
+$dusername = $_SESSION['username'];
+$pusername = $_POST['postpatientusername'];
 $content = $_POST['postcontent'];
 
 
 
 
 //set status to read
-$sendMessage = "INSERT INTO PatientToDoctorComm (PatientUsername, DoctorUsername, Status , Content) 
-VALUES ('$username', '$dusername', 'Unread', '$content')";
+$sendMessage = "INSERT INTO DoctorToPatientComm (PatientUsername, DoctorUsername, Status, Content) 
+VALUES ('$pusername', '$dusername', 'Unread', '$content')";
 
  
 $messagesent = mysqli_query($link,$sendMessage);

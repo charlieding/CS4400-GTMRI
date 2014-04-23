@@ -73,8 +73,8 @@
               <div class="panel panel-success panel-default">
                 <div class="panel-heading panel-success">
                   <h3 class="panel-title">
-			        <input type="text" placeholder="   Patient Name" id="searchValue">
-					<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary">Create Bill</button>
+			        <input type="text" placeholder="   Patient Name" id="patientName">
+					<button type="button" id = "searchButton" onclick="billing();" class="btn btn-primary">Create Bill</button>
                   </h3>
                 </div>
               </div>
@@ -337,7 +337,7 @@
 		<blockquote style="margin-top:-15px;" >Select Month:</blockquote>
   </div>
   <div class="col-xs-3">
-		<select class="form-control">
+		<select id="month" class="form-control">
 		  <option>January</option>
 		  <option>February</option>
 		  <option>March</option>
@@ -353,7 +353,7 @@
 		</select>
   </div>
   <div class="col-xs-3">
-		<select class="form-control">
+		<select id="year" class="form-control">
 		  <option>2014</option>
 		  <option>2013</option>
 		  <option>2012</option>
@@ -397,7 +397,7 @@
 		</select>
   </div>
   <div class="col-xs-2">
-		<button type="button" onclick="test()">GO</button>
+		<button type="button" onclick="patientVisitReport();" style="margin-top:-15px;" class="btn btn-info">Go</button>
   </div>
 </div>
 
@@ -494,17 +494,6 @@
 			  
 	</div><!-- /.modal -->
 	
-	<div class="SideSlider">
-		<div class="Icon"></div>
-		<div id="arrows">
-			<span id="hintCount"></span>
-			<span id="hint_left" onclick="hint_left()">&lt;</span>
-			<span id="hint_right" onclick="hint_right()">&gt;</span>
-		</div>
-		<span id="hint">
-			This is a hint that I am telling you, because I can... so deal with it.
-		</span>
-	</div>
 	
 	<!-- Bootstrap core JavaScript
 	================================================== -->
@@ -515,6 +504,6 @@
 	<script src="http://vjs.zencdn.net/4.1/video.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="js/companyMain.js" type="text/javascript"></script>
+	<script src="js/admin.js" type="text/javascript"></script>
   </body>
 </html>

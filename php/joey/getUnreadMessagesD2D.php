@@ -22,17 +22,17 @@ if(mysqli_connect_errno()){
 }
 //-------------------------------------------------connect database
 $username = $_SESSION['username'];
-$dusername = $_POST['postdoctorusername'];
-$content = $_POST['postcontent'];
 
 
 
 
 //set status to read
-$sendMessage = "INSERT INTO PatientToDoctorComm (PatientUsername, DoctorUsername, Status , Content) 
-VALUES ('$username', '$dusername', 'Unread', '$content')";
+$sendMessage = "SELECT COUNT(*) AS count FROM DoctorToDoctorComm WHERE RecipientUsername = '$username' AND status = 'Unread'";
 
  
-$messagesent = mysqli_query($link,$sendMessage);
-echo('success');
+$result = mysqli_query($link,$sendMessage);
+$ret = array();
+$ret = mysqli_fetch_assoc($result);
+echo($ret['count']);
+
 ?>

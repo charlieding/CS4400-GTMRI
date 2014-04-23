@@ -120,13 +120,17 @@ function getDDInbox(){
 			data = $.parseJSON(data);
 		
 			var resultsTable = "";
-			for(i=0;i<data.length;i++){
-				message = data[i];
-				resultsTable += "<<tr>" +
+			if (data.length > 0) {
+			resultsTable += "<<tr>" +
 									"<th>Status</th>" +
 									"<th>From</th>"  +
 									"<th>TimeStamp</th>" +
 								"</tr>";
+				
+			
+			}
+			for(i=0;i<data.length;i++){
+				message = data[i];
 				resultsTable += "<tr>";
 				resultsTable += "<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
@@ -195,13 +199,17 @@ function getPDInbox(){
 			data = $.parseJSON(data);
 		
 			var resultsTable = "";
-			for(i=0;i<data.length;i++){
-				message = data[i];
-				resultsTable += "<<tr>" +
+			if (data.length > 0) {
+			resultsTable += "<<tr>" +
 									"<th>Status</th>" +
 									"<th>From</th>"  +
 									"<th>TimeStamp</th>" +
 								"</tr>";
+				
+			}
+			
+			for(i=0;i<data.length;i++){
+				message = data[i];
 				resultsTable += "<tr>";
 				resultsTable += "<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
@@ -216,7 +224,7 @@ function getPDInbox(){
 								"\""+ message.Content + "\"," +
 								"\""+ message.Status + 
 							
-								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
+								"\")'>" + message.FirstName + " " + message.LastName + "</td>" +
 								"<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
@@ -262,11 +270,112 @@ function openPDInboxMessage(date, patient, firstname, lastname, content, status)
 		});
 }
 
+function getAllDoctors() {
+	$.get('../php/joey/getAllDoctors.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#alldocTable').empty();
+			$('#alldocTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Doctor Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#alldocTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i].name,
+										onclick: "openSendMessageDModal('"+ data[i].name+"','"+data[i].username+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#doctorMessageList').modal('show');	
+		});
+}
+function openSendMessageDModal(name,username){
+
+	$('#d2ddocname').val(name);
+	$('#d2ddocname').attr('data-d2dusername',username);
+	$('#doctorMessageList').modal('hide');
+	$('#sendDMessage').modal('show');
+}
+
+function sendD2DMessage() {
+var messageContent = $('#d2dcontent').val();
+var doctorUserName = $('#d2ddocname').attr('data-d2dusername');
+
+	$.post('../php/joey/sendDtoDMessage.php',{
+		postdoctorusername:doctorUserName,
+		postcontent:messageContent,
+		
+	},function(data){
+		if(data == "success")
+			window.location.reload();
+	});
+}
 
 
+function getAllPatients() {
+	$.get('../php/joey/getAllPatients.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#allpatTable').empty();
+			$('#allpatTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Patient Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#allpatTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i].name,
+										onclick: "openSendMessagePModal('"+ data[i].name+"','"+data[i].username+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#patientMessageList').modal('show');	
+		});
+}
+function openSendMessagePModal(name,username){
+
+	$('#d2ppatname').val(name);
+	$('#d2ppatname').attr('data-pmusername',username);
+	$('#patientMessageList').modal('hide');
+	$('#sendPMessage').modal('show');
+}
+
+function sendD2PMessage() {
+var messageContent = $('#d2pcontent').val();
+var patientUserName = $('#d2ppatname').attr('data-pmusername');
+
+	$.post('../php/joey/sendDtoPMessage.php',{
+		postpatientusername:patientUserName,
+		postcontent:messageContent,
+		
+	},function(data){
+		if(data == "success")
+			window.location.reload();
+	});
+}
+
+function loadUnreadMessages() {
+	$.get("../php/joey/getUnreadMessagesP2D.php",{},
+		function(data){
+			if (data != 1) document.getElementById("newMessagesP").innerHTML=data + " unread patient messages";
+			else if (data == 1) document.getElementById("newMessagesP").innerHTML=data + " unread patient message";
+		});
+		
+		$.get("../php/joey/getUnreadMessagesD2D.php",{},
+		function(data){
+			if (data != 1) document.getElementById("newMessagesD").innerHTML=data + " unread doctor messages";
+			else if (data == 1) document.getElementById("newMessagesD").innerHTML=data + " unread doctor message";
+		});
 
 
-
+}
 
 function displayMonthAppointments(){
 	var apptday = $('#apptday').val();
@@ -667,6 +776,7 @@ function addDiagnosis(){
 $(document).ready(function () {	
 	load();
 	getDoctorProfile();
+	loadUnreadMessages();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 

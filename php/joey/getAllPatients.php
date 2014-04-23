@@ -1,5 +1,5 @@
 <?php
-	session_start();
+		session_start();
 //---connect database---------------------
 $_SESSION['dbhost'] = "localhost";
 $_SESSION['dbuser'] = "root";
@@ -22,17 +22,18 @@ if(mysqli_connect_errno()){
 }
 //-------------------------------------------------connect database
 $username = $_SESSION['username'];
-$dusername = $_POST['postdoctorusername'];
-$content = $_POST['postcontent'];
 
+$queryString = "SELECT FirstName, LastName, HomePhone, PatientUsername FROM Patient";
+$result = mysqli_query($link,$queryString);
 
+$ret = [];
+while($patient = mysqli_fetch_assoc($result)){
+	$ret[] = array(
+			'username' => $patient['PatientUsername'],
+			'name' => $patient['FirstName']." ".$patient['LastName']." ( ".$patient['HomePhone']." )"
+		);
+}
 
-
-//set status to read
-$sendMessage = "INSERT INTO PatientToDoctorComm (PatientUsername, DoctorUsername, Status , Content) 
-VALUES ('$username', '$dusername', 'Unread', '$content')";
-
- 
-$messagesent = mysqli_query($link,$sendMessage);
-echo('success');
+echo json_encode($ret);
+mysqli_close($link);
 ?>
