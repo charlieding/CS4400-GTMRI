@@ -66,7 +66,6 @@ function displayPatients(){
 	}
 	var resultsTable = "<tr><td>Patient Name</td><td>Phone Number</td><td>                       </td></tr>";
 	$("#patienttable").append(resultsTable);
-	$("#test").empty();
 	$.post("../php/jordan/getPatients.php",{ postpatientfirstname:patientfirstname,
 											 postpatientlastname:patientlastname,
 											 postpatientphone:patientphone},
@@ -80,7 +79,7 @@ function displayPatients(){
 				resultsTable = resultsTable + "<td><label for='patientName'>" + patient.FirstName +
 								" " + patient.LastName + "</label></td>";
 				resultsTable = resultsTable + "<td><label for='patientPhone'>" + patient.HomePhone + "</label></td>";
-				resultsTable = resultsTable + "<td><button type='button' onclick='loadVisits(\"" + patient.PatientUsername + "\");' class='btn btn-primary'>View</button>   ";
+				resultsTable = resultsTable + "<td><button type='button' onclick='displayVisitInfo();' class='view btn btn-primary'>View</button>   ";
 				
 				resultsTable = resultsTable + "<button type='button' class='record btn btn-primary'>Record a visit</button></td>";
 				//resultsTable = resultsTable + "<td><button type='button' onclick="displayMonthAppointments(); + " class="btn btn-primary"></button></td>";
@@ -88,6 +87,13 @@ function displayPatients(){
 			};
 			$("#patienttable").append(resultsTable);
 		});
+}
+
+function displayVisitInfo() {
+	var patientName = $(this).closest("tr").find("label[for=patientName]").text();
+	//$("#resultas").append(id);
+	displayPatients();
+	$("#patienttable").append(patientName);
 }
 
 /**
@@ -268,169 +274,6 @@ function updateHint()
 	$('#hintCount').html((hindex + 1) + "/" + hints.length);
 }
 updateHint();
-
-function loadVisits(patientusername){
-	var resultsTable = "<tr><td>Date of Visit</td></tr>";
-	$('#test').append(resultsTable);
-	$.post("../php/jordan/getVisitHistory.php",{postpatientusername:patientusername},
-		function(data){
-			data = $.parseJSON(data);
-			$('#test').empty();
-			for(i=0;i<data.length;i++){
-				var visit = data[i];
-				resultsTable += "<tr>";
-				resultsTable += "<td onclick='displayVisitInfo(\"" + visit.Date + "\",\"" + patientusername +
-								"\")'>" + visit.Date + "</td>";
-				resultsTable += "</tr>";
-			}
-			if (!data.length) {
-				resultsTable += "<tr><td>No Visits</td></tr>"
-			}
-			// $('#visitdatestable').append(resultsTable);
-			$('#test').append(resultsTable);
-			$('#visitDetails').modal('show'); 
-			// $('#visitDates').modal('show'); 
-			//Something wrong with this modal call..displayPatients() will work before but not after
-			// displayPatients();
-		});
-	
-
-}
-
-function displayVisitInfo(date, patient) {
-	// var patientName = $(this).closest("tr").find("label[for=patientName]").text();
-	$.get("../php/jordan/getVisitInfo.php",{getpatient:patient,getdate:date},
-		function(data){
-			data = $.parseJSON(data);
-			var visitInfo = data.visitInfo;
-			var medicines = data.medicines;
-			var diagnosis = data.diagnosis;
-			$('#doctorName').empty();
-			$('#doctorName').append("Dr." + visitInfo.FirstName + " " + visitInfo.LastName);
-
-			$('#systolicBP').empty();
-			$('#systolicBP').append(visitInfo.sysBP);
-
-			$('#diastolicBP').empty();
-			$('#diastolicBP').append(visitInfo.diaBP);
-
-			$('#diagnosis').empty();
-			for(i=0;i<diagnosis.length;i++){
-				d = diagnosis[i];
-				$('#diagnosis').append(d + "<br>");
-			}
-			$('#medicinesPrescribedTable').empty();
-			$('#medicinesPrescribedTable').append("<tr><td>Name</td><td>Dosage</td><td>Duration</td><td>Notes</td></tr>")
-			for(var medicine in medicines){
-				medTable = "<tr>";
-				medTable += "<td>" + medicine + "</td>";
-				medTable += "<td>" + medicines[medicine].Dosage + "</td>";
-				medTable += "<td>" + medicines[medicine].Duration + "</td>";
-				medTable += "<td>" + medicines[medicine].Notes + "</td>";
-				$('#medicinesPrescribedTable').append(medTable);
-			}
-
-			$('#visitDetails').modal('show');
-		});
-}
-
-function recordVisit() {
-	var visitdate = $('#visitdate').val();
-	var systolicBP = $('#systolicBP').val();
-	var diastolicBP = $('#diastolicBP').val();
-	var diagnosis = [];
-	$('.diagControl').each(function(index){
-		if($(this).val() != ""){
-				diagnosis.push($(this).val());
-			}
-	});
-	var medname = [];
-	$('.mednameControl').each(function(index){
-		if($(this).val() != ""){
-				medname.push($(this).val());
-			}
-	});
-	var meddosage = [];
-	$('.meddosageControl').each(function(index){
-		if($(this).val() != ""){
-				meddosage.push($(this).val());
-			}
-	});
-	var medduration = [];
-	$('.meddurationControl').each(function(index){
-		if($(this).val() != ""){
-				medduration.push($(this).val());
-			}
-	});
-	var mednotes = [];
-	$('.mednotesControl').each(function(index){
-		if($(this).val() != ""){
-				mednotes.push($(this).val());
-			}
-	});
-	$.post('../php/jordan/recordVisit.php',{postvisitdate:visitdate,
-											postsystolicbp:systolicBP,
-											postdiastolicbp:diastolicBP,
-											postdiagnosis:diagnosis,
-											postmedname:medname,
-											postmeddosage:meddosage,
-											postmedduration:medduration,
-											postmednotes:mednotes},
-		function(data){
-			data = $.parseJSON(data);
-		} )
-}
-function addDiagnosis(){
-	form_group = $('<div>',{class:"form-group row"});
-	date_label = $('<label>',
-			{class:"col-lg-2 control-label",
-			for:"inputAvailability",
-		text:"Date"});
-	date_div = $('<div>',{
-			class:"col-lg-10"
-	});
-	date_input = $('<input>',{
-			type:"date",
-			class:"form-control availControl",
-	});
-	date_div.append(date_input);
-	form_group.append(date_label);
-	form_group.append(date_div);
-
-	from_label = $('<label>',
-			{class:"col-lg-2 control-label",
-			for:"inputAvailability",
-		text:"From :"});
-	from_div = $('<div>',{
-			class:"col-lg-4"
-	});
-	from_input = $('<input>',{
-			type:"time",
-			class:"form-control fromControl",
-	});
-	from_div.append(from_input);
-	form_group.append(from_label);
-	form_group.append(from_div);
-
-	to_label = $('<label>',
-			{class:"col-lg-2 control-label",
-			for:"inputAvailability",
-		text:"To :"});
-	to_div = $('<div>',{
-		class:"col-lg-4"
-	});
-	to_input = $('<input>',{
-			type:"time",
-			class:"form-control toControl",
-	});
-	to_div.append(to_input);
-	form_group.append(to_label);
-	form_group.append(to_div);
-
-	$('#availablityRow').append(form_group);
-}
-
-
 
 $(document).ready(function () {	
 	load();
