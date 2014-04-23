@@ -21,7 +21,7 @@ if(mysqli_connect_errno()){
 }
 //-------------------------------------------------connect database
 
-$username = $_SESSION['userId'];
+$username = $_SESSION['username'];
 $licnum = $_POST['postlicnum'];
 $fname = $_POST['postfname']; 
 $lname = $_POST['postlname'];
@@ -56,11 +56,11 @@ if($licnum == null){
 	die("Please enter an integer for room number.");
 } else if ($address === null || strlen($address) == 0) {
 	die("Please enter an address.");
-} else if ($availability === null || strlen($availability) == 0) {
+} else if ($availability === null || count($availability) <= 0) {
 	die("Please enter an availability date.");
-} else if ($fromtime === null || strlen($fromtime) == 0) {
+} else if ($fromtime === null || count($fromtime) <= 0 || count($fromtime) != count($availability)) {
 	die("Please enter a start time of availability.");
-} else if ($totime === null || strlen($totime) == 0) {
+} else if ($totime === null || count($totime) <= 0 || count($totime) != count($availability)) {
 	die("Please enter an end time of availability.");
 } 
 
@@ -79,8 +79,12 @@ $queryString = $queryString."$roomnum,'$address')";
 
 $insertResult = mysqli_query($link,$queryString);
 
-$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability', '$fromtime', '$totime')";
-$insertResult = mysqli_query($link,$queryString);
+for ($i=0; $i < count($availability); $i++) { 
+	$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability[$i]', '$fromtime[$i]', '$totime[$i]')";
+	$insertResult = mysqli_query($link,$queryString);
+	echo mysqli_error($link);
+}
+
 
 
 echo "success";
