@@ -1,9 +1,9 @@
-function logout(){
-	var r = confirm("Do you really want to log out?");
-	if (r) {
-	   window.location.href = '../php/logout.php'
-	}
-}
+$(document).ready(function () {	
+	initTabView();
+});
+
+/*
+
 function trashIcon(ele){
 	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
 	var name = ele.getElementsByTagName('span')[0].innerHTML;
@@ -130,73 +130,6 @@ var CompanyDetails = {
 		return details;
 	}
 }
-
-function Slider ($object) {
-	var slider = this;
-	slider.object = $object;
-	slider.hiddenPos = (-$object.outerWidth(false)) + "px";
-	slider.object.css('left', slider.hiddenPos);
-	
-	slider.open = function () {
-		slider.object.animate({
-			left: 0
-		}, 1000);
-	};
-	slider.close = function () {
-		slider.object.animate({
-			left: slider.hiddenPos
-		}, 1000);
-	};
-}
-
-var hindex = 0;
-var hints = [
-	"Search for Patients Billing Records",
-	"Look at Doctor Performance Reports",
-	"Look at Surgery Reports",
-	"Look at Patient Visit Reports"
-];
-function hint_left()
-{
-	--hindex;
-	if (hindex < 0) hindex = hints.length - 1;
-	updateHint();
-}
-function hint_right()
-{
-	hindex = (hindex + 1) % hints.length;
-	updateHint();
-}
-function updateHint()
-{
-	var hint = hints[hindex];
-	$('#hint').html(hint);
-	$('#hintCount').html((hindex + 1) + "/" + hints.length);
-}
-updateHint();
-
-$(document).ready(function () {	
-	load();
-	
-	$('#companyDetails')
-		.on('change', CompanyDetails.update);
-
-	var slider = new Slider($('.SideSlider'));
-	$('body').on('click', '.SideSlider', function (event) {
-		event.stopPropagation();
-		slider.open();
-	}).on('click', function () {
-		slider.close();
-	});
-		
-	function load(){
-		//load_CompanyInfo();
-		//load_allPackages();
-		initTabView();
-		//load_Sponsorshiplist();
-		//load_Wishlist();
-	}
-
 	function load_CompanyInfo(){
 		$.getJSON("../php/getCompany.php",
 			function(data)
@@ -217,32 +150,32 @@ $(document).ready(function () {
 			});
 		});
 	}
+*/
 
-	function initTabView(){
-				var x = document.getElementsByClassName('tab-view')
-				for(var i=0; i < x.length; i++) {
-				  x[i].onclick = displayTab;
-				}
-
-				var prevViewedTab = null;
-
-				function displayTab(e) {
-				var idOfTabToDisplay = this.getAttribute("data-tab")
-
-				if(prevViewedTab) {
-				  prevViewedTab.style.display = 'none';
-				}
-
-				var tabToDisplay = document.getElementById(idOfTabToDisplay);
-				  tabToDisplay.style.display = 'block';
-				  prevViewedTab = tabToDisplay;
-				}
-
-				var defaultTab = document.getElementsByClassName('default-tab')
-				  if (defaultTab.length) {
-					defaultTab[0].style.display = 'block';
-					prevViewedTab = defaultTab[0];
-				  }
-			  }
-	});
-
+function logout(){
+	var r = confirm("Do you really want to log out?");
+	if (r) {
+	   window.location.href = '../php/logout.php'
+	}
+}
+function initTabView(){
+	var x = document.getElementsByClassName('tab-view')
+	for(var i=0; i < x.length; i++) {
+	  x[i].onclick = displayTab;
+	}
+	var prevViewedTab = null;
+	function displayTab(e) {
+		var idOfTabToDisplay = this.getAttribute("data-tab")
+		if(prevViewedTab) {
+		  prevViewedTab.style.display = 'none';
+		}
+		var tabToDisplay = document.getElementById(idOfTabToDisplay);
+		tabToDisplay.style.display = 'block';
+		prevViewedTab = tabToDisplay;
+	}
+	var defaultTab = document.getElementsByClassName('default-tab');
+	if (defaultTab.length) {
+		defaultTab[0].style.display = 'block';
+		prevViewedTab = defaultTab[0];
+  	}
+}
