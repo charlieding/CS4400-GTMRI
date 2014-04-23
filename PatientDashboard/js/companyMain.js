@@ -312,14 +312,17 @@ function getPatientInbox(){
 			data = $.parseJSON(data);
 		
 			var resultsTable = "";
-			for(i=0;i<data.length;i++){
-				message = data[i];
-				resultsTable += "<<tr>" +
+			if (data.length > 0) {
+			resultsTable += "<<tr>" +
 									"<th>Status</th>" +
 									"<th>From</th>"  +
 									"<th>TimeStamp</th>" +
 								"</tr>";
-				resultsTable += "<tr>";
+
+			}
+			for(i=0;i<data.length;i++){
+				message = data[i];
+								resultsTable += "<tr>";
 				resultsTable += "<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
@@ -380,7 +383,60 @@ function openPatientInboxMessage(date, doctor, firstname, lastname, content, sta
 }
 
 
+function getAllDoctors() {
+	$.get('../php/joey/getAllDoctors.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#alldocTable').empty();
+			$('#alldocTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Doctor Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#alldocTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i].name,
+										onclick: "openSendMessageModal('"+ data[i].name+"','"+data[i].username+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#doctorMessageList').modal('show');	
+		});
+}
+function openSendMessageModal(name,username){
 
+	$('#p2ddocname').val(name);
+	$('#p2ddocname').attr('data-dmusername',username);
+	$('#doctorMessageList').modal('hide');
+	$('#sendMessage').modal('show');
+}
+
+function sendP2DMessage() {
+var messageContent = $('#p2dcontent').val();
+var doctorUserName = $('#p2ddocname').attr('data-dmusername');
+
+	$.post('../php/joey/sendPtoDMessage.php',{
+		postdoctorusername:doctorUserName,
+		postcontent:messageContent,
+		
+	},function(data){
+		if(data == "success")
+			window.location.reload();
+	});
+}
+
+function loadUnreadMessages() {
+	$.get("../php/joey/getUnreadMessagesPatient.php",{},
+		function(data){
+			if (data != 1) document.getElementById("newMessages").innerHTML="You have " + data + " unread messages";
+			else if (data == 1) document.getElementById("newMessages").innerHTML="You have " + data + " unread message";
+		});
+
+
+}
 
 function selectDoctor(){
 	$.get('../php/abhijit/getDoctors.php',{},
