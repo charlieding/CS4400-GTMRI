@@ -45,4 +45,5 @@ $removeAvailability = "DELETE FROM Doctor_Availability WHERE DoctorUsername = '$
 mysqli_query($link,$removeAvailability);
 
 echo "requested";
+mysqli_close($link);
 ?>

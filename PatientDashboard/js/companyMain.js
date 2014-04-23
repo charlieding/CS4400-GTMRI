@@ -50,7 +50,7 @@ function requestAppointment(doctor,day,start,end){
 		if(data == "cannot"){
 			alert("You cannot make another appointment with this doctor");
 		}else if(data == "requested"){
-			alert("You have have made an appointment!");
+			window.location.reload();
 		}else {
 			console.log(data);
 		}
@@ -75,93 +75,7 @@ function trashIcon(ele){
 		},3000);
 
 }
-function wishlist(ele){
-	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
-	var name = ele.getElementsByTagName('span')[0].innerHTML;
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-	console.log("wish");
 
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-		$.post("../php/charles/addPackageToWishlist.php", {costValue: cost, packageName:name, packageDetails:details},
-		function(data)
-		{
-			//console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			//load_Wishlist();
-		}, 'json');
-		console.log("3 seconds until sponsorshiplist refresh...");
-		setTimeout(function(){
-			load_Wishlist();
-		},3000);
-
-
-}
-function sponsor(ele){
-	var cost = ele.parentNode.parentNode.parentNode.getElementsByTagName('a')[0].innerHTML;
-	var name = ele.getElementsByTagName('span')[0].innerHTML;
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-	console.log("sponsor");
-	
-	var details = ele.parentNode.parentNode.parentNode.getElementsByTagName('small')[0].innerHTML;
-		$.post("../php/charles/sponsorPackage.php", {costValue: cost, packageName:name, packageDetails:details},
-		function(data)
-		{
-			//console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			//load_Sponsorshiplist();
-		}, 'json');
-		console.log("3 seconds until sponsorshiplist refresh...");
-		setTimeout(function(){
-			load_Sponsorshiplist();
-		},3000);
-	
-}
-function load_Wishlist(){
-	console.log("starting loading wishlist");
-	$.post("../php/charles/loadWishlist.php", {postsearch: 'test'},
-	function(data)
-	{	
-		console.log("wishlist list load data:")
-		console.log(data);
-		console.log(data.result);
-		$("#wishlist").empty();
-		$.each(data.result, function(){
-		    $("#wishlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"trashIcon(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-trash\">"+"&nbsp"+"</span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-		});
-	}, 'json');
-}
-function load_Sponsorshiplist(){
-	console.log("starting loading sponsorshiplist");
-	$.getJSON("../php/charles/loadSponsorshiplist.php", function (data){	
-		console.log("Sponsorship list load data:")
-		console.log(data);
-		console.log(data.resultlist);
-		$("#sponsoredlist").empty();
-		$.each(data.resultlist, function(){
-		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-		});
-	});
-}
-
-function search(){
-	var searchValue = $('#searchValue').val();
-	if(searchValue == "") {
-		$.getJSON("../php/getAllPackages.php", function (data) {
-			$("#packages").empty();
-			$.each(data.result, function(){
-			    $("#packages").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"wishlist(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-star\"></span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-			});
-		});
-	}
-	else {
-		$.post("../php/search.php", {postsearch: searchValue},
-		function(data)
-		{	
-			$("#packages").empty();
-			$.each(data.result, function(){
-			    $("#packages").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"wishlist(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-star\"></span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-			});
-		}, 'json');
-	}
-}
 
 var CompanyDetails = {
 	update: function() {
@@ -227,6 +141,101 @@ function updateHint()
 }
 updateHint();
 
+
+function getProfileInfo(){
+	$.get("../php/joey/getPatientProfile.php",{},
+		function(data){
+			data = $.parseJSON(data);
+			
+				var profile = data.profile;
+				var allergies = data.allergies;
+				$('#fname').empty();
+				$('#fname').val(profile.FirstName);
+				
+				$('#lname').empty();
+				$('#lname').val(profile.LastName);
+				
+				$('#DOB').empty();
+				$('#DOB').val(profile.DOB);
+				
+				$('#address').empty();
+				$('#address').val(profile.Address);
+				
+				var dd = document.getElementById('gender');
+				for (var i = 0; i < dd.options.length; i++) {
+					if (dd.options[i].value === profile.Gender) {
+						dd.selectedIndex = i;
+						break;
+					}
+				}
+				
+				$('#homephone').empty();
+				$('#homephone').val(profile.HomePhone);
+				
+				$('#workphone').empty();
+				$('#workphone').val(profile.WorkPhone);
+				
+				$('#emergency_name').empty();
+				$('#emergency_name').val(profile.EmergencyContactName);
+				
+				$('#emergency_phone').empty();
+				$('#emergency_phone').val(profile.EmergencyContactPhone);
+				
+				$('#weight').empty();
+				$('#weight').val(profile.Weight);
+				
+				$('#height').empty();
+				$('#height').val(profile.Height);
+				
+				$('#income').empty();
+				$('#income').val(profile.AnnualIncome);
+				
+				$('#allergies').empty();
+				for(i=0;i<allergies.length;i++){
+					a = allergies[i];
+					if (i == (allergies.length - 1)) $('#allergies').append(a);
+					else $('#allergies').append(a + ",");
+				}
+		});
+}
+
+function updatePatient(){
+	var fname = $('#fname').val();
+	var lname = $('#lname').val();
+	var dob = $('#DOB').val();
+	var gender = $('#gender').val();
+	var address = $('#address').val();
+	var homephone = $('#homephone').val();
+	var workphone = $('#workphone').val();
+	var emergency_name = $('#emergency_name').val();
+	var emergency_phone = $('#emergency_phone').val();
+	var weight = $('#weight').val();
+	var height = $('#height').val();
+	var income = $('#income').val();
+	var allergies = $('#allergies').val();
+	$.post('../php/joey/updatePatientProfile.php',{postfname:fname, 
+											postlname:lname,
+											postdob:dob,
+											postgender:gender,
+											postaddress:address,
+											posthomephone:homephone,
+											postworkphone:workphone,
+											postemergency_name:emergency_name,
+											postemergency_phone:emergency_phone,
+											postweight:weight,
+											postheight:height,
+											postincome:income,
+											postallergies:allergies},
+			function(data){
+				if(data == "success"){
+					window.location = "patientDashboard.html";
+				}else {
+					$('#result3').html(data);
+				}
+			});
+}
+
+
 function loadVisits(){
 	$.get("../php/abhijit/getVisitHistory.php",{},
 		function(data){
@@ -240,6 +249,7 @@ function loadVisits(){
 				resultsTable += "</tr>";
 			}
 			$('#visittable').append(resultsTable);
+			
 		});
 }
 function getVisitInfo(date,doctor){
@@ -250,7 +260,7 @@ function getVisitInfo(date,doctor){
 			var medicines = data.medicines;
 			var diagnosis = data.diagnosis;
 			$('#doctorName').empty();
-			$('#doctorName').append("Dr." + visitInfo.FirstName + " " + visitInfo.LastName);
+			$('#doctorName').append("Dr. " + visitInfo.FirstName + " " + visitInfo.LastName);
 
 			$('#systolicBP').empty();
 			$('#systolicBP').append(visitInfo.sysBP);
@@ -276,12 +286,275 @@ function getVisitInfo(date,doctor){
 			$('#visitDetails').modal('show');
 		});
 }
+
+function loadVisits(){
+	$.get("../php/abhijit/getVisitHistory.php",{},
+		function(data){
+			data = $.parseJSON(data);
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				visit = data[i];
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='getVisitInfo(\"" + visit.Date + "\",\"" + visit.DoctorUsername +
+								"\")'>" + visit.Date + "</td>";
+				resultsTable += "</tr>";
+			}
+			$('#visittable').append(resultsTable);
+			
+		});
+}
+
+function getPatientInbox(){
+
+	$.get("../php/joey/getDoctorToPatientMessages.php",{},
+		function(data){
+		
+			data = $.parseJSON(data);
+		
+			var resultsTable = "";
+			for(i=0;i<data.length;i++){
+				message = data[i];
+				resultsTable += "<<tr>" +
+									"<th>Status</th>" +
+									"<th>From</th>"  +
+									"<th>TimeStamp</th>" +
+								"</tr>";
+				resultsTable += "<tr>";
+				resultsTable += "<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'>" + message.Status + "</td>" +
+								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
+								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
+								"\""+ message.FirstName + "\"," +
+								"\""+ message.LastName + "\"," +
+								"\""+ message.Content + "\"," +
+								"\""+ message.Status +
+								
+								"\")'>" + message.DateTime + "</td>";
+				resultsTable += "</tr>";
+			}
+			if (data.length == 0) alert("You have no messages at this time");
+			else {
+				$('#patientInboxMessages').empty();
+				$('#patientInboxMessages').append(resultsTable);
+				$('#patientInbox').modal('show');
+			}
+			
+			
+		});
+}
+function openPatientInboxMessage(date, doctor, firstname, lastname, content, status) {
+
+	$('#patientInbox').modal('hide');
+
+	$.post("../php/joey/setDtoPRead.php",{postdoctorusername:doctor,postdate:date},
+		function(data){
+		
+			
+			$('#pidoctorname').empty();
+			$('#pidoctorname').append("Dr. " + firstname + " " + lastname);
+		
+			$('#picontent').empty();
+			$('#picontent').append(content);
+
+			$('#pidatetime').empty();
+			$('#pidatetime').append(date);
+			
+			$('#pistatus').empty();
+			$('#pistatus').append(status);
+			
+			$('#patientMessage').modal('show');
+			
+			
+		});
+}
+
+
+
+
+function selectDoctor(){
+	$.get('../php/abhijit/getDoctors.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#docTable').empty();
+			$('#docTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Doctor Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#docTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i].name,
+										onclick: "setDoctor('"+ data[i].name+"','"+data[i].username+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#docList').modal('show');
+		});
+}
+function setDoctor(name,username){
+	$('#doctor').val(name);
+	$('#doctor').attr('data-dusername',username);
+	$('#docList').modal('hide');
+}
+function selectMedicine(){
+	$.get('../php/abhijit/getMedicines.php',{},
+		function(data){
+			data = $.parseJSON(data);
+			$('#medicineTable').empty();
+			$('#medicineTable')
+				.append($('<tr>')
+					.append($('<td>',{text:'Medicine Name'})));
+			for(var i=0;i<data.length;i++){
+				$('#medicineTable')
+					.append($('<tr>')
+						.append($('<td>')
+							.append($('<a>',{
+										text:data[i],
+										onclick: "setMedicineName('"+ data[i]+"');"
+									})
+								)
+							)
+						);
+			}
+			$('#medicineList').modal('show');
+		});
+}
+function setMedicineName(name){
+	$('#medicine_name').val(name);
+	$('#medicineList').modal('hide');
+}
+
+function addToBasket(){
+	var medicineName = $('#medicine_name').val();
+	var dosage = $('#dosage').val();
+	var duration = $('#duration').val();
+	var doctorUserName = $('#doctor').attr('data-dusername');
+	var visitDate = $('#prescription_date').val();
+
+	$.post('../php/abhijit/addToBasket.php',{
+		postMedicineName:medicineName,
+		postDosage:dosage,
+		postDuration:duration,
+		postDoctorUsername:doctorUserName,
+		postVisitDate:visitDate
+	},function(data){
+		if(data == "success"){
+			window.location.reload();
+		}else {
+			$('#result').empty();
+			$('#result').append(data);
+		}
+	});
+}
+function checkout(){
+	var medicineName = $('#medicine_name').val();
+	var dosage = $('#dosage').val();
+	var duration = $('#duration').val();
+	var doctorUserName = $('#doctor').attr('data-dusername');
+	var visitDate = $('#prescription_date').val();
+
+	$.post('../php/abhijit/addToBasket.php',{
+		postMedicineName:medicineName,
+		postDosage:dosage,
+		postDuration:duration,
+		postDoctorUsername:doctorUserName,
+		postVisitDate:visitDate
+	},function(data){
+		if(data == "success"){
+			$('#payment').modal('show');
+			$('#paymentResult').empty();
+		}else {
+			$('#result').empty();
+			$('#result').append(data);
+		}
+	});
+}
+function getPaymentInfo(){
+	$.get('../php/abhijit/getCardInfo.php',{},
+		function(data){
+			if(!data){
+				$('#cardForm').removeClass('hidden');
+			}else {
+				cardDisplayText = 'Use card ending in ' + data.slice(-4);
+				$('#existingCard').removeClass('hidden');
+				$('#checkoutButton').addClass('hidden');
+				$('#existingCard').empty();
+				$('#existingCard').append($('<h4>',{
+					class:'list-group-item-heading',
+					text:"Use an existing card."
+				}));
+				$('#existingCard').append($('<a>',{
+					class:'list-group-item',
+					text: cardDisplayText,
+					onclick: "payWithCard('"+data+"',true);"
+				}));
+			}
+		});
+}
+
+function payWithCard(cardno,existing){
+	var args = {};
+	if(existing){
+		args = {
+			postCardNumber:cardno,
+			postExistingCard:"true"
+		};
+	}else {
+		args = {
+			postCardholderFirstName: $('#cardholderFirstName').val(),
+			postCardholderLastName: $('#cardholderLastName').val(),
+			postCardNumber: $('#cardNumber').val(),
+			postCardType: $('#cardType').val(),
+			postCvvCode: $('#cvvCode').val(),
+			postExpireDate: $('#cardExpireDate').val(),
+			postExistingCard: "false"
+
+		}
+	}
+	$.post('../php/abhijit/payment.php',args,
+		function(data){
+			if($('#existingCard').hasClass('hidden')){
+				$('#cardForm').addClass('hidden');
+				$('#checkoutButton').addClass('hidden');
+			}
+			else
+				$('#existingCard').addClass('hidden');
+			if(data == "success"){
+				$('#paymentResult').append('Payment Successful!');
+			}else {
+				console.log(data);
+				$('#paymentResult').append('Payment Unsucessful check your info and try again');
+			}
+		});
+}
+function emptyBasket(){
+	$.get("../php/abhijit/emptyBasket.php",{},
+		function(data){
+			window.location.reload();
+		});
+}
 $(document).ready(function () {	
-	load();
+	initTabView();
 	loadVisits();
+	getProfileInfo();
+	//getMessages();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
-
+	getPaymentInfo();
 	var slider = new Slider($('.SideSlider'));
 	$('body').on('click', '.SideSlider', function (event) {
 		event.stopPropagation();
@@ -290,37 +563,10 @@ $(document).ready(function () {
 		slider.close();
 	});
 		
-	function load(){
-		load_CompanyInfo();
-		load_allPackages();
-		initTabView();
-		load_Sponsorshiplist();
-		load_Wishlist();
-	}
 
-	function load_CompanyInfo(){
-		$.getJSON("../php/getCompany.php",
-			function(data)
-			{
-				console.log(data);
-				var details = data["companyDetails"][0];
-				console.log(details);
-				$("#email").val(details["emailAddress"]);
-				$("#companyName").val(details["companyName"]);
-				$("#description").val(details["companyDescription"]);
-			});
-	}
-	function load_allPackages() {
-		$.getJSON("../php/getAllPackages.php", function (data) {
-			$("#packages").empty();
-			$.each(data.result, function(){
-			    $("#packages").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"><span onclick=\"sponsor(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-gift\">"+"&nbsp"+"</span><span onclick=\"wishlist(this.parentNode.parentNode)\" class=\"glyphicon glyphicon-star\"></span></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
-			});
-		});
-	}
 
 	function initTabView(){
-				var x = document.getElementsByClassName('tab-view')
+				var x = document.getElementsByClassName('tab-view');
 				for(var i=0; i < x.length; i++) {
 				  x[i].onclick = displayTab;
 				}
@@ -328,7 +574,7 @@ $(document).ready(function () {
 				var prevViewedTab = null;
 
 				function displayTab(e) {
-				var idOfTabToDisplay = this.getAttribute("data-tab")
+				var idOfTabToDisplay = this.getAttribute("data-tab");
 
 				if(prevViewedTab) {
 				  prevViewedTab.style.display = 'none';
@@ -339,7 +585,7 @@ $(document).ready(function () {
 				  prevViewedTab = tabToDisplay;
 				}
 
-				var defaultTab = document.getElementsByClassName('default-tab')
+				var defaultTab = document.getElementsByClassName('default-tab');
 				  if (defaultTab.length) {
 					defaultTab[0].style.display = 'block';
 					prevViewedTab = defaultTab[0];

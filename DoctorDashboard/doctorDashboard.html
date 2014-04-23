@@ -127,6 +127,7 @@
 
 
 			</div>
+			</div>
 			<div class="tab" id="tab3">
 
 
@@ -141,19 +142,108 @@
 
 			</div>
 			<div class="tab" id="tab4">
-				
-
-
-
-<!-- Recommended List Code -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="recommendedlist" class="table">
-        </div>
-</div>
-
-
-
+				<div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-horizontal">         
+                  <div class="form-group">
+                     <button type='button' id="order_button" onclick="sendDoctortoDoctor();" class="btn btn-primary">Message a Doctor</button>
+					 <button type='button' id="order_button" onclick="getDDInbox()" class="btn btn-primary">Check Doctor Messages</button>
+					   <button type='button' id="order_button" onclick="sendDoctortoPatient();" class="btn btn-primary">Message a Patient</button>
+                     <button type='button' id="order_button" onclick="getPDInbox()" class="btn btn-primary">Check Patient Messages</button>
+					 
+                  </div>
+                </form>
+                <div id="result"></div>
+				</div>
 			</div>
+			
+			
+			<div class="tab" id="tab5">
+				 <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<h4 class="modal-title"><strong style="color: black">Edit Profile</strong> <small>for <strong style="color: grey">GTMRS</strong>.com</small></h4>
+					  </div>
+					  <div class="modal-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal">
+						  <div class="form-group">
+							<label for="inputLicenseNumber" class="col-lg-2 control-label">License Number</label>
+							<div class="col-lg-10">
+							  <input type="text" class="form-control" id="licnum">
+							</div>
+						  </div>
+						  <div class="form-group">
+							<label for="inputName" class="col-lg-2 control-label">Doctor Name</label>
+							<div class="col-lg-10">
+							  <input type="text" class="form-control" id="dfname">
+							  <input type="text" class="form-control" id="dlname">
+							</div>
+						  </div>
+						  <div class="form-group">
+								<label for="inputDOB" class="col-lg-2 control-label">Date of Birth</label>
+								<div class="col-lg-10">
+									<input type="date" class="form-control" id="dDOB">
+								</div>
+						  </div>
+						  <div class="form-group">
+							<label for="inputWorkPhone" class="col-lg-2 control-label">Work Phone</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="dworkphone">
+								</div>
+						  </div>
+						  <div class = "form-group">
+								<label for="inputSpecialty" class="col-lg-2 control-label">Specialty</label>
+								<div class="col-lg-5">
+									<select id="specialty" class="form-control">
+										<option value="General Physician">General Physician</option>
+										<option value="Heart Specialist">Heart Specialist</option>
+										<option value="Eye Physician">Eye Physician</option>
+										<option value="Orthopedics">Orthopedics</option>
+										<option value="Psychiatry">Psychiatry</option>
+										<option value="Gynecologist">Gynecologist</option>
+									</select>
+								</div>
+						  </div>
+						  <div class="form-group">
+							<label for="inputRoomNumber" class="col-lg-2 control-label">Room Number</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="roomnum">
+								</div>
+						  </div>
+						  <div class="form-group">
+							<label for="inputAddress" class="col-lg-2 control-label">Address</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="daddress">
+								</div>
+						  </div>
+						  <div class="form-group">
+							<label for="nothing" class="col-lg-2 control-label">Availability</label>
+							<div class="col-lg-10">
+							  <div class="form-group row">
+								<label for="inputAvailability" class="col-lg-2 control-label">Date</label>
+								<div class="col-lg-10">
+								  <input type="date" class="form-control" id="availability">
+								</div>
+								<label for="inputFromTime" class="col-lg-2 control-label">From :</label>
+								<div class="col-lg-4">
+								  <input type="time" class="form-control" id="fromtime">
+								</div>
+								<label for="inputToTime" class="col-lg-2 control-label">To :</label>
+								<div class="col-lg-4">
+								  <input type="time" class="form-control" id="totime">
+								</div>
+							  </div>
+							</div>
+						  </div>
+						  <div id="result4">
+						  </div>
+						</form>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" onclick="updateDoctor()" class="btn btn-primary">Update Profile</button>
+					  </div>
+					</div><!-- /.modal-content -->
+				  </div><!-- /.modal-dialog -->  
+				</div><!-- /.modal -->
 		</div>
 
 		<hr>
@@ -274,18 +364,54 @@
     </div>
   </div>
 	
-	<div class="SideSlider">
-		<div class="Icon"></div>
-		<div id="arrows">
-			<span id="hintCount"></span>
-			<span id="hint_left" onclick="hint_left()">&lt;</span>
-			<span id="hint_right" onclick="hint_right()">&gt;</span>
-		</div>
-		<span id="hint">
-			This is a hint that I am telling you, because I can... so deal with it.
-		</span>
-	</div>
+ <div class="modal fade" id="doctorMessage">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        Status: <div id="dmstatus"></div>
+        <br>
+        DateTime: <div id="dmdatetime"></div>
+        <br>
+        From: <div id="dmdoctorname"></div>
+        <br>
+        Content: <p id="dmcontent"></p>
+      </div>
+    </div>
+  </div>
 	
+<div class="modal fade" id="ddInbox">
+    <div class="modal-dialog">
+		
+      <div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><strong style="color: black">Doctor Messages</h4>
+		 </div>
+       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+                  <table id="ddInboxMessages" class="table table-bordered">
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="pdInbox">
+    <div class="modal-dialog">
+		
+      <div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><strong style="color: black">Patient Messages</h4>
+		 </div>
+       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+                  <table id="pdInboxMessages" class="table table-bordered">
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -293,8 +419,8 @@
 	<script src="http://code.jquery.com/jquery-2.0.3.js"></script>
 	<link href="http://vjs.zencdn.net/4.1/video-js.css" rel="stylesheet">
 	<script src="http://vjs.zencdn.net/4.1/video.js"></script>
-	<script src="js/bootstrap.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
 	<script src="js/companyMain.js" type="text/javascript"></script>
   </body>
 </html>

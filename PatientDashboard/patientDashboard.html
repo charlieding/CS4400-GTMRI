@@ -98,7 +98,6 @@
                 </form>
                 <table id="doctable"class="table table-bordered">
                 </table>
-                <button type="button" id="request_btn" onclick="requestAppointment();" class="btn col-lg-5 hidden">Request Appointment</button>
         </div>
 			</div>
 			<div class="tab" id="tab2">
@@ -110,33 +109,152 @@
         </div>
 			</div>
 			<div class="tab" id="tab3">
-
-
-
-<!-- Sponsored Packages CODE -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="sponsoredlist" class="table">
-        </div>
-</div>
-
-
-
-			</div>
-			<div class="tab" id="tab4">
-				
-
-
-
-        <!-- Recommended List Code -->
         <div id="content" class="container jumbotron" style="margin-top:-50px;">
-                <div id="recommendedlist" class="table">
-                askldfjasldkf
-                </div>
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="medicineName" class="col-lg-4 control-label">Medicine Name</label>
+                    <div class="col-lg-5">
+                      <input type="text" id="medicine_name" class="form-control" onclick="selectMedicine();" readonly="true" placeholder="Click Here to Select a Medicine">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="dose" class="col-lg-4 control-label">Dosage</label>
+                    <div class="col-lg-5">
+                      <input type="number" id="dosage" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="duration" class="col-lg-4 control-label">Duration</label>
+                    <div class="col-lg-5">
+                      <input type="number" id="duration" class="form-control" placeholder="Enter duration in days">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="doctor" class="col-lg-4 control-label">Prescribing Doctor</label>
+                    <div class="col-lg-4">
+                      <input type="text" id="doctor" class="form-control" data-dusername="" onclick="selectDoctor();"placeholder="Click Here to Select a Doctor" readonly="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="prescription_date" class="col-lg-4 control-label">Date of Prescription</label>
+                    <div class="col-lg-4">
+                      <input type="date" id="prescription_date" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                     <button type='button' id="order_button" onclick="addToBasket();" class="btn btn-primary">Add to Basket</button>
+                     <button type='button' id="empty_basket" onclick="emptyBasket();" class="btn btn-primary">Empty Basket</button>
+                     <button type='button' id="order_button" onclick="checkout();" class="btn btn-primary">Checkout</button>
+                  </div>
+                </form>
+                <div id="result"></div>
         </div>
-
-
-
 			</div>
+			
+		<div class="tab" id="tab4">
+			<div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-horizontal">         
+                  <div class="form-group">
+                     <button type='button' id="order_button" onclick="openPatientSendMessage();" class="btn btn-primary">Message a Doctor</button>
+                     <button type='button' id="order_button" onclick="getPatientInbox()" class="btn btn-primary">Check Inbox</button>
+                  </div>
+                </form>
+                <div id="result"></div>
+			</div>
+		</div>
+		
+			
+				<!--Patient Profile Editting Modal -->
+			<div class="tab" id="tab6">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+					<h4 class="modal-title"><strong style="color: black">Edit Profile</strong> <small>for <strong style="color: grey">GTMRS</strong>.com</small></h4>
+				  </div>
+				  <div class="modal-body" style="padding-bottom: 0px;">
+					<form class="form-horizontal">
+					  <div class="form-group">
+						<label for="inputName" class="col-lg-2 control-label">Patient Name</label>
+						<div class="col-lg-10">
+						  <input type="text" class="form-control" id="fname">
+						  <input type="text" class="form-control" id="lname">
+						</div>
+					  </div>
+					  <div class="form-group">
+							<label for="inputDOB" class="col-lg-2 control-label">Date of Birth</label>
+							<div class="col-lg-10">
+								<input type="date" class="form-control" id="DOB">
+							</div>
+					  </div>
+					  <div class = "form-group">
+							<label for="inputGender" class="col-lg-2 control-label">Gender</label>
+							<div class="col-lg-3">
+								<select id="gender" class="form-control">
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+							</div>
+					  </div>
+					  <div class="form-group">
+						<label for="inputAddress" class="col-lg-2 control-label">Address</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="address">
+							</div>
+					  </div>
+					  <div class="form-group">
+						<label for="inputHomePhone" class="col-lg-2 control-label">Home Phone</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="homephone">
+							</div>
+					  </div>
+					  <div class="form-group">
+						<label for="inputWorkPhone" class="col-lg-2 control-label">Work Phone</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="workphone">
+							</div>
+					  </div>
+					  <div class="form-group">
+						<label for="inputEmergencyContact" class="col-lg-2 control-label">Emergency Contact Info</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="emergency_name">
+							<input type="tel" class="form-control" id="emergency_phone">
+							</div>
+					  </div>
+					  <div class="form-group">
+						<label for="inputWeight" class="col-lg-2 control-label">Weight</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="weight">
+							</div>
+					  </div><div class="form-group">
+						<label for="inputHeight" class="col-lg-2 control-label">Height</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="height">
+							</div>
+					  </div>
+					  <div class = "form-group">
+							<label for="inputIncome" class="col-lg-2 control-label">Income</label>
+							<div class="col-lg-5">
+								<input type="number" class="form-control" id="income">
+							</div>
+					  </div>
+					  <div class="form-group">
+						<label for="inputAllergies" class="col-lg-2 control-label">Allergies</label>
+						<div class="col-lg-10">
+							<textarea class="form-control" id="allergies"></textarea>
+							</div>
+					  </div><br>
+					  <div id="result3">
+					  </div>
+				</form>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" onclick="updatePatient()" class="btn btn-primary">Update Profile</button>
+				  </div>
+				</div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+					  
+			</div><!-- /.modal -->
 		</div>
 
 		<hr>
@@ -148,6 +266,7 @@
 	</div>
 	
 	<!-- Company Details Modal -->
+
 	<div class="modal fade" id="companyDetails">
 	  <div class="modal-dialog">
 		<div class="modal-content">
@@ -186,6 +305,10 @@
 		
 		</div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
+			
+	
+		
+			  
 			  
 	</div><!-- /.modal -->
   <div class="modal fade" id="visitDetails">
@@ -203,8 +326,118 @@
       </div>
     </div>
   </div>
+  
+   <div class="modal fade" id="patientMessage">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        Status: <div id="pistatus"></div>
+        <br>
+        DateTime: <div id="pidatetime"></div>
+        <br>
+        From: <div id="pidoctorname"></div>
+        <br>
+        Content: <p id="picontent"></p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="patientInbox">
+    <div class="modal-dialog">
+		
+      <div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><strong style="color: black">Inbox</h4>
+		 </div>
+       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+                  <table id="patientInboxMessages" class="table table-bordered">
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+	 
+  <div class="modal fade" id="medicineList">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <table class="table table-bordered" id="medicineTable">
+          <tr>
+            <td>Medicine Name</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 	
-	
+  <div class="modal fade" id="docList">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <table class="table table-bordered" id="docTable">
+          <tr>
+            <td>Doctor Name</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+	</div>
+  <div class="modal fade" id="payment">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Enter Payment Info</h4>
+        </div>
+        <div class="modal-body">
+          <div id="existingCard" class="list-group hidden"></div>
+          <form class="form-horizontal hidden" id="cardForm">
+            <div class="form-group">
+              <label for="cardholderName" class="col-lg-2 control-label">Cardholder Name</label>
+              <div class="col-lg-4">
+                <input type="text" class="form-control" id="cardholderFirstName" placeholder="First Name">
+                <input type="text" class="form-control" id="cardholderLastName" placeholder="Last Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardNo" class="col-lg-2 control-label">Card No.</label>
+              <div class="col-lg-4"> 
+                <input type="text" class="form-control" id="cardNumber"> 
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardType" class="col-lg-2 control-label">Card Type</label>
+              <div class="col-lg-4">
+                <select class="form-control" id="cardType">
+                  <option value="Visa">Visa</option>
+                  <option value="Mastercard">Mastercard</option>
+                  <option value="Discover">Discover</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardCode" class="col-lg-2 control-label">CVV</label>
+              <div class="col-lg-4">
+                <input type="text" class="form-control" id="cvvCode">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="expireDate" class="col-lg-2 control-label">Date of Expiry</label>
+              <div class="col-lg-5">
+                <input type="date" class="form-control" id="cardExpireDate">
+              </div>
+            </div>
+
+          </form>
+          <div id="paymentResult"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="checkoutButton" onclick="payWithCard('',false);" class="btn btn-primary">Checkout!</button>
+          <button type="button" onclick="window.location.reload();" class="btn btn-primary">Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

@@ -56,11 +56,11 @@ if($licnum == null){
 	die("Please enter an integer for room number.");
 } else if ($address === null || strlen($address) == 0) {
 	die("Please enter an address.");
-} else if ($availability === null || count($availability) <= 0) {
+} else if ($availability === null || strlen($availability) == 0) {
 	die("Please enter an availability date.");
-} else if ($fromtime === null || count($fromtime) <= 0 || count($fromtime) != count($availability)) {
+} else if ($fromtime === null || strlen($fromtime) == 0) {
 	die("Please enter a start time of availability.");
-} else if ($totime === null || count($totime) <= 0 || count($totime) != count($availability)) {
+} else if ($totime === null || strlen($totime) == 0) {
 	die("Please enter an end time of availability.");
 } 
 
@@ -72,19 +72,13 @@ if(mysqli_num_rows($licenseExistResult) != 0){
 			die("Doctor License Number Already Exists");
 }
 
-$queryString = "INSERT INTO Doctor(DoctorUsername, LicenseNumber, FirstName, 
-	LastName, DOB, WorkPhone, Specialty, RoomNumber, HomeAddress) VALUES(";
-$queryString = $queryString."'$username','$licnum','$fname','$lname','$dob','$workphone','$specialty',";
-$queryString = $queryString."$roomnum,'$address')";
-
+$queryString = "UPDATE Doctor SET LicenseNumber = $licnum, FirstName = $fname, LastName = $lname, 
+	Birthdate = $Ddob, WorkPhone = $workphone, Specialty = $specialty, 
+	RoomNumber = $roomnum, HomeAddress = $address WHERE DoctorUsername = $username;";
 $insertResult = mysqli_query($link,$queryString);
 
-for ($i=0; $i < count($availability); $i++) { 
-	$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability[$i]', '$fromtime[$i]', '$totime[$i]')";
-	$insertResult = mysqli_query($link,$queryString);
-	echo mysqli_error($link);
-}
-
+$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability', '$fromtime', '$totime')";
+$insertResult = mysqli_query($link,$queryString);
 
 
 echo "success";

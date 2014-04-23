@@ -43,9 +43,6 @@
 				<div id="image" style="background-color: white;overflow: hidden; margin-top:-20px; text-align: center;">
 					<img class="text-center" src="./images/logobig.png" style="width:230px;">
 				</div>
-				<input type="text" placeholder="   Search for Patient" id="searchValue">
-				<br>
-				<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary" style="width:100px; height:30px;">Search</button>
 			</div>
 		</div>
 	</div>
@@ -71,7 +68,67 @@
 
 <!-- SEARCH RESULTS CODE -->
 <div id="content" class="container jumbotron" style="margin-top:-50px;">
+        
+
+              <div class="panel panel-success panel-default">
+                <div class="panel-heading panel-success">
+                  <h3 class="panel-title">
+			        <input type="text" placeholder="   Patient Name" id="searchValue">
+					<button type="button" id = "searchButton" onclick="search()" class="btn btn-primary">Create Bill</button>
+                  </h3>
+                </div>
+              </div>
         <div id="packages" class="table">
+              <div class="alert alert-warning"> Tim Reed
+               <div class=' pull-right'>
+                    <small class="glyphicon glyphicon-trash"></small>
+                    <small class="glyphicon glyphicon-star"></small>
+                </div>
+                <blockquote class="text-muted">
+                  <small>Phone Number 
+                    <a class='pull-right'>
+                    898-909-0909
+                    </a>
+                  </small>
+                </blockquote>
+            </div>
+              <div class="panel panel-success panel-default">
+                <div class="panel-heading panel-success">
+                  <h3 class="panel-title">
+                    <span>Visits/Surgery</span>
+                    <span class="pull-right">
+                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-gift"></span>
+                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-trash"></span>
+                      <span onclick="wishlist(this.parentNode.parentNode)" class="glyphicon glyphicon-star"></span>&nbsp&nbsp&nbsp Cost ($) 
+                    </span>
+                  </h3>
+                  
+                </div>
+                  <div class="panel-body">
+                    <div class=""> 
+
+                      <blockquote class="pull-left text-muted">
+                        <small>11/29/2010 Visit </small>
+                        <h2></h2>
+                        <small>11/29/2010 Visit </small>
+                        <h2></h2>
+                        <small>Knee Surgery</small>
+                        <h2></h2>
+                        <hr style="border: 3px outset #595955;">
+                        <small>Total Cost</small>
+                      </blockquote>
+
+                      <a class="pull-right"> $100</a>
+                      <br>
+                      <a class="pull-right"> $65</a>
+                      <br>
+                      <a class="pull-right"> $5000</a>
+                      <br><h2></h2>
+                      <a class="pull-right"> $5165</a>
+                    </div>
+                  </div>
+              </div>
+
         </div>
 </div>
 
@@ -81,78 +138,133 @@
 				
 
 
-<!-- Wishlist CODE -->
+<!-- Doctor Performance CODE -->
 <div id="content" class="container jumbotron" style="margin-top:-50px;">
         <div id="wishlist" class="table">
 
+<small>
+<table class="table table-bordered table-hover">
+				<tr class="success">
+					<th></th>
+				    <th colspan="2">January</th>
+				    <th colspan="2">February</th>
+				    <th colspan="2">March</th>
+				    <th colspan="2">April</th>
+				    <th colspan="2">May</th>
+				    <th colspan="2">June</th>
 
 
 
 
-<div class="">
-              <div class="panel panel-success panel-default">
-                <div class="panel-heading panel-success">
-                  <h3 class="panel-title">
-                    <span>HARCODED SAMPLE PACKAGE - Active </span>
-                    <span class="pull-right">
-                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-gift"></span>
-                      <span onclick="trashIcon(this.parentNode.parentNode)" class="glyphicon glyphicon-trash"></span>
-                      <span onclick="wishlist(this.parentNode.parentNode)" class="glyphicon glyphicon-star"></span>
-                    </span>
-                  </h3>
-                  
-                </div>
-                  <div class="panel-body">
-                    <div class=""> 
-
-                      <blockquote class="pull-left text-muted">
-                        <small>Detail of the package goes here </small>
-                      </blockquote>
-
-                      <a class="pull-right"> $1000000</a>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          <!--</tr>
-
-          <tr>-->
-            <!-- <div class="well"> -->
-
-            <div class="alert alert-warning"> HARDCODED SAMPLE PACKAGE - not active
-               <div class=' pull-right'>
-                    <small class="glyphicon glyphicon-trash"></small>
-                    <small class="glyphicon glyphicon-star"></small>
-                </div>
-                <blockquote class="text-muted">
-                  <small>Detail of the package goes here 
-                    <a class='pull-right'>
-                    $200
-                    </a>
-                  </small>
-                </blockquote>
-            </div>
-          <!--</tr>
-          <tr>-->
-            <div class="">
-              <div class="panel panel-success panel-default">
-                <div class="panel-heading panel-success">
-                  <h3 class="panel-title">
-                    <a class="glyphicon glyphicon-plus" data-toggle="modal" href="#submitPackage"></a>
-                    
-                  </h3>
-                  
-                </div>
-                  <div class="panel-body">
-                    <div class=""> 
-
-                      <a class="pull-right"></a>
-                    </div>
-                  </div>
-              </div>
-            </div>
+				  </tr>
+				  <tr class="warning">
+				    <td>Specialty</td>
+				    <td>Avg Rating</td>
+				    <td># Surge -ries</td>
+				    <td>Avg Rating</td>
+				    <td># Surge -ries</td>
+				    <td>Avg Rating</td>
+				    <td># Surge -ries</td>
+				    <td>Avg Rating</td>
+				    <td># Surge -ries</td>
+				    <td>Avg Rating</td>
+				    <td># Surge -ries</td>
+				    <td>Avg Rating</td>
+				    <td># Surge -ries</td>
 
 
+				  </tr>
+				  <tr class="danger">
+				    <td class="warning">General Physicians</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>3</td>
+				    <td>9</td>
+				  </tr>
+				  <tr class="danger">
+				    <td class="warning">Heart Specialists</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>3</td>
+				    <td>9</td>
+				  </tr>
+				  <tr class="danger">
+				    <td class="warning">Eye Physicians</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>3</td>
+				    <td>9</td>
+				  </tr>
+				  <tr class="danger">
+				    <td class="warning">Orthopedics</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>3</td>
+				    <td>9</td>
+				  </tr>
+				  <tr class="danger">
+				    <td class="warning">Psychiatry</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>3</td>
+				    <td>9</td>
+				  </tr>
+				  <tr class="danger">
+				    <td class="warning">Gynecologists</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>10</td>
+				    <td>3</td>
+				    <td>9</td>
+				    <td>3</td>
+				    <td>9</td>
+				  </tr>
+			</table></small>
 
 
 
@@ -167,9 +279,46 @@
 
 
 
-<!-- Sponsored Packages CODE -->
+<!-- Surgeries Performed CODE -->
 <div id="content" class="container jumbotron" style="margin-top:-50px;">
         <div id="sponsoredlist" class="table">
+	        <table class="table table-bordered table-hover">
+				<tr class="success">
+				    <th>Surgery Type</th>
+				    <th>CPT Code</th>
+				    <th># of Procedures</th>
+				    <th># of Doctors Performing the Procedure</th>
+				    <th>Total Billing ($)</th>
+				  </tr>
+				  <tr class="danger">
+				    <td>Craniotomy</td>
+				    <td>44567.2</td>
+				    <td>8</td>
+				    <td>3</td>
+				    <td>30052</td>
+				  </tr>
+				  <tr class="danger">
+				    <td>Nephrectomy</td>
+				    <td>54567.2</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>14052</td>
+				  </tr>
+				  <tr class="danger">
+				    <td>Bursectomy</td>
+				    <td>14567.2</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>60052</td>
+				  </tr>
+				  <tr class="danger">
+				    <td>Tonsillectomy</td>
+				    <td>12367.2</td>
+				    <td>10</td>
+				    <td>1</td>
+				    <td>20052</td>
+				  </tr>
+			</table>
         </div>
 </div>
 
@@ -181,9 +330,112 @@
 
 
 
-<!-- Recommended List Code -->
+<!-- Patient Visit Report Code -->
 <div id="content" class="container jumbotron" style="margin-top:-50px;">
+<div class="row">
+  <div class="col-xs-4">
+		<blockquote style="margin-top:-15px;" >Select Month:</blockquote>
+  </div>
+  <div class="col-xs-3">
+		<select class="form-control">
+		  <option>January</option>
+		  <option>February</option>
+		  <option>March</option>
+		  <option>April</option>
+		  <option>May</option>
+		  <option>June</option>
+		  <option>July</option>
+		  <option>August</option>
+		  <option>September</option>
+		  <option>October</option>
+		  <option>November</option>
+		  <option>December</option>
+		</select>
+  </div>
+  <div class="col-xs-3">
+		<select class="form-control">
+		  <option>2014</option>
+		  <option>2013</option>
+		  <option>2012</option>
+		  <option>2011</option>
+		  <option>2010</option>
+		  <option>2009</option>
+		  <option>2008</option>
+		  <option>2007</option>
+		  <option>2006</option>
+		  <option>2005</option>
+		  <option>2004</option>
+		  <option>2003</option>
+		  <option>2002</option>
+		  <option>2001</option>
+		  <option>2000</option>
+		  <option>1999</option>
+		  <option>1998</option>
+		  <option>1997</option>
+		  <option>1996</option>
+		  <option>1995</option>
+		  <option>1994</option>
+		  <option>1993</option>
+		  <option>1992</option>
+		  <option>1991</option>
+		  <option>1990</option>
+		  <option>1989</option>
+		  <option>1988</option>
+		  <option>1987</option>
+		  <option>1986</option>
+		  <option>1985</option>
+		  <option>1984</option>
+		  <option>1983</option>
+		  <option>1982</option>
+		  <option>1981</option>
+		  <option>1980</option>
+		  <option>1979</option>
+		  <option>1978</option>
+		  <option>1977</option>
+		  <option>1976</option>
+		  <option>1975</option>
+		</select>
+  </div>
+  <div class="col-xs-2">
+		<button type="button" onclick="test()">GO</button>
+  </div>
+</div>
+
+
+
         <div id="recommendedlist" class="table">
+        	<table class="table table-bordered table-hover">
+				<tr class="success">
+				    <th>Doctor Name</th>
+				    <th># of Patients Seen</th>
+				    <th># of Prescriptions Written</th>
+				    <th>Total Billing ($)</th>
+				  </tr>
+				  <tr class="danger">
+				    <td>Dr. Mary Rose</td>
+				    <td>8</td>
+				    <td>3</td>
+				    <td>30052</td>
+				  </tr>
+				  <tr class="danger">
+				    <td>Dr. Phillip Tudini</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>14052</td>
+				  </tr>
+				  <tr class="danger">
+				    <td>Dr. Sanjay Goel</td>
+				    <td>9</td>
+				    <td>2</td>
+				    <td>60052</td>
+				  </tr>
+				  <tr class="danger">
+				    <td>Dr. Mark Brent</td>
+				    <td>10</td>
+				    <td>1</td>
+				    <td>20052</td>
+				  </tr>
+			</table>
         </div>
 </div>
 
