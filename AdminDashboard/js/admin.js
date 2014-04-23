@@ -200,7 +200,7 @@ function billing(){
 }
 function doctorPerformance(){
 	console.log("loading doctor performance report...");
-	/*$.getJSON("../php/charles/loadDoctorPerformance.php", function (data){	
+	/*$.getJSON("../php/charles/loadDoctorPerformanceReport.php", function (data){	
 		console.log("Sponsorship list load data:")
 		console.log(data);
 		console.log(data.resultlist);
