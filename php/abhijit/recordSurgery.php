@@ -41,10 +41,8 @@ $queryString = "INSERT INTO Surgery_Record(PatientUsername,DoctorUsername,Surger
 			   	"VALUES('$patientUsername','$username','$surgeryEndTime','$surgeryStartDateTime',".
 			   	"'$complications','$anesthesiaStart',$numAssistants,$cptCode,'$doctorFirstName',".
 			   	"'$doctorLastName','$patientFirstName','$patientLastName')";
-echo $queryString;
 
 mysqli_query($link,$queryString);
-echo mysqli_error($link);
 
 echo "success";
 
