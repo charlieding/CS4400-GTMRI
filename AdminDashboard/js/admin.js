@@ -1,6 +1,16 @@
 $(document).ready(function () {	
 	initTabView();
+	initialize();
 });
+function initialize(){
+	$("#visitDate").empty();
+	$("#visitDateCost").empty();
+	$("#surgery").empty();
+	$("#surgeryCost").empty();
+	document.getElementById("totalCost").innerHTML = "$0";
+	document.getElementById("name").innerHTML = "[Patient Name Here]";
+	document.getElementById("phonenumber").innerHTML = "[Patient's Home Phone Number]";
+}
 /*
 
 function trashIcon(ele){
@@ -196,7 +206,50 @@ function initTabView(){
 function billing(){
 	console.log("loading billing...");
 	var patientName = $('#patientName').val();
-	//TODO php call here
+	var res = patientName.split(" ");
+	var firstName = res[0];
+	var lastName = res[1];
+	var totalCost = 0;
+	//Get Patient's Phone Number
+	$.post("../php/charles/billing/getPhoneNumber.php", {postFirstName: firstName, postLastName:lastName},
+		function(data)
+		{
+			document.getElementById("name").innerHTML = patientName;
+			document.getElementById("phonenumber").innerHTML = data;
+			console.log("Phone # SUCCESS: "+ data);
+		}, 'json');
+
+	//Get Patient Visit History
+	$.post("../php/charles/billing/visitHistory.php", {postFirstName: firstName, postLastName:lastName},
+		function(data)
+		{
+			$("#visitDate").empty();
+			$("#visitDateCost").empty();
+			$.each(data.resultlist, function(){
+				totalCost = totalCost+parseInt(this['Price']);
+				$("#visitDate").prepend("<small>"+this['Visit Date']+" Visit </small><h2></h2>");
+				$("#visitDateCost").prepend("<a class=\"pull-right\"> $"+this['Price']+"</a><br>");
+			});
+			//Update Total Cost
+			document.getElementById("totalCost").innerHTML = "$" + totalCost;
+			console.log("Visit History SUCCESS: "+ data);
+		}, 'json');
+
+	//Get Patient Surgery History
+	$.post("../php/charles/billing/surgeryHistory.php", {postFirstName: firstName, postLastName:lastName},
+		function(data)
+		{
+			$("#surgery").empty();
+			$("#surgeryCost").empty();
+			$.each(data.resultlist, function(){
+				totalCost = totalCost+parseInt(this['Price']);
+				$("#surgery").prepend("<small>"+this['Surgery Type']+" Surgery </small><h2></h2>");
+				$("#surgeryCost").prepend("<a class=\"pull-right\"> $"+this['Price']+"</a><br>");
+			});
+			//Update Total Cost
+			document.getElementById("totalCost").innerHTML = "$" + totalCost;
+			console.log("Surgery History SUCCESS: "+ data);
+		}, 'json');	
 }
 function doctorPerformance(){
 	console.log("loading doctor performance report...");
