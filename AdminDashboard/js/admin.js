@@ -233,7 +233,7 @@ function billing(){
 			$("#visitDate").empty();
 			$("#visitDateCost").empty();
 			$.each(data.resultlist, function(){
-				totalCost = totalCost+parseInt(this['Price']);
+				totalCost = totalCost+parseFloat(this['Price']);
 				$("#visitDate").prepend("<small>"+this['Visit Date']+" Visit </small><h2></h2>");
 				$("#visitDateCost").prepend("<a class=\"pull-right\"> $"+this['Price']+"</a><br>");
 			});
@@ -249,7 +249,7 @@ function billing(){
 			$("#surgery").empty();
 			$("#surgeryCost").empty();
 			$.each(data.resultlist, function(){
-				totalCost = totalCost+parseInt(this['Price']);
+				totalCost = totalCost+parseFloat(this['Price']);
 				$("#surgery").prepend("<small>"+this['Surgery Type']+" Surgery </small><h2></h2>");
 				$("#surgeryCost").prepend("<a class=\"pull-right\"> $"+this['Price']+"</a><br>");
 			});

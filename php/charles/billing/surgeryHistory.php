@@ -31,6 +31,7 @@ $postLastName = $_POST['postLastName'];
 	$patientUsername = "null";
 	if($rowSearch = mysqli_fetch_array($patientUsernameResult, MYSQL_ASSOC)){
 		$patientUsername = $rowSearch["PatientUsername"];
+		$patientAnnualIncome = $rowSearch["AnnualIncome"];
 	}
 
 	$getSurgerySQL = "SELECT * FROM surgery_record WHERE PatientUsername = '$patientUsername'";
@@ -44,8 +45,12 @@ $postLastName = $_POST['postLastName'];
 		$getPriceSQL = "SELECT * FROM surgery WHERE CPT_Code = '$cptCode'";
 		$priceResult = mysqli_query($link, $getPriceSQL);
 		if($rowSearch = mysqli_fetch_array($priceResult, MYSQL_ASSOC)){
+			$finalPrice = $rowSearch["SurgeryCost"];
+			if($patientAnnualIncome == NULL || (intval($patientAnnualIncome) < 25000)){
+				$finalPrice = intval($finalPrice)/2;
+			}
 			array_push($resultSurgery, array('Surgery Type' => $rowSearch["SurgeryType"],
-									 'Price' => $rowSearch["SurgeryCost"]));
+									 'Price' => $finalPrice));
 		}
 	}
 
