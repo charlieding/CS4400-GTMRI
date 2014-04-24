@@ -30,7 +30,7 @@ $content = $_POST['postcontent'];
 
 //set status to read
 $sendMessage = "INSERT INTO DoctorToDoctorComm (SenderUsername, RecipientUsername, Status, Content) 
-VALUES ('$username', '$dusername', 'Unread', $content)";
+VALUES ('$username', '$dusername', 'Unread', '$content')";
 
  
 $messagesent = mysqli_query($link,$sendMessage);

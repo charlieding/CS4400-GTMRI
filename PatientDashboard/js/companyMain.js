@@ -379,6 +379,7 @@ function openPatientInboxMessage(date, doctor, firstname, lastname, content, sta
 			$('#pistatus').append(status);
 			
 			$('#patientMessage').modal('show');
+			loadUnreadMessages();
 			
 			
 		});
