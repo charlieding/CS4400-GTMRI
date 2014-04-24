@@ -296,7 +296,7 @@ jQuery(document).ready(function () {
 	/**Removes Loading Screen***/
 	/* Comment: This is essential to get rid of "flickers" on initial load. This
 	* guarantees everything is loaded to visual perfection, THEN allows user to see.*/
-	//NOT FUCKING WORKING - FIX LATER - THIS PIECE OF SHIT JQUERY's LOAD FCKING BULL SHIT
+	
 	// http://mike-donaldson.com/tips-and-tricks/jquery-load-event-not-firing-on-images/
 	$('#c1').load(function () {
 		$('#loadingScreen').hide();
