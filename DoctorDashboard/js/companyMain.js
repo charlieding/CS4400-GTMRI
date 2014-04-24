@@ -46,9 +46,11 @@ function updateDoctor(){
 			function(data){
 			
 				if(data == "success"){
-					window.location = "doctorDashboard.html";
+					alert("Profile successfully updated");
+					window.location.reload();
+					
 				}else {
-					$('#result4').html(data);
+					$('#result4').html(data.replace("success", ""));
 				}
 			});
 

@@ -76,7 +76,7 @@ foreach ($allergies as $allergy) {
 	$insertResult = mysqli_query($link,$queryString);
 }
 
-echo "success";
+
 
 mysqli_close($link);
 ?>

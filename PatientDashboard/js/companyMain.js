@@ -228,7 +228,8 @@ function updatePatient(){
 											postallergies:allergies},
 			function(data){
 				if(data == "success"){
-					window.location = "patientDashboard.html";
+					alert("Profile successfully updated");
+					window.location.reload();
 				}else {
 					$('#result3').html(data);
 				}
