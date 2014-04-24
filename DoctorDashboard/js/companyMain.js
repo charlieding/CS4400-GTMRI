@@ -512,10 +512,48 @@ function displayPatients(){
 			$("#patienttable").append(resultsTable);
 		});
 }
+function searchPatient(){
+	var patientFirstName = $('#patientFirstName').val();
+	var patientLastName = $('#patientLastName').val();
+	$.get('../php/abhijit/getPatientsLike.php',
+		{
+			postPatientFirstName:patientFirstName,
+			postPatientLastName:patientLastName
+		},
+		function(data){
+			data = $.parseJSON(data);
+			$('#patientNameTable').empty().append('<tr><td><center>Name</center></td><td><center>Home Phone</center></td></tr>');
+			for(var i=0;i<data.length;i++){
+				tableRow = $('<tr>');
+				nameColumn = $('<td>',{class:"text-center"});
+				displayName = data[i].FirstName + " " + data[i].LastName;
+				nameLink = $('<a>',{
+					text: displayName,
+				}).on("click",{patientData:data[i]},selectPatient);
+				nameColumn.append(nameLink);
+
+				phoneColumn = $('<td>',{class:"text-center"});
+				phoneColumn.append(data[i].HomePhone);
+
+				tableRow.append(nameColumn);
+				tableRow.append(phoneColumn);
+				$('#patientNameTable').append(tableRow);
+			}
+		});
 
 function setPatient(patient) {
 	$.post("../php/jordan/setPatient.php",{ postpatient:patient});
 	$('#recordVisit').modal('show');
+}
+
+
+}
+function selectPatient(event){
+	$('#patientName').val(event.data.patientData.FirstName + " " + event.data.patientData.LastName);
+	$('#patientName').attr('data-puser',event.data.username);
+	$('#patientName').attr('data-pFirstName',event.data.patientData.FirstName);
+	$('#patientName').attr('data-pLastName',event.data.patientData.LastName);
+	$('#selectPatientModal').modal('hide');
 }
 
 function trashIcon(ele){
@@ -1003,6 +1041,46 @@ $(document).on("click", ".recordVisit", function() {
 		} );
 })
 
+function getSurgeries(){
+	$.get('../php/abhijit/getAllSurgeries.php',{},
+		function(data){
+			console.log(data);
+			data = $.parseJSON(data);
+			$('#surgeryTable').empty()
+			.append("<tr><td><center>Surgery Type</center></td><td><center>CPT Code</center></td><td><center>Preoperative Medication</center></td></tr>");
+			for(var i = 0;i<data.length;i++){
+				tableRow = $('<tr>');
+
+				typeColumn = $('<td>',{class:"text-center"});
+				typeLink = $('<a>',{ text:data[i].SurgeryType });
+				typeLink.on("click",{surgeryData:data[i]},
+					function(event){
+						$('#surgeryType').val(event.data.surgeryData.SurgeryType);
+						$('#cptCode').val(event.data.surgeryData.CPT_Code);
+						medication = '';
+						for(var j = 0;j<event.data.surgeryData.medicines.length;j++){
+							medication += event.data.surgeryData.medicines[j]['Preoperative_Medication'] + " ";
+						}
+						$('#preopMeds').val(medication);
+						$('#surgerySelectModal').modal('hide');
+					});
+				typeColumn.append(typeLink);
+
+				cptColumn = $('<td>',{class:"text-center"});
+				cptColumn.append(data[i].CPT_Code);
+
+				medicationColumn = $('<td>');
+				medication = '';
+				for(var j = 0;j<data[i].medicines.length;j++){
+					medication += data[i].medicines[j]['Preoperative_Medication'] + " ";
+				}
+				medicationColumn.append(medication);
+
+				tableRow.append(typeColumn).append(cptColumn).append(medicationColumn);
+				$('#surgeryTable').append(tableRow);
+			}
+		});
+}
 $(document).ready(function () {	
 	load();
 	getDoctorProfile();
@@ -1022,6 +1100,16 @@ $(document).ready(function () {
 	});
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
+	$('a[data-tab="tab3"]').on("click",
+		function(){
+			$.get('../php/abhijit/getSessionInfo.php',{
+				field:['firstName','lastName']	
+			},function(data){
+				data = $.parseJSON(data);
+				$('#surgeonName').val("Dr."+data.firstName + " " + data.lastName);
+			});
+		});
+	$('#surgerySelectModal').on('show.bs.modal',getSurgeries);
 
 	var slider = new Slider($('.SideSlider'));
 	$('body').on('click', '.SideSlider', function (event) {

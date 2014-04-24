@@ -51,8 +51,14 @@ if($username&&$password)
 			$result_patient = mysqli_query($link, "select * from Patient where PatientUsername = '$username'");
 			$_SESSION['username'] = $username;
 			if(mysqli_num_rows($result_doctor) != 0){
+				$userData = mysqli_fetch_assoc($result_doctor);
+				$_SESSION['firstName'] = $userData['FirstName'];
+				$_SESSION['lastName'] = $userData['LastName'];
 				echo('doctor'); 
 			}else if(mysqli_num_rows($result_patient) != 0){
+				$userData = mysqli_fetch_assoc($result_patient);
+				$_SESSION['firstName'] = $userData['FirstName'];
+				$_SESSION['lastName'] = $userData['LastName'];
 				echo('patient');
 			}
 			else{

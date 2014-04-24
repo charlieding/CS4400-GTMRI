@@ -89,6 +89,8 @@ for ($i=0; $i < count($availability); $i++) {
 
 echo "success";
 
+$_SESSION['firstName'] = $fname;
+$_SESSION['lastName'] = $lname;
 
 mysqli_close($link);
 ?>
