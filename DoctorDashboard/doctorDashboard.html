@@ -131,17 +131,71 @@
 			</div>
 			</div>
 			<div class="tab" id="tab3">
-
-
-
-<!-- Sponsored Packages CODE -->
-<div id="content" class="container jumbotron" style="margin-top:-50px;">
-        <div id="sponsoredlist" class="table">
+        <div id="content" class="container jumbotron" style="margin-top:-50px;">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="patientName" class="col-lg-2 control-label">Patient Name</label>
+                    <div class="col-lg-4">
+                      <input type="text" id="patientName" class="form-control" readonly="true" data-puser="" data-pFirstName="" data-pLastname="" placeholder="Click here to search for a patient to add" data-toggle="modal" data-target="#selectPatientModal">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Surgeon:</label>
+                    <div class="col-lg-5">
+                      <input type="text" id="surgeonName" class="form-control" readonly="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Surgery</label>
+                    <div class="col-lg-5">
+                      <input type="text" id="surgeryType" class="form-control" readonly="true" placeholder="Click here to select a surgery" data-toggle="modal" data-target="#surgerySelectModal">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">CPT</label>
+                    <div class="col-lg-5">
+                      <input type="text" id="cptCode" class="form-control" readonly="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Medicines</label>
+                    <div class="col-lg-5">
+                      <textarea id="preopMeds" class="form-control" readonly="true"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Assistants</label>
+                    <div class="col-lg-5">
+                      <input type="number" id="numAssistants" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Anesthesia Start:</label>
+                    <div class="col-lg-5">
+                      <input type="time" id="anesthesiaStart" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Start:</label>
+                    <div class="col-lg-5">
+                      <input type="time" id="surgeryStart" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">End:</label>
+                    <div class="col-lg-5">
+                      <input type="time" id="surgeryEnd" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-2 control-label">Complications</label>
+                    <div class="col-lg-5">
+                      <textarea id="complications" class="form-control"></textarea>
+                    </div>
+                  </div>
+                  <button type="button" class="col-lg-10 btn btn-primary" onclick="alert('almost there');">Record</button>
+                </form>
         </div>
-</div>
-
-
-
 			</div>
 			<div class="tab" id="tab4">
 				<div id="content" class="container jumbotron" style="margin-top:-50px;">
@@ -406,10 +460,10 @@
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h4 class="modal-title"><strong style="color: black">Doctor Messages</h4>
 		 </div>
-       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+      
                   <table id="ddInboxMessages" class="table table-bordered">
                   </table>
-        </div>
+       
       </div>
     </div>
   </div>
@@ -422,10 +476,10 @@
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h4 class="modal-title"><strong style="color: black">Patient Messages</h4>
 		 </div>
-       <div id="picontent" class="container jumbotron" style="margin-top:-50px;">
+      
                   <table id="pdInboxMessages" class="table table-bordered">
                   </table>
-        </div>
+       
       </div>
     </div>
   </div>
@@ -488,8 +542,47 @@
       </div>
     </div>
   </div>
-  
-  
+  <div class="modal fade" id="selectPatientModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Search for Patients
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-inline">
+            <div class="form-group">  
+              <div class="col-lg-8">
+                <input type="text" class="form-control" id="patientFirstName" placeholder="Enter patient's first name">
+                <input type="text" class="form-control" id="patientLastName" placeholder="Enter patient's last name">
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="searchPatient();">Search</button>
+            <div id="patientSearchResult"></div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <table id="patientNameTable" class="table-bordered col-lg-10"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="surgerySelectModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"> Select a Surgery</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table-bordered" id="surgeryTable"></table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <div class="modal fade" id="sendPMessage">
    <div class="modal-dialog">      

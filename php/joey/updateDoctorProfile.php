@@ -30,9 +30,13 @@ $workphone = $_POST['postworkphone'];
 $specialty = $_POST['postspecialty'];
 $roomnum = $_POST['postroomnum'];
 $address = $_POST['postaddress']; 
-$availability = $_POST['postavailability']; 
-$fromtime = $_POST['postfromtime']; 
-$totime = $_POST['posttotime'];
+if (empty($_POST['postavailability'])) $availability = array();
+else $availability = $_POST['postavailability']; 
+if (empty($_POST['postfromtime'])) $fromtime = array();
+else $fromtime = $_POST['postfromtime'];
+if (empty($_POST['posttotime'])) $totime = array();
+else $totime = $_POST['posttotime'];
+
 /* Form validations */
 
 
@@ -56,11 +60,10 @@ if($licnum == null){
 	die("Please enter an integer for room number.");
 } else if ($address === null || strlen($address) == 0) {
 	die("Please enter an address.");
-} else if ($availability === null || count($availability) <= 0) {
-	die("Please enter an availability date.");
-} else if ($fromtime === null || count($fromtime) <= 0 || count($fromtime) != count($availability)) {
+
+} else if (count($fromtime) != count($availability)) {
 	die("Please enter a start time of availability.");
-} else if ($totime === null || count($totime) <= 0 || count($totime) != count($availability)) {
+} else if (count($totime) != count($availability)) {
 	die("Please enter an end time of availability.");
 } 
 
@@ -81,8 +84,7 @@ $queryString = "UPDATE Doctor SET LicenseNumber = '$licnum', FirstName = '$fname
 	RoomNumber = '$roomnum', HomeAddress = '$address' WHERE DoctorUsername = '$username'";
 $insertResult = mysqli_query($link,$queryString);
 
-$delAvail = "DELETE FROM Doctor_Availability WHERE DoctorUsername = '$username'";
-$delResult = mysqli_query($link, $delAvail);
+
 
 for ($i=0; $i < count($availability); $i++) { 
 	$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability[$i]', '$fromtime[$i]', '$totime[$i]')";

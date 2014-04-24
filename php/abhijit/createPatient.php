@@ -72,6 +72,8 @@ foreach ($allergies as $allergy) {
 	$insertResult = mysqli_query($link,$queryString);
 }
 
+$_SESSION['firstName'] = $fname;
+$_SESSION['lastName'] = $lname;
 echo "success";
 
 mysqli_close($link);
