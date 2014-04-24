@@ -13,9 +13,10 @@ function initialize(){
 
 	//Other Initializations - albiet no one can see it...
 	$("#surgerytable tr").empty();
-	$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+	//$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
 	$("#patientvisittable tr").empty();
-	$("#patientvisittable").prepend("<tr class=\"success\"><th>Doctor Name</th><th># of Patients Seen</th><th># of Prescriptions Written</th><th>Total Billing ($)</th></tr>");
+	$("#doctorPerformanceReport tr").empty();
+	//$("#patientvisittable").prepend("<tr class=\"success\"><th>Doctor Name</th><th># of Patients Seen</th><th># of Prescriptions Written</th><th>Total Billing ($)</th></tr>");
 
 }
 /*
@@ -260,15 +261,15 @@ function billing(){
 }
 function doctorPerformance(){
 	console.log("loading doctor performance report...");
-	/*$.getJSON("../php/charles/loadDoctorPerformanceReport.php", function (data){	
-		console.log("Sponsorship list load data:")
-		console.log(data);
-		console.log(data.resultlist);
-		$("#sponsoredlist").empty();
+	$.getJSON("../php/charles/doctorperformancereport/doctorPerformanceReport.php", function (data){
+		$("#doctorPerformanceReport tr").empty();
+		$("#doctorPerformanceReport").prepend("<tr class=\"success\"><th colspan=\"1\">Specialty</th><th colspan=\"1\">Average Rating</th><th colspan=\"1\"># of Surgeries Performed</th></tr>");
+
 		$.each(data.resultlist, function(){
-		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
+		    $("#doctorPerformanceReport").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['Average Rating']+"</td><td>"+this['NumOfSurgeries']+"</td></tr>");
 		});
-	});*/
+		console.log("Surgery Report SUCCESS: "+ data);
+	});
 }
 function surgeryReport(){
 	console.log("loading surgery report");
