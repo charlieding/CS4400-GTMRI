@@ -23,7 +23,7 @@ if(mysqli_connect_errno()){
 //-------------------------------------------------connect database
 $username = $_SESSION['username'];
 $dusername = $_POST['postdoctorusername'];
-$content = $_POST['postcontent'];
+$content = mysqli_escape_string($link, $_POST['postcontent']);
 
 
 

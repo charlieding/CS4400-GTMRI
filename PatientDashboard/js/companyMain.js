@@ -328,21 +328,21 @@ function getPatientInbox(){
 				resultsTable += "<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'>" + message.Status + "</td>" +
 								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
 								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'>" + message.DateTime + "</td>";
@@ -378,14 +378,24 @@ function openPatientInboxMessage(date, doctor, firstname, lastname, content, sta
 			$('#pistatus').empty();
 			$('#pistatus').append(status);
 			
-			$('#patientMessage').modal('show');
 			loadUnreadMessages();
+			$('#patientMessage').modal('show');
+			
 			
 			
 		});
 }
 
-
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;")
+		 .replace(/(\r\n|\n|\r)/gm, "<br>");
+	
+ }
 function getAllDoctors() {
 	$.get('../php/joey/getAllDoctors.php',{},
 		function(data){
