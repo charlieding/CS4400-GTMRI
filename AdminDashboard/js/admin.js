@@ -14,6 +14,8 @@ function initialize(){
 	//Other Initializations - albiet no one can see it...
 	$("#surgerytable tr").empty();
 	$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+	$("#patientvisittable tr").empty();
+	$("#patientvisittable").prepend("<tr class=\"success\"><th>Doctor Name</th><th># of Patients Seen</th><th># of Prescriptions Written</th><th>Total Billing ($)</th></tr>");
 
 }
 /*
@@ -284,16 +286,42 @@ function patientVisitReport(){
 	console.log("loading patient visit report...");
 	var month = $('#month').val();
 	var year = $('#year').val();
+	var monthNumber = '';
+	if(month == "January"){
+		monthNumber = '01';
+	}else if(month == "February"){
+		monthNumber = '02';
+	}else if(month == "March"){
+		monthNumber = '03';
+	}else if(month == "April"){
+		monthNumber = '04';
+	}else if(month == "May"){
+		monthNumber = '05';
+	}else if(month == "June"){
+		monthNumber = '06';
+	}else if(month == "July"){
+		monthNumber = '07';
+	}else if(month == "August"){
+		monthNumber = '08';
+	}else if(month == "September"){
+		monthNumber = '09';
+	}else if(month == "October"){
+		monthNumber = '10';
+	}else if(month == "November"){
+		monthNumber = '11';
+	}else if(month == "December"){
+		monthNumber = '12';
+	}
 	//php call
-	$.getJSON("../php/charles/surgeryreport/surgeryReport.php", {postMonth: month, postYear:year},
-	function (data)
-	{
-		$("#surgerytable tr").empty();
-		$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+	$.post("../php/charles/patientvisitreport/patientVisitReport.php", {postMonth: monthNumber, postYear:year},
+		function(data)
+		{
+		$("#patientvisittable tr").empty();
+		$("#patientvisittable").prepend("<tr class=\"success\"><th>Doctor Name</th><th># of Patients Seen</th><th># of Prescriptions Written</th><th>Total Billing ($)</th></tr>");
 
 		$.each(data.resultlist, function(){
-		    $("#surgerytable").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['CPT Code']+"</td><td>"+this['NumProcedures']+"</td><td>"+this['NumDoctors']+"</td><td>"+parseInt(this['Price'])*parseInt(this['NumProcedures'])+"</td></tr>");
+		    $("#patientvisittable").append("<tr class=\"danger\"><td>Dr. "+this['FirstName']+" "+this['LastName']+"</td><td>"+this['NumPrescriptions']+"</td><td>"+this['NumPatients']+"</td><td>"+this['Price']+"</td></tr>");
 		});
-		console.log("Surgery Report SUCCESS: "+ data);
-	});
+		console.log("Patient Visit Report SUCCESS: "+ data);
+		}, 'json');
 }
