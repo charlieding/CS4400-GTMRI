@@ -275,13 +275,15 @@ function getVisitInfo(date,doctor){
 			}
 			$('#medicinesPrescribedTable').empty();
 			$('#medicinesPrescribedTable').append("<tr><td>Name</td><td>Dosage</td><td>Duration</td><td>Notes</td></tr>")
-			for(var medicine in medicines){
-				medTable = "<tr>";
-				medTable += "<td>" + medicine + "</td>";
-				medTable += "<td>" + medicines[medicine].Dosage + "</td>";
-				medTable += "<td>" + medicines[medicine].Duration + "</td>";
-				medTable += "<td>" + medicines[medicine].Notes + "</td>";
-				$('#medicinesPrescribedTable').append(medTable);
+			if(medicines.length > 0){
+				for(var medicine in medicines){
+					medTable = "<tr>";
+					medTable += "<td>" + medicine + "</td>";
+					medTable += "<td>" + medicines[medicine].Dosage + "</td>";
+					medTable += "<td>" + medicines[medicine].Duration + "</td>";
+					medTable += "<td>" + medicines[medicine].Notes + "</td>";
+					$('#medicinesPrescribedTable').append(medTable);
+				}
 			}
 			$('#visitDetails').modal('show');
 		});
@@ -326,21 +328,21 @@ function getPatientInbox(){
 				resultsTable += "<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'>" + message.Status + "</td>" +
 								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
 								"<td onclick='openPatientInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'>" + message.DateTime + "</td>";
@@ -376,13 +378,24 @@ function openPatientInboxMessage(date, doctor, firstname, lastname, content, sta
 			$('#pistatus').empty();
 			$('#pistatus').append(status);
 			
+			loadUnreadMessages();
 			$('#patientMessage').modal('show');
+			
 			
 			
 		});
 }
 
-
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;")
+		 .replace(/(\r\n|\n|\r)/gm, "<br>");
+	
+ }
 function getAllDoctors() {
 	$.get('../php/joey/getAllDoctors.php',{},
 		function(data){
@@ -438,7 +451,7 @@ function loadUnreadMessages() {
 
 }
 
-function selectDoctor(){
+function selectDoctor(func){
 	$.get('../php/abhijit/getDoctors.php',{},
 		function(data){
 			data = $.parseJSON(data);
@@ -452,8 +465,7 @@ function selectDoctor(){
 						.append($('<td>')
 							.append($('<a>',{
 										text:data[i].name,
-										onclick: "setDoctor('"+ data[i].name+"','"+data[i].username+"');"
-									})
+									}).on("click",{name:data[i].name,username:data[i].username},func)
 								)
 							)
 						);
@@ -461,10 +473,32 @@ function selectDoctor(){
 			$('#docList').modal('show');
 		});
 }
-function setDoctor(name,username){
-	$('#doctor').val(name);
-	$('#doctor').attr('data-dusername',username);
+function setDoctor(event){
+	$('#doctor').val(event.data.name);
+	$('#doctor').attr('data-dusername',event.data.username);
 	$('#docList').modal('hide');
+}
+function setDoctorToRate(event){
+	$('#ratingDoctorName').val(event.data.name);
+	$('#ratingDoctorName').attr('data-duser',event.data.username)
+	$('#docList').modal('hide');
+}
+
+function rateDoctor(){
+	var doctorUsername = $('#ratingDoctorName').attr('data-duser');
+	var rating = $('#rating').val();
+	console.log(doctorUsername + " "+ rating);
+	$.post('../php/abhijit/rateDoctor.php',{
+		postDoctorUsername:doctorUsername,
+		postRating:rating
+	},function(data){
+		console.log(data);
+		if(data=="success"){
+			alert('Rating Successful!');
+			window.location.reload();
+		}else
+			$('#ratingResult').append(data);
+	});
 }
 function selectMedicine(){
 	$.get('../php/abhijit/getMedicines.php',{},
@@ -607,7 +641,7 @@ $(document).ready(function () {
 	initTabView();
 	loadVisits();
 	getProfileInfo();
-	//getMessages();
+	loadUnreadMessages();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 	getPaymentInfo();

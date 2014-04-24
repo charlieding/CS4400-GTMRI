@@ -1,6 +1,23 @@
 $(document).ready(function () {	
 	initTabView();
+	initialize();
 });
+function initialize(){
+	$("#visitDate").empty();
+	$("#visitDateCost").empty();
+	$("#surgery").empty();
+	$("#surgeryCost").empty();
+	document.getElementById("totalCost").innerHTML = "$0";
+	document.getElementById("name").innerHTML = "[Patient Name Here]";
+	document.getElementById("phonenumber").innerHTML = "[Patient's Home Phone Number]";
+
+	//Other Initializations - albiet no one can see it...
+	$("#surgerytable tr").empty();
+	$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+	$("#patientvisittable tr").empty();
+	$("#patientvisittable").prepend("<tr class=\"success\"><th>Doctor Name</th><th># of Patients Seen</th><th># of Prescriptions Written</th><th>Total Billing ($)</th></tr>");
+
+}
 /*
 
 function trashIcon(ele){
@@ -196,7 +213,50 @@ function initTabView(){
 function billing(){
 	console.log("loading billing...");
 	var patientName = $('#patientName').val();
-	//TODO php call here
+	var res = patientName.split(" ");
+	var firstName = res[0];
+	var lastName = res[1];
+	var totalCost = 0;
+	//Get Patient's Phone Number
+	$.post("../php/charles/billing/getPhoneNumber.php", {postFirstName: firstName, postLastName:lastName},
+		function(data)
+		{
+			document.getElementById("name").innerHTML = patientName;
+			document.getElementById("phonenumber").innerHTML = data;
+			console.log("Phone # SUCCESS: "+ data);
+		}, 'json');
+
+	//Get Patient Visit History
+	$.post("../php/charles/billing/visitHistory.php", {postFirstName: firstName, postLastName:lastName},
+		function(data)
+		{
+			$("#visitDate").empty();
+			$("#visitDateCost").empty();
+			$.each(data.resultlist, function(){
+				totalCost = totalCost+parseInt(this['Price']);
+				$("#visitDate").prepend("<small>"+this['Visit Date']+" Visit </small><h2></h2>");
+				$("#visitDateCost").prepend("<a class=\"pull-right\"> $"+this['Price']+"</a><br>");
+			});
+			//Update Total Cost
+			document.getElementById("totalCost").innerHTML = "$" + totalCost;
+			console.log("Visit History SUCCESS: "+ data);
+		}, 'json');
+
+	//Get Patient Surgery History
+	$.post("../php/charles/billing/surgeryHistory.php", {postFirstName: firstName, postLastName:lastName},
+		function(data)
+		{
+			$("#surgery").empty();
+			$("#surgeryCost").empty();
+			$.each(data.resultlist, function(){
+				totalCost = totalCost+parseInt(this['Price']);
+				$("#surgery").prepend("<small>"+this['Surgery Type']+" Surgery </small><h2></h2>");
+				$("#surgeryCost").prepend("<a class=\"pull-right\"> $"+this['Price']+"</a><br>");
+			});
+			//Update Total Cost
+			document.getElementById("totalCost").innerHTML = "$" + totalCost;
+			console.log("Surgery History SUCCESS: "+ data);
+		}, 'json');	
 }
 function doctorPerformance(){
 	console.log("loading doctor performance report...");
@@ -212,19 +272,56 @@ function doctorPerformance(){
 }
 function surgeryReport(){
 	console.log("loading surgery report");
-	/*$.getJSON("../php/charles/loadSurgeryReport.php", function (data){	
-		console.log("Sponsorship list load data:")
-		console.log(data);
-		console.log(data.resultlist);
-		$("#sponsoredlist").empty();
+	$.getJSON("../php/charles/surgeryreport/surgeryReport.php", function (data){
+		$("#surgerytable tr").empty();
+		$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+
 		$.each(data.resultlist, function(){
-		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
+		    $("#surgerytable").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['CPT Code']+"</td><td>"+this['NumProcedures']+"</td><td>"+this['NumDoctors']+"</td><td>"+parseInt(this['Price'])*parseInt(this['NumProcedures'])+"</td></tr>");
 		});
-	});*/
+		console.log("Surgery Report SUCCESS: "+ data);
+	});
 }
 function patientVisitReport(){
 	console.log("loading patient visit report...");
 	var month = $('#month').val();
 	var year = $('#year').val();
+	var monthNumber = '';
+	if(month == "January"){
+		monthNumber = '01';
+	}else if(month == "February"){
+		monthNumber = '02';
+	}else if(month == "March"){
+		monthNumber = '03';
+	}else if(month == "April"){
+		monthNumber = '04';
+	}else if(month == "May"){
+		monthNumber = '05';
+	}else if(month == "June"){
+		monthNumber = '06';
+	}else if(month == "July"){
+		monthNumber = '07';
+	}else if(month == "August"){
+		monthNumber = '08';
+	}else if(month == "September"){
+		monthNumber = '09';
+	}else if(month == "October"){
+		monthNumber = '10';
+	}else if(month == "November"){
+		monthNumber = '11';
+	}else if(month == "December"){
+		monthNumber = '12';
+	}
 	//php call
+	$.post("../php/charles/patientvisitreport/patientVisitReport.php", {postMonth: monthNumber, postYear:year},
+		function(data)
+		{
+		$("#patientvisittable tr").empty();
+		$("#patientvisittable").prepend("<tr class=\"success\"><th>Doctor Name</th><th># of Patients Seen</th><th># of Prescriptions Written</th><th>Total Billing ($)</th></tr>");
+
+		$.each(data.resultlist, function(){
+		    $("#patientvisittable").append("<tr class=\"danger\"><td>Dr. "+this['FirstName']+" "+this['LastName']+"</td><td>"+this['NumPrescriptions']+"</td><td>"+this['NumPatients']+"</td><td>"+this['Price']+"</td></tr>");
+		});
+		console.log("Patient Visit Report SUCCESS: "+ data);
+		}, 'json');
 }

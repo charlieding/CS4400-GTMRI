@@ -39,7 +39,7 @@ $allergies = mysqli_escape_string($link,$_POST['postallergies']);
 
 //this if statement is too long on its own
 //splitting it into two for easier reading
-if(!$fname || !$lname || !$dob || !$gender || !$address || !$homephone || !$workphone || !$weight){
+if(!$fname || !$lname || !$dob || !$gender || !$address || !$homephone || !$weight){
 	die("Please fill all the fields1");
 }
 if(!$income || !$allergies || !$emergency_name || !$emergency_phone){

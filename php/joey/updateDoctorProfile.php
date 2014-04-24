@@ -56,30 +56,39 @@ if($licnum == null){
 	die("Please enter an integer for room number.");
 } else if ($address === null || strlen($address) == 0) {
 	die("Please enter an address.");
-} else if ($availability === null || strlen($availability) == 0) {
+} else if ($availability === null || count($availability) <= 0) {
 	die("Please enter an availability date.");
-} else if ($fromtime === null || strlen($fromtime) == 0) {
+} else if ($fromtime === null || count($fromtime) <= 0 || count($fromtime) != count($availability)) {
 	die("Please enter a start time of availability.");
-} else if ($totime === null || strlen($totime) == 0) {
+} else if ($totime === null || count($totime) <= 0 || count($totime) != count($availability)) {
 	die("Please enter an end time of availability.");
 } 
 
 
 /* Insert doctor info */
 $licenseExistResult = mysqli_query($link, "select * from Doctor where LicenseNumber = '$licnum'");
-
-if(mysqli_num_rows($licenseExistResult) != 0){
+$result = array();
+while($doc = mysqli_fetch_assoc($licenseExistResult)){
+	$result['username'] = $doc['DoctorUsername'];
+	}
+$result[] = mysqli_fetch_assoc($licenseExistResult);
+if(mysqli_num_rows($licenseExistResult) != 0 && $result['username'] != $username){
 			die("Doctor License Number Already Exists");
 }
 
-$queryString = "UPDATE Doctor SET LicenseNumber = $licnum, FirstName = $fname, LastName = $lname, 
-	Birthdate = $Ddob, WorkPhone = $workphone, Specialty = $specialty, 
-	RoomNumber = $roomnum, HomeAddress = $address WHERE DoctorUsername = $username;";
+$queryString = "UPDATE Doctor SET LicenseNumber = '$licnum', FirstName = '$fname', LastName = '$lname', 
+	DOB = '$dob', WorkPhone = '$workphone', Specialty = '$specialty', 
+	RoomNumber = '$roomnum', HomeAddress = '$address' WHERE DoctorUsername = '$username'";
 $insertResult = mysqli_query($link,$queryString);
 
-$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability', '$fromtime', '$totime')";
-$insertResult = mysqli_query($link,$queryString);
+$delAvail = "DELETE FROM Doctor_Availability WHERE DoctorUsername = '$username'";
+$delResult = mysqli_query($link, $delAvail);
 
+for ($i=0; $i < count($availability); $i++) { 
+	$queryString = "INSERT INTO Doctor_Availability(DoctorUsername, Day, StartTime, EndTime) VALUES('$username', '$availability[$i]', '$fromtime[$i]', '$totime[$i]')";
+	$insertResult = mysqli_query($link,$queryString);
+	echo mysqli_error($link);
+}
 
 echo "success";
 

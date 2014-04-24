@@ -13,9 +13,24 @@ function updateDoctor(){
 	var specialty = $('#specialty').val();
 	var roomnum = $('#roomnum').val();
 	var address = $('#daddress').val();
-	var availability = $('#availability').val();
-	var fromtime = $('#fromtime').val();
-	var totime = $('#totime').val();
+	var availability = [];
+	$('.availControl').each(function(index){
+		if($(this).val() != ""){
+			availability.push($(this).val());
+		}
+	});
+	var fromtime = [];
+	$('.fromControl').each(function(index){
+		if($(this).val() != ""){
+			fromtime.push($(this).val());
+		}
+	});	
+	var totime = [];
+	$('.toControl').each(function(index){
+		if($(this).val() != ""){
+			totime.push($(this).val());
+		}
+	});
 	
 	$.post('../php/joey/updateDoctorProfile.php',{postlicnum:licnum,
 											postfname:fname, 
@@ -29,6 +44,7 @@ function updateDoctor(){
 											postfromtime:fromtime,
 											posttotime:totime},
 			function(data){
+			
 				if(data == "success"){
 					window.location = "doctorDashboard.html";
 				}else {
@@ -37,7 +53,56 @@ function updateDoctor(){
 			});
 
 	}
-	
+	function addAvailability(){
+		form_group = $('<div>',{class:"form-group row"});
+		date_label = $('<label>',
+			{class:"col-lg-2 control-label",
+			 for:"inputAvailability",
+			 text:"Date"});
+		date_div = $('<div>',{
+			class:"col-lg-10"
+		});
+		date_input = $('<input>',{
+			type:"date",
+			class:"form-control availControl",
+		});
+		date_div.append(date_input);
+		form_group.append(date_label);
+		form_group.append(date_div);
+
+		from_label = $('<label>',
+			{class:"col-lg-2 control-label",
+			 for:"inputAvailability",
+			 text:"From :"});
+		from_div = $('<div>',{
+			class:"col-lg-4"
+		});
+		from_input = $('<input>',{
+			type:"time",
+			class:"form-control fromControl",
+		});
+		from_div.append(from_input);
+		form_group.append(from_label);
+		form_group.append(from_div);
+
+		to_label = $('<label>',
+			{class:"col-lg-2 control-label",
+			 for:"inputAvailability",
+			 text:"To :"});
+		to_div = $('<div>',{
+			class:"col-lg-4"
+		});
+		to_input = $('<input>',{
+			type:"time",
+			class:"form-control toControl",
+		});
+		to_div.append(to_input);
+		form_group.append(to_label);
+		form_group.append(to_div);
+
+	$('#availablityRow').append(form_group);
+}
+
 function getDoctorProfile(){
 	
 	$.get("../php/joey/getDoctorProfile.php",{},
@@ -77,14 +142,8 @@ function getDoctorProfile(){
 				$('#daddress').empty();
 				$('#daddress').val(profile.HomeAddress);
 				
-				$('#availability').empty();
-				$('#availability').val(avails.day);
+		
 				
-				$('#fromtime').empty();
-				$('#fromtime').val(avails.start);
-				
-				$('#totime').empty();
-				$('#totime').val(avails.end);
 				
 				
 	    });	
@@ -131,25 +190,26 @@ function getDDInbox(){
 			}
 			for(i=0;i<data.length;i++){
 				message = data[i];
+				//alert(escapeHtml(message.Content));
 				resultsTable += "<tr>";
 				resultsTable += "<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status + 
 								
 								"\")'>" + message.Status + "</td>" +
 								"<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status + 
 								
 								"\")'> Dr. " + message.FirstName + " " + message.LastName + "</td>" +
 								"<td onclick='openDDInboxMessage(\"" + message.DateTime + "\",\"" + message.DoctorUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status + 
 								
 								"\")'>" + message.DateTime + "</td>";
@@ -165,8 +225,18 @@ function getDDInbox(){
 			
 		});
 }
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;")
+		 .replace(/(\r\n|\n|\r)/gm, "<br>");
+	
+ }
 function openDDInboxMessage(date, doctor, firstname, lastname, content, status) {
-
+	
 	$('#ddInbox').modal('hide');
 
 	$.post("../php/joey/setDtoDRead.php",{postdoctorusername:doctor,postdate:date},
@@ -185,6 +255,7 @@ function openDDInboxMessage(date, doctor, firstname, lastname, content, status) 
 			$('#dmstatus').empty();
 			$('#dmstatus').append(status);
 			
+			loadUnreadMessages();
 			$('#doctorMessage').modal('show');
 			
 			
@@ -214,26 +285,27 @@ function getPDInbox(){
 				resultsTable += "<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status +
 								
 								"\")'>" + message.Status + "</td>" +
 								"<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status + 
 							
 								"\")'>" + message.FirstName + " " + message.LastName + "</td>" +
 								"<td onclick='openPDInboxMessage(\"" + message.DateTime + "\",\"" + message.PatientUsername + "\"," +
 								"\""+ message.FirstName + "\"," +
 								"\""+ message.LastName + "\"," +
-								"\""+ message.Content + "\"," +
+								"\""+ escapeHtml(message.Content) + "\"," +
 								"\""+ message.Status + 
 								
 								"\")'>" + message.DateTime + "</td>";
 				resultsTable += "</tr>";
 			}
+		
 			if (data.length == 0) alert("You have no messages at this time!");
 			else {
 				$('#pdInboxMessages').empty();
@@ -264,6 +336,7 @@ function openPDInboxMessage(date, patient, firstname, lastname, content, status)
 			$('#dmstatus').empty();
 			$('#dmstatus').append(status);
 			
+			loadUnreadMessages();
 			$('#doctorMessage').modal('show');
 			
 			

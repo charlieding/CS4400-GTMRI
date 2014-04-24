@@ -133,7 +133,7 @@
                   <div class="form-group">
                     <label for="doctor" class="col-lg-4 control-label">Prescribing Doctor</label>
                     <div class="col-lg-4">
-                      <input type="text" id="doctor" class="form-control" data-dusername="" onclick="selectDoctor();"placeholder="Click Here to Select a Doctor" readonly="true">
+                      <input type="text" id="doctor" class="form-control" data-dusername="" onclick="selectDoctor(setDoctor);"placeholder="Click Here to Select a Doctor" readonly="true">
                     </div>
                   </div>
                   <div class="form-group">
@@ -163,7 +163,34 @@
                 <div id="result"></div>
 			</div>
 		</div>
-		
+		<div class="tab" id="tab5">
+      <div id="content" class="container jumbotron" style="margin-top:-50px;">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="doctorName" class="col-lg-2 control-label">Doctor Name</label>
+            <div class="col-lg-5">
+              <input type="text" class="form-control" id="ratingDoctorName" data-duser="" readonly="true" placeholder="Click Here to Select a Doctor" onclick="selectDoctor(setDoctorToRate);">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="doctorRating" class="col-lg-2 control-label">Rating</label>
+            <div class="col-lg-2">
+              <select class="form-control" id="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="rateDoctor();">Rate</button>
+          </div>
+          <div id="ratingResult"></div>
+        </form>
+      </div>
+    </div>
 			
 				<!--Patient Profile Editting Modal -->
 			<div class="tab" id="tab6">

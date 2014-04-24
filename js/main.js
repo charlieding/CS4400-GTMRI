@@ -1,4 +1,5 @@
 function login() {
+	$("#loading").show();
     var name = $('#inputEmail').val();
     var password = $('#inputPassword').val();
 
@@ -15,6 +16,7 @@ function login() {
 	    }
 	    else {
 	        $('#result').html(data);
+	        $("#loading").hide();
 	    }
 	});
 }
@@ -61,6 +63,9 @@ function createPatient(){
 	var address = $('#address').val();
 	var homephone = $('#homephone').val();
 	var workphone = $('#workphone').val();
+	if(workphone === ''){
+		workphone = '0';
+	}
 	var emergency_name = $('#emergency_name').val();
 	var emergency_phone = $('#emergency_phone').val();
 	var weight = $('#weight').val();
@@ -190,6 +195,7 @@ function addAvailability(){
 }
 
 jQuery(document).ready(function () {
+	$("#loading").hide();
 	$('#inputEmail').add('#inputPassword').on('keypress', function submitKeypress(event) {
 		if (event.which == 13)
 		{

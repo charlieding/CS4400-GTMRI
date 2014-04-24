@@ -79,14 +79,14 @@
                 </div>
               </div>
         <div id="packages" class="table">
-              <div class="alert alert-warning"> Tim Reed
+              <div class="alert alert-warning"> <p id = "name" >Tim Reed</p>
                <div class=' pull-right'>
                     <small class="glyphicon glyphicon-trash"></small>
                     <small class="glyphicon glyphicon-star"></small>
                 </div>
                 <blockquote class="text-muted">
                   <small>Phone Number 
-                    <a class='pull-right'>
+                    <a id="phonenumber" class='pull-right'>
                     898-909-0909
                     </a>
                   </small>
@@ -108,23 +108,31 @@
                     <div class=""> 
 
                       <blockquote class="pull-left text-muted">
-                        <small>11/29/2010 Visit </small>
-                        <h2></h2>
-                        <small>11/29/2010 Visit </small>
-                        <h2></h2>
-                        <small>Knee Surgery</small>
-                        <h2></h2>
+                        <div id="visitDate">
+	                        <small>11/29/2010 Visit </small>
+	                        <h2></h2>
+	                        <small>11/29/2010 Visit </small>
+	                        <h2></h2>
+	                    </div>
+	                    <div id="surgery">
+	                        <small>Knee Surgery</small>
+	                        <h2></h2>
+	                    </div>
                         <hr style="border: 3px outset #595955;">
                         <small>Total Cost</small>
                       </blockquote>
-
-                      <a class="pull-right"> $100</a>
-                      <br>
-                      <a class="pull-right"> $65</a>
-                      <br>
-                      <a class="pull-right"> $5000</a>
-                      <br><h2></h2>
-                      <a class="pull-right"> $5165</a>
+                      <div id="visitDateCost">
+	                      <a class="pull-right"> $100</a>
+	                      <br>
+	                      <a class="pull-right"> $65</a>
+	                      <br>
+                      </div>
+                      <div id="surgeryCost">
+	                      <a class="pull-right"> $5000</a>
+	                      <br>
+                      </div>
+                      <h2></h2>
+                      <a id="totalCost" class="pull-right"> $5165</a>
                     </div>
                   </div>
               </div>
@@ -282,14 +290,14 @@
 <!-- Surgeries Performed CODE -->
 <div id="content" class="container jumbotron" style="margin-top:-50px;">
         <div id="sponsoredlist" class="table">
-	        <table class="table table-bordered table-hover">
+	        <table id = "surgerytable" class="table table-bordered table-hover">
 				<tr class="success">
 				    <th>Surgery Type</th>
 				    <th>CPT Code</th>
 				    <th># of Procedures</th>
 				    <th># of Doctors Performing the Procedure</th>
 				    <th>Total Billing ($)</th>
-				  </tr>
+				</tr>
 				  <tr class="danger">
 				    <td>Craniotomy</td>
 				    <td>44567.2</td>
@@ -313,11 +321,12 @@
 				  </tr>
 				  <tr class="danger">
 				    <td>Tonsillectomy</td>
-				    <td>12367.2</td>
+			    <td>12367.2</td>
 				    <td>10</td>
 				    <td>1</td>
 				    <td>20052</td>
 				  </tr>
+				  </div>
 			</table>
         </div>
 </div>
@@ -404,7 +413,7 @@
 
 
         <div id="recommendedlist" class="table">
-        	<table class="table table-bordered table-hover">
+        	<table id="patientvisittable" class="table table-bordered table-hover">
 				<tr class="success">
 				    <th>Doctor Name</th>
 				    <th># of Patients Seen</th>

@@ -23,14 +23,14 @@ if(mysqli_connect_errno()){
 //-------------------------------------------------connect database
 $username = $_SESSION['username'];
 $dusername = $_POST['postdoctorusername'];
-$content = $_POST['postcontent'];
+$content = mysqli_escape_string($link, $_POST['postcontent']);
 
 
 
 
 //set status to read
 $sendMessage = "INSERT INTO DoctorToDoctorComm (SenderUsername, RecipientUsername, Status, Content) 
-VALUES ('$username', '$dusername', 'Unread', $content)";
+VALUES ('$username', '$dusername', 'Unread', '$content')";
 
  
 $messagesent = mysqli_query($link,$sendMessage);
