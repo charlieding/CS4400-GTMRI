@@ -438,7 +438,7 @@ function loadUnreadMessages() {
 
 }
 
-function selectDoctor(){
+function selectDoctor(func){
 	$.get('../php/abhijit/getDoctors.php',{},
 		function(data){
 			data = $.parseJSON(data);
@@ -452,8 +452,7 @@ function selectDoctor(){
 						.append($('<td>')
 							.append($('<a>',{
 										text:data[i].name,
-										onclick: "setDoctor('"+ data[i].name+"','"+data[i].username+"');"
-									})
+									}).on("click",{name:data[i].name,username:data[i].username},func)
 								)
 							)
 						);
@@ -461,10 +460,32 @@ function selectDoctor(){
 			$('#docList').modal('show');
 		});
 }
-function setDoctor(name,username){
-	$('#doctor').val(name);
-	$('#doctor').attr('data-dusername',username);
+function setDoctor(event){
+	$('#doctor').val(event.data.name);
+	$('#doctor').attr('data-dusername',event.data.username);
 	$('#docList').modal('hide');
+}
+function setDoctorToRate(event){
+	$('#ratingDoctorName').val(event.data.name);
+	$('#ratingDoctorName').attr('data-duser',event.data.username)
+	$('#docList').modal('hide');
+}
+
+function rateDoctor(){
+	var doctorUsername = $('#ratingDoctorName').attr('data-duser');
+	var rating = $('#rating').val();
+	console.log(doctorUsername + " "+ rating);
+	$.post('../php/abhijit/rateDoctor.php',{
+		postDoctorUsername:doctorUsername,
+		postRating:rating
+	},function(data){
+		console.log(data);
+		if(data=="success"){
+			alert('Rating Successful!');
+			window.location.reload();
+		}else
+			$('#ratingResult').append(data);
+	});
 }
 function selectMedicine(){
 	$.get('../php/abhijit/getMedicines.php',{},
