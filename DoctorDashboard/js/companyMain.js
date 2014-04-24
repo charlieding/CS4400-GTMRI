@@ -452,11 +452,9 @@ function loadUnreadMessages() {
 
 function displayMonthAppointments(){
 	var apptday = $('#apptday').val();
-	apptday = apptday.substring(0,8);
-	apptday += "dd";
-	var resultsTable = "<tr> <td>Sno</td><td>Patient Name</td><td>Scheduled Date</td><td>Scheduled Time</td></tr>";
-	$("#appointmenttable").append(resultsTable);
-	$.post("../php/jordan/getAppointments.php",{ postapptday:apptday},
+	$('#appointmenttable').empty();
+	var resultsTable = "<tr> <td>Scheduled Date</td><td>Number of Appointments</td></tr>";
+	$.post("../php/jordan/getAppointmentsOfMonth.php",{ postapptday:apptday},
 		function(data){
 			data = $.parseJSON(data);
 			var appointments = data.appointments;
@@ -464,12 +462,8 @@ function displayMonthAppointments(){
 			for (var i = 0; i <appointments.length; i++) {
 				var appointment = appointments[i];
 				resultsTable = resultsTable + "<tr>";
-				resultsTable = resultsTable + "<td>" + (i+1) + "</td>";
-				resultsTable = resultsTable + "<td>" + appointment.FirstName +
-								" " + appointment.LastName + "</td>";
 				resultsTable = resultsTable + "<td>" + appointment.Date + "</td>";
-				resultsTable = resultsTable + "<td>" + appointment.StartTime + "-" + 
-							    appointment.EndTime;
+				resultsTable = resultsTable + "<td>" + appointment.numAppointments + "</td>";
 				resultsTable = resultsTable + "</tr>";
 			};
 			$("#appointmenttable").append(resultsTable);
@@ -1003,6 +997,8 @@ $(document).on("click", ".recordVisit", function() {
 		} );
 })
 
+
+
 $(document).ready(function () {	
 	load();
 	getDoctorProfile();
@@ -1017,6 +1013,9 @@ $(document).ready(function () {
     $("#apptday").attr("value", today);   
     displayAppointments();    
     $("#visitdate").attr("value", today);
+    $('#recordVisit').on('hidden', function() {
+    	$(this).removeData('modal');
+	});
 	$('#recordVisit').on('hidden', function() {
 		$('#vSystolicBP').val("");
 	});

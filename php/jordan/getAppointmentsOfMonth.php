@@ -24,10 +24,9 @@ if(mysqli_connect_errno()){
 $doctor = $_SESSION['username'];
 $apptday = $_POST['postapptday'];
 
-
-$queryString = "SELECT FirstName, LastName, StartTime, EndTime FROM Appointment as A, Patient as P WHERE A.Date='$apptday' AND A.PatientUsername = P.PatientUsername AND A.DoctorUsername='$doctor' GROUP BY A.PatientUsername ORDER BY StartTime";
-
-
+$yearmonthstartday = substr($apptday, 0, 7) . "-01";
+$yearmonthendday = substr($apptday, 0, 7) . "-31";
+$queryString = "SELECT A.Date, Count(*) as numAppointments FROM Appointment as A, Patient as P WHERE A.Date >= '$yearmonthstartday' AND A.Date <= '$yearmonthendday' AND A.PatientUsername = P.PatientUsername AND A.DoctorUsername='$doctor' GROUP BY A.Date";
 
 
 $searchResult = mysqli_query($link,$queryString);
