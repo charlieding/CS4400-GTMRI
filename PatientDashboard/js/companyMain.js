@@ -628,7 +628,7 @@ $(document).ready(function () {
 	initTabView();
 	loadVisits();
 	getProfileInfo();
-	//getMessages();
+	loadUnreadMessages();
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 	getPaymentInfo();

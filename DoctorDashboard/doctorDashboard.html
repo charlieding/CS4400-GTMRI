@@ -219,23 +219,26 @@
 						  </div>
 						  <div class="form-group">
 							<label for="nothing" class="col-lg-2 control-label">Availability</label>
-							<div class="col-lg-10">
-							  <div class="form-group row">
-								<label for="inputAvailability" class="col-lg-2 control-label">Date</label>
-								<div class="col-lg-10">
-								  <input type="date" class="form-control" id="availability">
-								</div>
-								<label for="inputFromTime" class="col-lg-2 control-label">From :</label>
-								<div class="col-lg-4">
-								  <input type="time" class="form-control" id="fromtime">
-								</div>
-								<label for="inputToTime" class="col-lg-2 control-label">To :</label>
-								<div class="col-lg-4">
-								  <input type="time" class="form-control" id="totime">
-								</div>
+							<button type="button" class="btn btn-default" onclick="addAvailability();">
+								<span class="glyphicon glyphicon-plus-sign"></span>
+							</button>
+							<div class="col-lg-10" id="availablityRow">
+							<div class="form-group row">
+							  <label for="inputAvailability" class="col-lg-2 control-label">Date</label>
+							  <div class="col-lg-10">
+								  <input type="date" class="form-control availControl">
+							  </div>
+							  <label for="inputFromTime" class="col-lg-2 control-label">From :</label>
+							  <div class="col-lg-4">
+								  <input type="time" class="form-control fromControl">
+							  </div>
+							  <label for="inputToTime" class="col-lg-2 control-label">To :</label>
+							  <div class="col-lg-4">
+								  <input type="time" class="form-control toControl">
 							  </div>
 							</div>
 						  </div>
+						</div>
 						  <div id="result4">
 						  </div>
 						</form>
