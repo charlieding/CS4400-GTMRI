@@ -836,27 +836,27 @@ function recordVisit() {
 											postmedduration:medduration,
 											postmednotes:mednotes},
 		function(data){
-			$('#recordVisit').modal('hide');
-			$('#vSystolicBP').val("");
-			$('#vDiastolicBP').val("");
-			$('.diagControl').each(function(index){
-				($(this).val(""));
-			});
-			$('.mednameControl').each(function(index){
-				($(this).val(""));
-			});
-			$('.meddosageControl').each(function(index){
-				($(this).val(""));
-			});
-			$('.meddurationControl').each(function(index){
-				($(this).val(""));
-			});
-			$('.mednotesControl').each(function(index){
-				($(this).val(""));
-			});
-			// $('.modal-body', '#recordVisit').empty();
-			if(data == "success") {
-				window.location = "DoctorDashboard/doctorDashboard.html";
+			if (data == "success") {
+				$('#recordVisit').modal('hide');
+				$('#vSystolicBP').val("");
+				$('#vDiastolicBP').val("");
+				$('.diagControl').each(function(index){
+					($(this).val(""));
+				});
+				$('.mednameControl').each(function(index){
+					($(this).val(""));
+				});
+				$('.meddosageControl').each(function(index){
+					($(this).val(""));
+				});
+				$('.meddurationControl').each(function(index){
+					($(this).val(""));
+				});
+				$('.mednotesControl').each(function(index){
+					($(this).val(""));
+				});
+			} else {
+				$('#failure').html(data);
 			}
 		});
 }
