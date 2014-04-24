@@ -278,7 +278,11 @@ function surgeryReport(){
 		$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
 
 		$.each(data.resultlist, function(){
-		    $("#surgerytable").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['CPT Code']+"</td><td>"+this['NumProcedures']+"</td><td>"+this['NumDoctors']+"</td><td>"+parseInt(this['Price'])*parseInt(this['NumProcedures'])+"</td></tr>");
+			var SurgeryPrice = parseInt(this['Price']);
+			var NumProcedures= parseInt(this['NumProcedures']);
+			var NumDiscounts = parseInt(this['NumOfDiscounts']);
+			var totalPrice = SurgeryPrice*(NumProcedures-NumDiscounts) + (SurgeryPrice/2)*NumDiscounts;
+		    $("#surgerytable").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['CPT Code']+"</td><td>"+this['NumProcedures']+"</td><td>"+this['NumDoctors']+"</td><td>"+totalPrice+"</td></tr>");
 		});
 		console.log("Surgery Report SUCCESS: "+ data);
 	});
