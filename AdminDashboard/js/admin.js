@@ -10,6 +10,11 @@ function initialize(){
 	document.getElementById("totalCost").innerHTML = "$0";
 	document.getElementById("name").innerHTML = "[Patient Name Here]";
 	document.getElementById("phonenumber").innerHTML = "[Patient's Home Phone Number]";
+
+	//Other Initializations - albiet no one can see it...
+	$("#surgerytable tr").empty();
+	$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+
 }
 /*
 
@@ -265,19 +270,30 @@ function doctorPerformance(){
 }
 function surgeryReport(){
 	console.log("loading surgery report");
-	/*$.getJSON("../php/charles/loadSurgeryReport.php", function (data){	
-		console.log("Sponsorship list load data:")
-		console.log(data);
-		console.log(data.resultlist);
-		$("#sponsoredlist").empty();
+	$.getJSON("../php/charles/surgeryreport/surgeryReport.php", function (data){
+		$("#surgerytable tr").empty();
+		$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+
 		$.each(data.resultlist, function(){
-		    $("#sponsoredlist").prepend("<div><div class=\"panel panel-success panel-default\"><div class=\"panel-heading panel-success\"><h3 class=\"panel-title\"><span> "+this['Package Name']+ "</span><span class=\"pull-right\"></span></h3></div><div class=\"panel-body\"><div class=\"\"><blockquote class=\"pull-left text-muted\"><small>"+this['Detail']+"</small></blockquote><a class=\"pull-right\"> $"+this['Price']+"</a></div></div></div></div>");
+		    $("#surgerytable").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['CPT Code']+"</td><td>"+this['NumProcedures']+"</td><td>"+this['NumDoctors']+"</td><td>"+parseInt(this['Price'])*parseInt(this['NumProcedures'])+"</td></tr>");
 		});
-	});*/
+		console.log("Surgery Report SUCCESS: "+ data);
+	});
 }
 function patientVisitReport(){
 	console.log("loading patient visit report...");
 	var month = $('#month').val();
 	var year = $('#year').val();
 	//php call
+	$.getJSON("../php/charles/surgeryreport/surgeryReport.php", {postMonth: month, postYear:year},
+	function (data)
+	{
+		$("#surgerytable tr").empty();
+		$("#surgerytable").prepend("<tr class=\"success\"><th>Surgery Type</th><th>CPT Code</th><th># of Procedures</th><th># of Doctors Performing the Procedure</th><th>Total Billing ($)</th></tr>");
+
+		$.each(data.resultlist, function(){
+		    $("#surgerytable").append("<tr class=\"danger\"><td>"+this['Surgery Type']+"</td><td>"+this['CPT Code']+"</td><td>"+this['NumProcedures']+"</td><td>"+this['NumDoctors']+"</td><td>"+parseInt(this['Price'])*parseInt(this['NumProcedures'])+"</td></tr>");
+		});
+		console.log("Surgery Report SUCCESS: "+ data);
+	});
 }
