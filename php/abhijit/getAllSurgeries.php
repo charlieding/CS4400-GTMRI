@@ -35,4 +35,6 @@ while($surgery = mysqli_fetch_assoc($result)){
 	$ret[] = $surgery;
 }
 echo json_encode($ret);
+
+mysqli_close($link);
 ?>

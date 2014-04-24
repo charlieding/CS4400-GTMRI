@@ -33,4 +33,5 @@ while($patient = mysqli_fetch_assoc($result)){
 }
 
 echo json_encode($ret);
+mysqli_close($link);
 ?>

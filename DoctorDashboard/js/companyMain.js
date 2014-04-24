@@ -546,7 +546,7 @@ function setPatient(patient) {
 }
 function selectPatient(event){
 	$('#patientName').val(event.data.patientData.FirstName + " " + event.data.patientData.LastName);
-	$('#patientName').attr('data-puser',event.data.username);
+	$('#patientName').attr('data-puser',event.data.patientData.PatientUserName);
 	$('#patientName').attr('data-pFirstName',event.data.patientData.FirstName);
 	$('#patientName').attr('data-pLastName',event.data.patientData.LastName);
 	$('#selectPatientModal').modal('hide');
@@ -1076,6 +1076,70 @@ function getSurgeries(){
 				$('#surgeryTable').append(tableRow);
 			}
 		});
+}
+function recordSurgery(){
+	var patientFirstName = $('#patientName').attr('data-pFirstName');
+	var patientLastName = $('#patientName').attr('data-pLastName');
+	var patientUsername = $('#patientName').attr('data-puser');
+	if(patientFirstName == ''){
+		$('#surgeryRecordResult').empty().append('Please select a patient');
+		return;
+	}
+
+	var cptCode = $('#cptCode').val();
+	if(cptCode == ''){
+		$('#surgeryRecordResult').empty().append('Please select a surgery');
+		return;
+	}
+	var numAssistants = $('#numAssistants').val();
+	if(numAssistants == ''){
+		$('#surgeryRecordResult').empty().append('Please enter a the number of assistants');
+		return;
+	}else if(numAssistants === '0'){
+		numAssistants = '0.0';
+	}
+	var anesthesiaStart = $('#anesthesiaStart').val();
+	if(anesthesiaStart == ''){
+		$('#surgeryRecordResult').empty().append('Please enter when the anesthesia was administered');
+		return;
+	}
+	var surgeryStartDate = $('#surgeryStartDate').val();
+	if(surgeryStartDate == ''){
+		$('#surgeryRecordResult').empty().append('Please enter what day the surgery was');
+		return;
+	}
+	var surgeryTimeStart = $('#surgeryTimeStart').val();
+	if(surgeryTimeStart == ''){
+		$('#surgeryRecordResult').empty().append('Please enter when the surgery started');
+		return;
+	}
+	var surgeryEnd = $('#surgeryEnd').val();
+	if(surgeryEnd == ''){
+		$('#surgeryRecordResult').empty().append('Please enter when the surgery ended');
+		return;
+	}
+	var complications = $('#complications').val();
+
+	$.post('../php/abhijit/recordSurgery.php',{
+		postPatientFirstName:patientFirstName,
+		postPatientLastName:patientLastName,
+		postPatientUsername:patientUsername,
+		postCptCode:cptCode,
+		postNumAssistants:numAssistants,
+		postAnesthesiaStart:anesthesiaStart,
+		postSurgeryStartDate:surgeryStartDate,
+		postSurgeryTimeStart:surgeryTimeStart,
+		postSurgeryEnd:surgeryEnd,
+		postComplications:complications
+	},function(data){
+		if(data == "success"){
+			alert('Surgery Recorded!');
+			window.location.reload();
+		}else {
+			$('#surgeryRecordResult').empty().append('There was a problem recording the surgery');
+			console.log(data);
+		}
+	});
 }
 $(document).ready(function () {	
 	load();
