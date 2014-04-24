@@ -178,7 +178,8 @@
                   <div class="form-group">
                     <label class="col-lg-2 control-label">Start:</label>
                     <div class="col-lg-5">
-                      <input type="time" id="surgeryStart" class="form-control">
+                      <input type="date" id="surgeryStartDate" class="form-control">
+                      <input type="time" id="surgeryTimeStart" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
@@ -193,8 +194,11 @@
                       <textarea id="complications" class="form-control"></textarea>
                     </div>
                   </div>
-                  <button type="button" class="col-lg-10 btn btn-primary" onclick="alert('almost there');">Record</button>
+                  <div class="form-group">
+                   <button type="button" class="col-lg-10 btn btn-primary" onclick="recordSurgery();">Record</button>
+                  </div>
                 </form>
+                <div id="surgeryRecordResult"></div>
         </div>
 			</div>
 			<div class="tab" id="tab4">
