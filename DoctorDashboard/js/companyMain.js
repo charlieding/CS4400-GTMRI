@@ -431,12 +431,18 @@ function displayPatients(){
 				resultsTable = resultsTable + "<td><label for='patientPhone'>" + patient.HomePhone + "</label></td>";
 				resultsTable = resultsTable + "<td><button type='button' onclick='loadVisits(\"" + patient.PatientUsername + "\");' class='btn btn-primary'>View</button>   ";
 				
-				resultsTable = resultsTable + "<button type='button' class='record btn btn-primary'>Record a visit</button></td>";
+				// resultsTable = resultsTable + "<button type='button' onclick='showRecordVisitModal(\"" + patient.PatientUsername + "\");' class='record btn btn-primary'>Record a visit</button></td>";
+				resultsTable = resultsTable + "<button type='button' data-toggle='modal' onclick='setPatient(\"" + patient.PatientUsername + "\");' 'href='#recordVisit' class='record btn btn-primary'>Record a visit</button></td>";
 				//resultsTable = resultsTable + "<td><button type='button' onclick="displayMonthAppointments(); + " class="btn btn-primary"></button></td>";
  				resultsTable = resultsTable + "</tr>";
 			};
 			$("#patienttable").append(resultsTable);
 		});
+}
+
+function setPatient(patient) {
+	$.post("../php/jordan/setPatient.php",{ postpatient:patient});
+	$('#recordVisit').modal('show');
 }
 
 function trashIcon(ele){
@@ -629,7 +635,7 @@ function loadVisits(patientusername){
 			}
 			// $('#visitdatestable').append(resultsTable);
 			$('#test').append(resultsTable);
-			$('#visitDetails').modal('show'); 
+			// $('#visitDetails').modal('show'); 
 			// $('#visitDates').modal('show'); 
 			//Something wrong with this modal call..displayPatients() will work before but not after
 			// displayPatients();
@@ -675,10 +681,18 @@ function displayVisitInfo(date, patient) {
 		});
 }
 
+function showRecordVisitModal(patient) {
+	$('#recordVisit').modal('show');
+	// $('#recordVisit-submit').on('click', recordVisit(patient));
+	$('#recordVisit-submit').click(function(){
+		e.recordVisit(patient);
+	});
+}
+
 function recordVisit() {
 	var visitdate = $('#visitdate').val();
-	var systolicBP = $('#systolicBP').val();
-	var diastolicBP = $('#diastolicBP').val();
+	var systolicBP = $('#vSystolicBP').val();
+	var diastolicBP = $('#vDiastolicBP').val();
 	var diagnosis = [];
 	$('.diagControl').each(function(index){
 		if($(this).val() != ""){
@@ -718,65 +732,211 @@ function recordVisit() {
 											postmedduration:medduration,
 											postmednotes:mednotes},
 		function(data){
-			data = $.parseJSON(data);
-		} )
+			$('#recordVisit').modal('hide');
+			// $('.modal-body', '#recordVisit').empty();
+			if(data == "success") {
+				window.location = "DoctorDashboard/doctorDashboard.html";
+			}
+		});
 }
 function addDiagnosis(){
 	form_group = $('<div>',{class:"form-group row"});
-	date_label = $('<label>',
+	diagnosis_label = $('<label>',
 			{class:"col-lg-2 control-label",
-			for:"inputAvailability",
-		text:"Date"});
-	date_div = $('<div>',{
-			class:"col-lg-10"
+			for:"inputDiagnosis",
+			text:"Diagnosis: "});
+	diagnosis_div = $('<div>',{
+			class:"col-lg-8"
 	});
-	date_input = $('<input>',{
-			type:"date",
-			class:"form-control availControl",
+	diagnosis_input = $('<input>',{
+			type:"text",
+			class:"form-control diagControl",
 	});
-	date_div.append(date_input);
-	form_group.append(date_label);
-	form_group.append(date_div);
-
-	from_label = $('<label>',
-			{class:"col-lg-2 control-label",
-			for:"inputAvailability",
-		text:"From :"});
-	from_div = $('<div>',{
-			class:"col-lg-4"
-	});
-	from_input = $('<input>',{
-			type:"time",
-			class:"form-control fromControl",
-	});
-	from_div.append(from_input);
-	form_group.append(from_label);
-	form_group.append(from_div);
-
-	to_label = $('<label>',
-			{class:"col-lg-2 control-label",
-			for:"inputAvailability",
-		text:"To :"});
-	to_div = $('<div>',{
-		class:"col-lg-4"
-	});
-	to_input = $('<input>',{
-			type:"time",
-			class:"form-control toControl",
-	});
-	to_div.append(to_input);
-	form_group.append(to_label);
-	form_group.append(to_div);
-
-	$('#availablityRow').append(form_group);
+	diagnosis_div.append(diagnosis_input);
+	form_group.append(diagnosis_label);
+	form_group.append(diagnosis_div);
+	$('#diagnosisRow').append(form_group);
 }
 
+// function addMedication() {
+// 	form_group = $('<div>',{class:"form-group row"});
+// 	date_label = $('<label>',
+// 		{class:"col-lg-2 control-label",
+// 		 for:"inputMedName",
+// 	     text:"Medicine Name: "});
+// 	date_div = $('<div>',{
+// 		class:"col-lg-10"
+// 	});
+// 	date_input = $('<input>',{
+// 		type:"Text",
+// 		class:"form-control mednameControl",
+// 	});
+// 	date_div.append(date_input);
+// 	form_group.append(date_label);
+// 	form_group.append(date_div);
+	
+// 	form_group2 = $('<div>',{class:"form-group row"});
+// 	from_label = $('<label>',
+// 		{class:"col-lg-2 control-label",
+// 		 for:"inputMedDosage",
+// 	     text:"Dosage: "});
+// 	from_div = $('<div>',{
+// 		class:"col-lg-10"
+// 	});
+// 	from_input = $('<input>',{
+// 		type:"Text",
+// 		class:"form-control meddosageControl",
+// 	});
+// 	from_div.append(from_input);
+// 	form_group2.append(from_label);
+// 	form_group2.append(from_div);
 
+// 	form_group3 = $('<div>',{class:"form-group row"});
+// 	to_label = $('<label>',
+// 		{class:"col-lg-2 control-label",
+// 		 for:"inputMedDuration",
+// 	     text:"Duration: "});
+// 	to_div = $('<div>',{
+// 		class:"col-lg-10"
+// 	});
+// 	to_input = $('<input>',{
+// 		type:"Text",
+// 		class:"form-control meddurationControl",
+// 	});
+// 	to_div.append(to_input);
+// 	form_group3.append(to_label);
+// 	form_group3.append(to_div);
+
+// 	form_group4 = $('<div>',{class:"form-group row"});
+// 	mednotes_label = $('<label>',
+// 		{class:"col-lg-2 control-label",
+// 		 for:"inputMedNotes",
+// 	     text:"Notes: "});
+// 	mednotes_div = $('<div>',{
+// 		class:"col-lg-10"
+// 	});
+// 	mednotes_input = $('<input>',{
+// 		type:"Text",
+// 		class:"form-control mednotesControl",
+// 	});
+// 	mednotes_div.append(mednotes_input);
+// 	form_group4.append(mednotes_label);
+// 	form_group4.append(mednotes_div);
+
+// 	$('#medicationRow').append(form_group);
+// 	$('#medicationRow').append(form_group2);
+// 	$('#medicationRow').append(form_group3);
+// 	$('#medicationRow').append(form_group4);
+// }
+
+/*This is addMedication working for medTable*/
+function addMedication(){
+	table_row = $('<tr>');
+	medname_cell = $('<td>');
+	medname_input = $('<input>',{
+			type:"Text",
+			class:"form-control mednameControl",
+	});
+	medname_endcell = $('</td>');
+	medname_cell.append(medname_input);
+	table_row.append(medname_cell);
+	table_row.append(medname_endcell);
+
+	meddosage_cell = $('<td>');
+	meddosage_input = $('<input>',{
+			type:"Text",
+			class:"form-control meddosageControl",
+	});
+	meddosage_endcell = $('</td>');
+	meddosage_cell.append(meddosage_input);
+	table_row.append(meddosage_cell);
+	table_row.append(meddosage_endcell);
+
+	medduration_cell = $('<td>');
+	medduration_input = $('<input>',{
+			type:"Text",
+			class:"form-control meddurationControl",
+	});
+	medduration_endcell = $('</td>');
+	medduration_cell.append(medduration_input);
+	table_row.append(medduration_cell);
+	table_row.append(medduration_endcell);
+
+	mednotes_cell = $('<td>');
+	mednotes_input = $('<input>',{
+			type:"Text",
+			class:"form-control mednotesControl",
+	});
+	mednotes_endcell = $('</td>');
+	mednotes_cell.append(mednotes_input);
+	table_row.append(mednotes_cell);
+	table_row.append(mednotes_endcell);
+
+	table_endrow = $('</tr>');
+
+	table_row.append(table_endrow);
+
+	$('#medicationtable').append(table_row);
+}
+
+$(document).on("click", ".recordVisit", function() {
+	var patient = $(this).data('id');
+	var visitdate = $('#visitdate').val();
+	var systolicBP = $('#systolicBP').val();
+	var diastolicBP = $('#diastolicBP').val();
+	var diagnosis = [];
+	$('.diagControl').each(function(index){
+		if($(this).val() != ""){
+				diagnosis.push($(this).val());
+			}
+	});
+	var medname = [];
+	$('.mednameControl').each(function(index){
+		if($(this).val() != ""){
+				medname.push($(this).val());
+			}
+	});
+	var meddosage = [];
+	$('.meddosageControl').each(function(index){
+		if($(this).val() != ""){
+				meddosage.push($(this).val());
+			}
+	});
+	var medduration = [];
+	$('.meddurationControl').each(function(index){
+		if($(this).val() != ""){
+				medduration.push($(this).val());
+			}
+	});
+	var mednotes = [];
+	$('.mednotesControl').each(function(index){
+		if($(this).val() != ""){
+				mednotes.push($(this).val());
+			}
+	});
+	$.post('../php/jordan/recordVisit.php',{postpatient:patient,
+											postvisitdate:visitdate,
+											postsystolicbp:systolicBP,
+											postdiastolicbp:diastolicBP,
+											postdiagnosis:diagnosis,
+											postmedname:medname,
+											postmeddosage:meddosage,
+											postmedduration:medduration,
+											postmednotes:mednotes},
+		function(data){
+			if(data == "success") {
+				window.location = "DoctorDashboard/doctorDashboard.html";
+			}
+		} );
+})
 
 $(document).ready(function () {	
 	load();
 	getDoctorProfile();
 	loadUnreadMessages();
+	$('#recordVisit').on('hidden', function() {
+		$('#vSystolicBP').val("");
+	});
 	$('#companyDetails')
 		.on('change', CompanyDetails.update);
 

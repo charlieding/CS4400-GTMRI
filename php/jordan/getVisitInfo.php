@@ -25,7 +25,7 @@ $doctor = $_SESSION['username'];
 $patient = $_GET['getpatient'];
 $date = $_GET['getdate'];
 
-$queryString = "SELECT FirstName, LastName, DiastolicBP, SystolicBP, Visit.Date, MedicineName, Dosage, Duration, Notes FROM Visit ".
+$queryString = "SELECT Doctor.FirstName, Doctor.LastName, DiastolicBP, SystolicBP, Visit.Date, MedicineName, Dosage, Duration, Notes FROM Visit ".
 "LEFT JOIN Prescription ON (Prescription.PatientUsername = '$patient' AND  Prescription.DateOfVisit = '$date' AND Visit.DoctorUsername = Prescription.DoctorUsername) ".
 "LEFT JOIN Doctor ON (Doctor.DoctorUsername = Visit.DoctorUsername) ".
 "WHERE (Visit.Date = '$date' AND Visit.PatientUsername = '$patient')";

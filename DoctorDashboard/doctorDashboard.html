@@ -336,32 +336,47 @@
       	      </div>
       	    </div>
       	    <div class="form-group">
-			  <label for="inputName" class="col-lg-2 control-label">Doctor Name</label>
+			  <label for="inputBP" class="col-lg-2 control-label">Blood Pressure: </label>
 			  <div class="col-lg-10">
 			  	<div class="form-group row">
 			  	  <label for="inputSystolicBP" class="col-lg-2 control-label">Systolic: </label>
-			  	  <div class="col-lg-5">
-                      <input type="text" class="form-control" id="systolicBP">
+			  	  <div class="col-lg-3">
+                      <input type="text" class="form-control" id="vSystolicBP">
                   </div>
                   <label for="inputDiastolicBP" class="col-lg-2 control-label">Diastolic: </label>
-			  	  <div class="col-lg-5">
-                      <input type="text" class="form-control" id="diastolicBP">
+			  	  <div class="col-lg-3">
+                      <input type="text" class="form-control" id="vDiastolicBP">
                   </div>
 			    </div>
 			  </div>
 			</div>
-			<!--LEFT OFF HERE-->
-	        Consulting Doctor: <div id="doctorName"></div>
-	        <br>
-	        Blood Presssure: 
-	        <br>
-	        Systolic: <div id="systolicBP"></div> Diastolic: <div id="diastolicBP"></div>
-	        <br>
-	        Diagnosis: <p id="diagnosis"></p>
-	        <br>
-	        Medicines Prescribed: <table class="table table-bordered" id="medicinesPrescribedTable"></table>
+			<div class="form-group row">
+			  <div class="col-lg-10" id="diagnosisRow">
+			    <div class="form-group">
+                  <label for="inputDiagnosis" class="col-lg-2 control-label">Diagnosis: </label>
+                  <div class="col-lg-8">
+                    <input type="Text" class="form-control diagControl">
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-default" onclick="addDiagnosis();">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+              	    </button>
+          		  </div>
+                </div>
+              </div>
+            </div>
+            Medicines Prescribed: <table class="table table-bordered" id="medicationtable"> <tr><td>Medicine Name</td><td>Dosage</td><td>Duration</td><td>Notes</td></tr><tr><td><input type="Text" class="form-control mednameControl"></td><td><input type="Text" class="form-control meddosageControl"></td><td><input type="Text" class="form-control meddurationControl"></td><td><input type="Text" class="form-control mednotesControl"></td></tr></table>
+            <div class="form-group">
+	            <button type="button" class="btn btn-default" onclick="addMedication();">
+	            <span class="glyphicon glyphicon-plus-sign"></span>
+	      	    </button>
+            </div>
 	      </form>
     	</div>
+    	<div class="modal-footer">
+    		<a id="recordVisit-submit" onclick="recordVisit();" class="btn btn-primary">Add Visit</a>
+    	  <!-- button type="button" onclick="createDoctor()" class="btn btn-primary">Add Visit</button> -->
+		</div>
       </div>
     </div>
   </div>
