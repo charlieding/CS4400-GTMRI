@@ -1,4 +1,5 @@
 function login() {
+	$("#loading").show();
     var name = $('#inputEmail').val();
     var password = $('#inputPassword').val();
 
@@ -15,6 +16,7 @@ function login() {
 	    }
 	    else {
 	        $('#result').html(data);
+	        $("#loading").hide();
 	    }
 	});
 }
@@ -193,6 +195,7 @@ function addAvailability(){
 }
 
 jQuery(document).ready(function () {
+	$("#loading").hide();
 	$('#inputEmail').add('#inputPassword').on('keypress', function submitKeypress(event) {
 		if (event.which == 13)
 		{
