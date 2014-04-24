@@ -275,13 +275,15 @@ function getVisitInfo(date,doctor){
 			}
 			$('#medicinesPrescribedTable').empty();
 			$('#medicinesPrescribedTable').append("<tr><td>Name</td><td>Dosage</td><td>Duration</td><td>Notes</td></tr>")
-			for(var medicine in medicines){
-				medTable = "<tr>";
-				medTable += "<td>" + medicine + "</td>";
-				medTable += "<td>" + medicines[medicine].Dosage + "</td>";
-				medTable += "<td>" + medicines[medicine].Duration + "</td>";
-				medTable += "<td>" + medicines[medicine].Notes + "</td>";
-				$('#medicinesPrescribedTable').append(medTable);
+			if(medicines.length > 0){
+				for(var medicine in medicines){
+					medTable = "<tr>";
+					medTable += "<td>" + medicine + "</td>";
+					medTable += "<td>" + medicines[medicine].Dosage + "</td>";
+					medTable += "<td>" + medicines[medicine].Duration + "</td>";
+					medTable += "<td>" + medicines[medicine].Notes + "</td>";
+					$('#medicinesPrescribedTable').append(medTable);
+				}
 			}
 			$('#visitDetails').modal('show');
 		});
