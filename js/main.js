@@ -61,6 +61,9 @@ function createPatient(){
 	var address = $('#address').val();
 	var homephone = $('#homephone').val();
 	var workphone = $('#workphone').val();
+	if(workphone === ''){
+		workphone = '0';
+	}
 	var emergency_name = $('#emergency_name').val();
 	var emergency_phone = $('#emergency_phone').val();
 	var weight = $('#weight').val();
