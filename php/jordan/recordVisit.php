@@ -47,9 +47,9 @@ $numVisits = mysqli_query($link, "SELECT Count(*) FROM Visit WHERE PatientUserna
 echo mysqli_error($link);
 
 if ($numVisits > 0) {
-	$visitCost = 75;
-} else {
 	$visitCost = 150;
+} else {
+	$visitCost = 200;
 }
 if ($patientIncome < 25000) {
 	$visitCost -= ($visitCost * .2);

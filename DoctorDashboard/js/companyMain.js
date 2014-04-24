@@ -837,7 +837,6 @@ function recordVisit() {
 											postmednotes:mednotes},
 		function(data){
 			$('#recordVisit').modal('hide');
-			$('#recordVisit')
 			$('#vSystolicBP').val("");
 			$('#vDiastolicBP').val("");
 			$('.diagControl').each(function(index){
