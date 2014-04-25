@@ -225,7 +225,7 @@ function billing(){
 			document.getElementById("name").innerHTML = patientName;
 			document.getElementById("phonenumber").innerHTML = data;
 			console.log("Phone # SUCCESS: "+ data);
-		}, 'json');
+		}, 'text');
 
 	//Get Patient Visit History
 	$.post("../php/charles/billing/visitHistory.php", {postFirstName: firstName, postLastName:lastName},

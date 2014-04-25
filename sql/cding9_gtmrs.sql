@@ -6,6 +6,9 @@
 -- Generation Time: Apr 25, 2014 at 06:22 AM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
+CREATE DATABASE if not exists cding9_gtmrs;    /*Uncomment this line hostgator*/
+
+USE cding9_gtmrs;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
