@@ -56,7 +56,11 @@ if(mysqli_connect_errno()){
 		}
 
 		//Calculates Average Rating
-		$AverageRating = $totalValOfRatings/$totalNumOfRatings;
+		if($totalNumOfRatings == 0){
+			$AverageRating = -1;
+		}else{
+			$AverageRating = $totalValOfRatings/$totalNumOfRatings;
+		}
 
 		//Pushes Data onto Array
 		array_push($result, array('Surgery Type' => $specialtyType,
