@@ -276,15 +276,15 @@ function getVisitInfo(date,doctor){
 			}
 			$('#medicinesPrescribedTable').empty();
 			$('#medicinesPrescribedTable').append("<tr><td>Name</td><td>Dosage</td><td>Duration</td><td>Notes</td></tr>")
-			if(medicines.length > 0){
-				for(var medicine in medicines){
-					medTable = "<tr>";
-					medTable += "<td>" + medicine + "</td>";
-					medTable += "<td>" + medicines[medicine].Dosage + "</td>";
-					medTable += "<td>" + medicines[medicine].Duration + "</td>";
-					medTable += "<td>" + medicines[medicine].Notes + "</td>";
-					$('#medicinesPrescribedTable').append(medTable);
-				}
+			console.log(medicines);
+			for(var medicine in medicines){
+				console.log(medicine);
+				medTable = "<tr>";
+				medTable += "<td>" + medicine + "</td>";
+				medTable += "<td>" + medicines[medicine].Dosage + "</td>";
+				medTable += "<td>" + medicines[medicine].Duration + "</td>";
+				medTable += "<td>" + medicines[medicine].Notes + "</td>";
+				$('#medicinesPrescribedTable').append(medTable);
 			}
 			$('#visitDetails').modal('show');
 		});

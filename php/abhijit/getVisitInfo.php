@@ -30,7 +30,7 @@ $queryString = "SELECT FirstName, LastName, DiastolicBP, SystolicBP, Visit.Date,
 "LEFT JOIN Doctor ON (Doctor.DoctorUsername = Visit.DoctorUsername) ".
 "WHERE (Visit.Date = '$date' AND Visit.PatientUsername = '$username')";
 
-$diagnosisQuery = "SELECT Diagnosis FROM Diagnosis WHERE Date='$date' AND PatientUsername='$username' AND DoctorUsername='$doctor'";
+$diagnosisQuery = "SELECT Diagnosis FROM Visit_Diagnosis WHERE Date='$date' AND PatientUsername='$username' AND DoctorUsername='$doctor'";
 
 $result = mysqli_query($link,$queryString);
 echo mysqli_error($link);
@@ -46,10 +46,11 @@ while($visit = mysqli_fetch_assoc($result)){
 	$visitInfo['sysBP'] = $visit['SystolicBP'];
 	$visitInfo['diaBP'] = $visit['DiastolicBP'];
 
-	$medicines[$visit['MedicineName']] = array(
-		'Dosage' => $visit['Dosage'],
-		'Duration' => $visit['Duration'],
-		'Notes' => $visit['Notes']);
+	if($visit['MedicineName'] != '')
+		$medicines[$visit['MedicineName']] = array(
+			'Dosage' => $visit['Dosage'],
+			'Duration' => $visit['Duration'],
+			'Notes' => $visit['Notes']);
 }
 
 while($diag = mysqli_fetch_assoc($diagnosisResult)){
