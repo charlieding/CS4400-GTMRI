@@ -26,7 +26,7 @@ if(mysqli_connect_errno()){
 $postFirstName = $_POST['postFirstName'];
 $postLastName = $_POST['postLastName'];
 
-	$getPatientUsernameSQL = "SELECT * FROM patient WHERE FirstName = '$postFirstName' AND LastName = '$postLastName'";
+	$getPatientUsernameSQL = "SELECT * FROM Patient WHERE FirstName = '$postFirstName' AND LastName = '$postLastName'";
 	$patientUsernameResult = mysqli_query($link, $getPatientUsernameSQL);
 	$patientUsername = "null";
 	if($rowSearch = mysqli_fetch_array($patientUsernameResult, MYSQL_ASSOC)){
@@ -34,7 +34,7 @@ $postLastName = $_POST['postLastName'];
 		$patientAnnualIncome = $rowSearch["AnnualIncome"];
 	}
 
-	$getSurgerySQL = "SELECT * FROM surgery_record WHERE PatientUsername = '$patientUsername'";
+	$getSurgerySQL = "SELECT * FROM Surgery_Record WHERE PatientUsername = '$patientUsername'";
 	$surgeryResults = mysqli_query($link, $getSurgerySQL);
 
 	$resultSurgery = array(); 
@@ -42,7 +42,7 @@ $postLastName = $_POST['postLastName'];
 		
 		$cptCode = $rowSearch3["CPT_Code"];
 
-		$getPriceSQL = "SELECT * FROM surgery WHERE CPT_Code = '$cptCode'";
+		$getPriceSQL = "SELECT * FROM Surgery WHERE CPT_Code = '$cptCode'";
 		$priceResult = mysqli_query($link, $getPriceSQL);
 		if($rowSearch = mysqli_fetch_array($priceResult, MYSQL_ASSOC)){
 			$finalPrice = $rowSearch["SurgeryCost"];

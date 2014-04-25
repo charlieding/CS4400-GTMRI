@@ -23,7 +23,7 @@ if(mysqli_connect_errno()){
 	 );
 }
 
-	$getSurgerySQL = "SELECT * FROM surgery";
+	$getSurgerySQL = "SELECT * FROM Surgery";
 	$surgeryResults = mysqli_query($link, $getSurgerySQL);
 
 	$resultSurgery = array(); 
@@ -34,12 +34,12 @@ if(mysqli_connect_errno()){
 		$numOfDiscounts = 0;
 
 		//Gets Number of Patients that have discounts	
-		$getDiscountsSQL = "SELECT * FROM surgery_record WHERE CPT_Code = '$cptCode' AND SurgeryStartTime > (DATE_SUB(NOW(), INTERVAL 3 MONTH))";
+		$getDiscountsSQL = "SELECT * FROM Surgery_Record WHERE CPT_Code = '$cptCode' AND SurgeryStartTime > (DATE_SUB(NOW(), INTERVAL 3 MONTH))";
 		$discountResults = mysqli_query($link, $getDiscountsSQL);
 		while($rowSearch2 = mysqli_fetch_array($discountResults, MYSQL_ASSOC)) {
 			$patientUsername = $rowSearch2["PatientUsername"];
 			//Checks for Discount ...
-			$disSQL = "SELECT * FROM patient WHERE PatientUsername = '$patientUsername'";
+			$disSQL = "SELECT * FROM Patient WHERE PatientUsername = '$patientUsername'";
 			$disResult = mysqli_query($link, $disSQL);
 			if($dis = mysqli_fetch_array($disResult, MYSQL_ASSOC)){
 				if($dis["AnnualIncome"] < 25000){
@@ -49,12 +49,12 @@ if(mysqli_connect_errno()){
 		}
 
 		//Gets Number of Procedures ... in the past 3 months...
-		$getNumberOfProceduresSQL = "SELECT * FROM surgery_record WHERE CPT_Code = '$cptCode' AND SurgeryStartTime > (DATE_SUB(NOW(), INTERVAL 3 MONTH))";
+		$getNumberOfProceduresSQL = "SELECT * FROM Surgery_Record WHERE CPT_Code = '$cptCode' AND SurgeryStartTime > (DATE_SUB(NOW(), INTERVAL 3 MONTH))";
 		$numOfProcResult = mysqli_query($link, $getNumberOfProceduresSQL);
 		$numOfProcedures = mysqli_num_rows($numOfProcResult);
 		
 		//Gets Number of Doctors ... in the past three months
-		$getNumberOfDoctorsSQL = "SELECT DISTINCT DoctorUsername FROM surgery_record WHERE CPT_Code = '$cptCode' AND SurgeryStartTime > (DATE_SUB(NOW(), INTERVAL 3 MONTH))";
+		$getNumberOfDoctorsSQL = "SELECT DISTINCT DoctorUsername FROM Surgery_Record WHERE CPT_Code = '$cptCode' AND SurgeryStartTime > (DATE_SUB(NOW(), INTERVAL 3 MONTH))";
 		$numOfDoctorsResult = mysqli_query($link, $getNumberOfDoctorsSQL);
 		$numOfDoctors = mysqli_num_rows($numOfDoctorsResult);
 

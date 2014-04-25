@@ -22,7 +22,7 @@ if(mysqli_connect_errno()){
 }
 //-------------------------------------------------connect database
 $username = $_SESSION['username'];
-$doctorFirstName = $_SESSION['firstName'];
+$doctorFirstName = $SESSION['firstName'];
 $doctorLastName = $_SESSION['lastName'];
 
 $patientFirstName = $_POST['postPatientFirstName'];

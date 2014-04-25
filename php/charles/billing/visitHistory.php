@@ -26,14 +26,14 @@ if(mysqli_connect_errno()){
 $postFirstName = $_POST['postFirstName'];
 $postLastName = $_POST['postLastName'];
 
-	$getPatientUsernameSQL = "SELECT * FROM patient WHERE FirstName = '$postFirstName' AND LastName = '$postLastName'";
+	$getPatientUsernameSQL = "SELECT * FROM Patient WHERE FirstName = '$postFirstName' AND LastName = '$postLastName'";
 	$patientUsernameResult = mysqli_query($link, $getPatientUsernameSQL);
 	$patientUsername = "null";
 	if($rowSearch = mysqli_fetch_array($patientUsernameResult, MYSQL_ASSOC)){
 		$patientUsername = $rowSearch["PatientUsername"];
 	}
 
-	$getVisitsSQL = "SELECT * FROM visit WHERE PatientUsername = '$patientUsername'";
+	$getVisitsSQL = "SELECT * FROM Visit WHERE PatientUsername = '$patientUsername'";
 	$visitsResults = mysqli_query($link, $getVisitsSQL);
 
 	$resultVisits = array(); 

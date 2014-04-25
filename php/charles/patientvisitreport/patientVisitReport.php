@@ -37,7 +37,7 @@ if($postMonth == 12){
 	$endDate = $postYear."/".($postMonth+1)."/"."01";
 }
 
-	$getDoctorsSQL = "SELECT * FROM doctor";
+	$getDoctorsSQL = "SELECT * FROM Doctor";
 	$doctorsResults = mysqli_query($link, $getDoctorsSQL);
 
 	$resultPatientVisitReport = array(); 
@@ -48,18 +48,18 @@ if($postMonth == 12){
 		$doctorLastName = $rowSearch3["LastName"];
 
 		//Gets Number of Prescriptions Written
-		$getNumberOfPrescriptionsSQL = "SELECT * FROM prescription WHERE DoctorUsername = '$doctorUsername' AND DateOfVisit >= '$beginDate' AND DateOfVisit < '$endDate'";
+		$getNumberOfPrescriptionsSQL = "SELECT * FROM Prescription WHERE DoctorUsername = '$doctorUsername' AND DateOfVisit >= '$beginDate' AND DateOfVisit < '$endDate'";
 		$numOfPresResult = mysqli_query($link, $getNumberOfPrescriptionsSQL);
 		$numOfPrescriptions = mysqli_num_rows($numOfPresResult);
 		
 		//Gets Number of Patients Seen
-		$getNumberOfDoctorsSQL = "SELECT DISTINCT PatientUsername FROM visit WHERE DoctorUsername = '$doctorUsername' AND Date >= '$beginDate' AND Date < '$endDate'";
+		$getNumberOfDoctorsSQL = "SELECT DISTINCT PatientUsername FROM Visit WHERE DoctorUsername = '$doctorUsername' AND Date >= '$beginDate' AND Date < '$endDate'";
 		$numOfDoctorsResult = mysqli_query($link, $getNumberOfDoctorsSQL);
 		$numOfPatients = mysqli_num_rows($numOfDoctorsResult);
 
 		//Gets Total Visits Billing
 		$totalPrice = 0;
-		$getVisitsSQL = "SELECT * FROM visit WHERE DoctorUsername = '$doctorUsername'AND Date >= '$beginDate' AND Date < '$endDate'";
+		$getVisitsSQL = "SELECT * FROM Visit WHERE DoctorUsername = '$doctorUsername'AND Date >= '$beginDate' AND Date < '$endDate'";
 		$visitsResults = mysqli_query($link, $getVisitsSQL);
 		while($rowSearch = mysqli_fetch_array($visitsResults, MYSQL_ASSOC)) {
 			$totalPrice = $totalPrice + intval($rowSearch["BillingAmount"]);

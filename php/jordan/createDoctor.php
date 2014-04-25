@@ -21,7 +21,7 @@ if(mysqli_connect_errno()){
 }
 //-------------------------------------------------connect database
 
-$username = $_POST['username'];
+$username = $_SESSION['username'];
 $licnum = $_POST['postlicnum'];
 $fname = $_POST['postfname']; 
 $lname = $_POST['postlname'];

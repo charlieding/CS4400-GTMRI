@@ -21,7 +21,7 @@ if(mysqli_connect_errno()){
 	 );
 }
 //-------------------------------------------------connect database
-$patient = $_POST['username'];
+$patient = $_SESSION['username'];
 $doctor = $_POST['postdoctor'];
 $day = $_POST['postday'];
 $start = $_POST['poststart'];

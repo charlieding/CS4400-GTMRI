@@ -26,7 +26,7 @@ if(mysqli_connect_errno()){
 $postFirstName = $_POST['postFirstName'];
 $postLastName = $_POST['postLastName'];
 
-	$phoneNumberSQL = "SELECT * FROM patient WHERE FirstName = '$postFirstName' AND LastName = '$postLastName'";
+	$phoneNumberSQL = "SELECT * FROM Patient WHERE FirstName = '$postFirstName' AND LastName = '$postLastName'";
 	$phoneNumberResults = mysqli_query($link, $phoneNumberSQL);
 
 	$phoneNumber = "0000000000";
