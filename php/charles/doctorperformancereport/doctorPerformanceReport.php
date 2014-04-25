@@ -57,7 +57,7 @@ if(mysqli_connect_errno()){
 
 		//Calculates Average Rating
 		if($totalNumOfRatings == 0){
-			$AverageRating = -1;
+			$AverageRating = 0;
 		}else{
 			$AverageRating = $totalValOfRatings/$totalNumOfRatings;
 		}
