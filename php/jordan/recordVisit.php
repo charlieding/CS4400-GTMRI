@@ -33,7 +33,7 @@ $meddosage = $_POST['postmeddosage'];
 $medduration = $_POST['postmedduration'];
 $mednotes = $_POST['postmednotes'];
 
-$visitExistResult = mysqli_query($link, "select * from Visit WHERE PatientUsername = '$patient' AND DoctorUsername ='$doctor' AND Date = $'visitdate'");
+$visitExistResult = mysqli_query($link, "select * from Visit WHERE PatientUsername = '$patient' AND DoctorUsername ='$doctor' AND Date = '$visitdate'");
 
 if(mysqli_num_rows($visitExistResult) != 0){
 	echo("Visit already exists");
@@ -42,16 +42,19 @@ if(mysqli_num_rows($visitExistResult) != 0){
 //Initial vist rate = 150.  If low income, take 20% off everything, second and subsequent visits = 75.  Perform query where visit matches patient username to see how many visits they have had. Patient belong to low-income if they earn less than 25,000 per year.
 
 $patientIncome = mysqli_query($link, "SELECT AnnualIncome FROM Patient WHERE PatientUsername = '$patient'");
+$patientIncome = mysqli_fetch_assoc($patientIncome);
 
 $numVisits = mysqli_query($link, "SELECT Count(*) FROM Visit WHERE PatientUsername = '$patient'");
+$numVisits = mysqli_fetch_assoc($numVisits);
 echo mysqli_error($link);
 
-if ($numVisits > 0) {
+$visitCost = 0;
+if ($numVisits['Count(*)'] > 0) {
 	$visitCost = 150;
 } else {
 	$visitCost = 200;
 }
-if ($patientIncome < 25000) {
+if ($patientIncome['AnnualIncome'] < 25000) {
 	$visitCost -= ($visitCost * .2);
 }
 
@@ -69,7 +72,7 @@ if(mysqli_num_rows($apptCheckResult) < 1){
 	$insertResult = mysqli_query($link,$queryString);
 
 	for ($i=0; $i < count($diagnosis); $i++) {  
-		$queryString = "INSERT INTO Diagnosis(PatientUsername, Date, DoctorUsername, Diagnosis) VALUES('$patient', '$visitdate', '$doctor', '$diagnosis[$i]')";
+		$queryString = "INSERT INTO Visit_Diagnosis(PatientUsername, Date, DoctorUsername, Diagnosis) VALUES('$patient', '$visitdate', '$doctor', '$diagnosis[$i]')";
 		$insertResult = mysqli_query($link,$queryString);
 		echo mysqli_error($link);
 	}

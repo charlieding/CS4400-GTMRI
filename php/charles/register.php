@@ -60,7 +60,7 @@ $newusertype = $_POST['postusertype'];
 		{
 			//---------create new user
 			$insertQuery = mysqli_query($link, 
-			"Insert into User (username, password) values ('$newusername','$hash')");
+			"Insert into User (Username, Password) values ('$newusername','$hash')");
 			$_SESSION['username'] = $newusername;
 			if($newusertype == "Doctor") {
 				//TODO: GO TO "Create Doctor Profile"

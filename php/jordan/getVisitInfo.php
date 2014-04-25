@@ -30,7 +30,7 @@ $queryString = "SELECT Doctor.FirstName, Doctor.LastName, DiastolicBP, SystolicB
 "LEFT JOIN Doctor ON (Doctor.DoctorUsername = Visit.DoctorUsername) ".
 "WHERE (Visit.Date = '$date' AND Visit.PatientUsername = '$patient')";
 
-$diagnosisQuery = "SELECT Diagnosis FROM Diagnosis WHERE Date='$date' AND PatientUsername='$patient' AND DoctorUsername='$doctor'";
+$diagnosisQuery = "SELECT Diagnosis FROM Visit_Diagnosis WHERE Date='$date' AND PatientUsername='$patient' AND DoctorUsername='$doctor'";
 
 $result = mysqli_query($link,$queryString);
 echo mysqli_error($link);
